@@ -1,0 +1,244 @@
+// helper.scss
+
+@mixin margin($prefix,$value){
+  #{$prefix}#{$value} {
+    margin : $value+px;
+  }
+  
+  #{$prefix}t#{$value} {
+    margin-top : $value+px;
+  }
+  
+  #{$prefix}b#{$value} {
+    margin-bottom : $value+px;
+  }
+  
+  #{$prefix}l#{$value} {
+    margin-left : $value+px;
+  }
+  
+  #{$prefix}r#{$value} {
+    margin-right : $value+px;
+  }
+
+  #{$prefix}x#{$value} {
+    margin-left : $value+px;
+    margin-right : $value+px;
+  }
+  
+  #{$prefix}y#{$value} {
+    margin-top : $value+px;
+    margin-bottom : $value+px;
+  }
+}
+
+
+
+@mixin padding($prefix,$value){
+  #{$prefix}#{$value} {
+    padding : $value+px;
+  }
+  
+  #{$prefix}t#{$value} {
+    padding-top : $value+px;
+  }
+  
+  #{$prefix}b#{$value} {
+    padding-bottom : $value+px;
+  }
+  
+  #{$prefix}l#{$value} {
+    padding-left : $value+px;
+  }
+  
+  #{$prefix}r#{$value} {
+    padding-right : $value+px;
+  }
+
+  #{$prefix}x#{$value} {
+    padding-left : $value+px;
+    padding-right : $value+px;
+  }
+  
+  #{$prefix}y#{$value} {
+    padding-top : $value+px;
+    padding-bottom : $value+px;
+  }
+}
+
+
+.block { display: block; } 
+.inline { display: inline; }
+.inline-block { display: inline-block; }
+.table { display: table; }
+.table-cell { display: table-cell; }
+
+.fw-n {
+  font-weight: 400; // normal
+}
+.fw-m {
+  font-weight: 500; // medium
+}
+.fw-sb {
+  font-weight: 600; // semi bold
+}
+.fw-b {
+  font-weight: 700; // bold
+}
+
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+  .md-block { display: block; } 
+  .md-inline { display: inline; }
+  .md-inline-block { display: inline-block; }
+  .md-table { display: table; }
+  .md-table-cell { display: table-cell; }
+  .md-fw-n {
+    font-weight: 400; // normal
+  }
+  .md-fw-m {
+    font-weight: 500; // medium
+  }
+  .md-fw-sb {
+    font-weight: 600; // semi bold
+  }
+  .md-fw-b {
+    font-weight: 700; // bold
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px) {
+  .sm-block { display: block; } 
+  .sm-inline { display: inline; }
+  .sm-inline-block { display: inline-block; }
+  .sm-table { display: table; }
+  .sm-table-cell { display: table-cell; }
+
+  .sm-fw-n {
+    font-weight: 400; // normal
+  }
+  .sm-fw-m {
+    font-weight: 500; // medium
+  }
+  .sm-fw-sb {
+    font-weight: 600; // semi bold
+  }
+  .sm-fw-b {
+    font-weight: 700; // bold
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .xs-block { display: block; } 
+  .xs-inline { display: inline; }
+  .xs-inline-block { display: inline-block; }
+  .xs-table { display: table; }
+  .xs-table-cell { display: table-cell; }
+  .sm-fw-n {
+    font-weight: 400; // normal
+  }
+  .sm-fw-m {
+    font-weight: 500; // medium
+  }
+  .sm-fw-sb {
+    font-weight: 600; // semi bold
+  }
+  .sm-fw-b {
+    font-weight: 700; // bold
+  }
+}
+
+
+
+
+/* FONT SIZE HELPERS */
+@for $i from 0 through 150 {
+    .fs#{$i} {
+      font-size: $i+px;
+    } 
+}
+
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+ @for $i from 0 through 150 {
+    .md-fs#{$i} {
+      font-size: $i+px;
+    }
+  }     
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px) {
+ @for $i from 0 through 150 {
+    .sm-fs#{$i} {
+      font-size: $i+px;
+    }
+  }     
+}
+
+@media screen and (max-width: 767px) {
+   @for $i from 0 through 150 {
+    .xs-fs#{$i} {
+      font-size: $i+px;
+    }
+  }     
+}
+
+
+
+/* MARGIN HELPERS */
+.ml-auto {
+  margin-left: auto;
+}
+.mr-auto {
+  margin-right: auto;
+}
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+@for $i from 0 through 150 {
+    @include margin('.m',$i*5) 
+}
+
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+ @for $i from 0 through 150 {
+    @include margin('.md-m',$i*5) 
+  }     
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px) {
+ @for $i from 0 through 150 {
+    @include margin('.sm-m',$i*5) 
+  }     
+}
+
+@media screen and (max-width: 767px) {
+   @for $i from 0 through 150 {
+    @include margin('.xs-m',$i*5) 
+  }     
+}
+
+
+
+/* PADDING HELPERS */
+@for $i from 0 through 150 {
+    @include padding('.p',$i*5) 
+}
+
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+ @for $i from 0 through 150 {
+    @include padding('.md-p',$i*5) 
+  }     
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px) {
+ @for $i from 0 through 150 {
+    @include padding('.sm-p',$i*5) 
+  }     
+}
+
+@media screen and (max-width: 767px) {
+   @for $i from 0 through 150 {
+    @include padding('.xs-p',$i*5) 
+  }     
+}

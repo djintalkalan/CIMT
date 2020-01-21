@@ -1,0 +1,21 @@
+{
+  "name": "CIMT",
+  "description": "",
+  "main": "",
+  "authors": [
+    "sunsangwan <sunilsangwan89@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^4.4.1"
+  }
+}
