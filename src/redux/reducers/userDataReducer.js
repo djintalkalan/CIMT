@@ -1,6 +1,10 @@
 import ActionTypes from '../actions/actionTypes'
 
-export const isLoginReducer = (state = false, action) => {
+let userData = JSON.parse(localStorage.getItem('userData'));
+
+const initialState = userData ? { loggedIn: true, userData } : { loggedIn: false, userData: null };
+
+export const isLoginReducer = (state = initialState.loggedIn, action) => {
     switch (action.type) {
         case ActionTypes.IS_LOGIN:
             return action.payload
@@ -9,7 +13,7 @@ export const isLoginReducer = (state = false, action) => {
     }
 }
 
-export const userDataReducer = (state = null, action) => {
+export const userDataReducer = (state = initialState.userData, action) => {
     switch (action.type) {
         case ActionTypes.USER_DATA:
             return action.payload

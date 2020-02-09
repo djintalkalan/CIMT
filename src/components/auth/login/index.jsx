@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { userDataAction, userTokenAction, isLoginAction } from "../../redux/actions"
+import { userDataAction, userTokenAction, isLoginAction } from "../../../redux/actions"
 import { connect } from "react-redux";
+import { history } from '../../../routes'
+
 // import logo from './logo.svg';
 // import './App.css';
 
@@ -11,6 +13,7 @@ import { connect } from "react-redux";
 class Login extends Component {
     constructor(props) {
         super(props);
+        this.props.isLoginReducer && history.push('/')
         this.state = {
             username: "",
             password: ""
@@ -42,15 +45,21 @@ class Login extends Component {
         }
         const userToken = "sjn89snns9s09s"
 
-        // Now updating user's data in redux store
+        // set login details in local storage
 
+        localStorage.setItem('userData', JSON.stringify(userData));
+        localStorage.setItem('userToken', JSON.stringify(userToken));
+        localStorage.setItem('isLogin', JSON.stringify(true));
+
+        // Now updating user's data in redux store
         this.props.userDataAction(userData)
         this.props.userTokenAction(userToken)
         this.props.isLoginAction(true)
 
         this.setState({
             username: "", password: ""
-        })
+        }, () => { history.push('/'); })
+
         event.preventDefault();
     }
 
@@ -89,16 +98,13 @@ class Login extends Component {
                             </div>
                             <button type="submit" className="btn btn-normal">Sign in</button>
                             <div className="signup mt20">
-                                <a href="forget.html" className="">Forget Password</a>
-                                <a href="register.html" className="mt5">Sign Up/Register</a>
+                                <a href="forget-password" className="">Forget Password</a>
+                                <a href="sign-up" className="mt5">Sign Up/Register</a>
                             </div>
                         </form>
                     </div>
                 </div>
-                {this.props.isLoginReducer && <div>
-                    <button onClick={this.logOut}>
-                        Log Out</button>
-                </div>}
+
 
                 <div className="footer_block p10">CIMT &copy; 2020 | All Rights Reserved.</div>
             </div>
