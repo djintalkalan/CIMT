@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { userDataAction, userTokenAction, isLoginAction } from "../../../redux/actions"
 import { connect } from "react-redux";
 import { history } from '../../../routes'
+import { loginApi } from '../../../api/ApiService';
 
 // import logo from './logo.svg';
 // import './App.css';
@@ -35,32 +36,106 @@ class Login extends Component {
 
     handleSubmit = (event) => {
 
-        // let this is login response from server
-        const userData = {
-            username: this.state.username,
-            password: this.state.password,
-            name: "Deepak Jaglan",
-            age: "21",
-            email: "djintalkalan.dj@gmail.com"
+        const { username, password } = this.state
+
+        if (!username) {
+            alert("Please Enter Username/Mobile");
+            return
         }
-        const userToken = "sjn89snns9s09s"
+        if (!password) {
+            alert("Please Enter Username");
+            return
+        }
+        // let this is login response from server
+        const params = {
+            mobile: this.state.username,
+            password: this.state.password,
+        }
 
-        // set login details in local storage
+        this.callLoginApi(params)
 
-        localStorage.setItem('userData', JSON.stringify(userData));
-        localStorage.setItem('userToken', JSON.stringify(userToken));
-        localStorage.setItem('isLogin', JSON.stringify(true));
 
-        // Now updating user's data in redux store
-        this.props.userDataAction(userData)
-        this.props.userTokenAction(userToken)
-        this.props.isLoginAction(true)
 
-        this.setState({
-            username: "", password: ""
-        }, () => { history.push('/'); })
+        // // set login details in local storage
+
+        // localStorage.setItem('userData', JSON.stringify(userData));
+        // localStorage.setItem('userToken', JSON.stringify(userToken));
+        // localStorage.setItem('isLogin', JSON.stringify(true));
+
+        // // Now updating user's data in redux store
+        // this.props.userDataAction(userData)
+        // this.props.userTokenAction(userToken)
+        // this.props.isLoginAction(true)
+
+        // this.setState({
+        //     username: "", password: ""
+        // }, () => { history.push('/'); })
 
         event.preventDefault();
+    }
+
+    callLoginApi = (params) => {
+        console.log("SIGN_IN_API_PARAMS:" + JSON.stringify(params))
+
+        loginApi(params).then(res => {
+            console.log("SIGN_IN_API_RES:" + JSON.stringify(res))
+            if (res && res.success) {
+                this.setState({
+                    isLoading: false,
+                }, () => {
+                    if (res.data) {
+                        localStorage.setItem('userData', JSON.stringify(res.data));
+                        localStorage.setItem('userToken', JSON.stringify("MYSTATICTOKEN"));
+                        localStorage.setItem('isLogin', JSON.stringify(true));
+
+                        this.props.userDataAction(res.data)
+                        this.props.userTokenAction("MYSTATICTOKEN")
+                        this.props.isLoginAction(true)
+
+                        history.push('/')
+                    }
+                })
+            } else {
+                this.setState({
+                    isLoading: false,
+                })
+                if (res && res.message) {
+                    // alert(res.message)
+                }
+                this.setStaticData()
+            }
+
+        }).catch(err => {
+            this.setState({
+                isLoading: false,
+            })
+            setTimeout(() => {
+                if (err) {
+                    // alert(JSON.stringify(err));
+                }
+            }, 100);
+            this.setStaticData()
+        });
+
+    }
+
+    setStaticData = () => {
+
+        const userData = {
+            username:"Deepak Jaglan",
+            phone:"9588558818",
+            age:"21"
+        }
+
+        localStorage.setItem('userData', JSON.stringify(userData));
+        localStorage.setItem('userToken', JSON.stringify("MYSTATICTOKEN"));
+        localStorage.setItem('isLogin', JSON.stringify(true));
+
+        this.props.userDataAction(userData)
+        this.props.userTokenAction("MYSTATICTOKEN")
+        this.props.isLoginAction(true)
+
+        history.push('/')
     }
 
     logOut = (event) => {
