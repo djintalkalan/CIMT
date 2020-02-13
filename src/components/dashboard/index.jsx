@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { userDataAction, userTokenAction, isLoginAction } from "../../redux/actions"
 import { connect } from "react-redux";
 import { history } from '../../routes';
+import { getPosts } from '../../api/ApiService';
 // import logo from './logo.svg';
 // import './App.css';
 
@@ -17,11 +18,37 @@ class DashBoard extends Component {
         this.logOut = this.logOut.bind(this);
     }
 
+    componentDidMount() {
+        this.callPostsApi()
+    }
+
+    callPostsApi = () => {
+        getPosts().then((res)=>{
+            if(res){
+                console.log("GET POST API RESULT",JSON.stringify(res))
+                alert("POSTS LODED FROM API SEE CONSOLE")
+            }
+            else{
+                alert("POSTS NOT LODED FROM API ")
+            }
+        }).catch(err => {
+            this.setState({
+                isLoading: false,
+            })
+            setTimeout(() => {
+                if (err) {
+                    // alert(JSON.stringify(err));
+                }
+            }, 100);
+            this.setStaticData()
+        });
+     }
+
 
     logOut = (event) => {
 
 
-      //  clearing user's details from local storage
+        //  clearing user's details from local storage
         localStorage.removeItem('userData');
         localStorage.removeItem('userToken');
         localStorage.setItem('isLogin', JSON.stringify(false));
@@ -47,7 +74,7 @@ class DashBoard extends Component {
                         </div>}
                     </div>
                 </div>
-               
+
 
                 <div className="footer_block p10">CIMT &copy; 2020 | All Rights Reserved.</div>
             </div>
