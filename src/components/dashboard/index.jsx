@@ -3,6 +3,7 @@ import { userDataAction, userTokenAction, isLoginAction } from "../../redux/acti
 import { connect } from "react-redux";
 import { history } from '../../routes';
 import { getPosts } from '../../api/ApiService';
+import Header from '../custom/header';
 // import logo from './logo.svg';
 // import './App.css';
 
@@ -19,7 +20,7 @@ class DashBoard extends Component {
     }
 
     componentDidMount() {
-        this.callPostsApi()
+        // this.callPostsApi()
     }
 
     callPostsApi = () => {
@@ -64,6 +65,7 @@ class DashBoard extends Component {
         console.log("UserName", JSON.stringify(this.props.userdata))
         return (
             <div className="login_block">
+                <Header/>
                 <div className="inner">
                     <h2 className="text-center mb80 mt20">Crime Investigation Management Tool</h2>
                     <div className="text_wrapper">

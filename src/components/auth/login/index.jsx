@@ -48,8 +48,8 @@ class Login extends Component {
         }
         // let this is login response from server
         const params = {
-            mobile: this.state.username,
-            password: this.state.password,
+            cust_phone: this.state.username,
+            cust_password: this.state.password,
         }
 
         this.callLoginApi(params)
@@ -99,10 +99,10 @@ class Login extends Component {
                 this.setState({
                     isLoading: false,
                 })
-                if (res && res.message) {
-                    // alert(res.message)
+                if (res && res.error) {
+                     alert(res.error)
                 }
-                this.setStaticData()
+                // this.setStaticData()
             }
 
         }).catch(err => {
@@ -111,7 +111,7 @@ class Login extends Component {
             })
             setTimeout(() => {
                 if (err) {
-                    // alert(JSON.stringify(err));
+                    alert(JSON.stringify(err));
                 }
             }, 100);
             this.setStaticData()
