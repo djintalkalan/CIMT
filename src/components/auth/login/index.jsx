@@ -171,10 +171,10 @@ class Login extends Component {
                                     onChange={this.handlePasswordChange}
                                     className="form-control" name="login_pwd" placeholder="********" />
                             </div>
-                            <button type="submit" className="btn btn-normal">Sign in</button>
+                            <button type="submit" className="btn btn-primary btn-sm">Sign in</button>
                             <div className="signup mt20">
                                 <a href="forget-password" className="">Forget Password</a>
-                                <a href="sign-up" className="mt5">Sign Up/Register</a>
+                                <a href="sign-up">Sign Up/Register</a>
                             </div>
                         </form>
                     </div>

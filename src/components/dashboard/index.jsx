@@ -3,7 +3,8 @@ import { userDataAction, userTokenAction, isLoginAction } from "../../redux/acti
 import { connect } from "react-redux";
 import { history } from '../../routes';
 import { getPosts } from '../../api/ApiService';
-import Header from '../custom/header';
+import Header from '../custom/Header';
+import SideNav from '../custom/SideNav';
 // import logo from './logo.svg';
 // import './App.css';
 
@@ -14,6 +15,9 @@ import Header from '../custom/header';
 class DashBoard extends Component {
     constructor(props) {
         super(props);
+        this.state={
+            //sideBarOpen:true
+        }
 
 
         this.logOut = this.logOut.bind(this);
@@ -61,13 +65,15 @@ class DashBoard extends Component {
         history.push('/')
         event.preventDefault();
     }
+
+   
     render() {
         console.log("UserName", JSON.stringify(this.props.userdata))
         return (
-            <div className="login_block">
-                <Header/>
+            <div className="dashboardCt">
+                <Header  />
+                <SideNav />
                 <div className="inner">
-                    <h2 className="text-center mb80 mt20">Crime Investigation Management Tool</h2>
                     <div className="text_wrapper">
                         <h4>Account Logout</h4>
                         {this.props.isLoginReducer && <div>
