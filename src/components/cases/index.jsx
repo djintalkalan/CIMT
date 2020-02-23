@@ -12,11 +12,11 @@ import SideNav from '../custom/SideNav';
 //Open console and perform an action on page
 
 
-class DashBoard extends Component {
+class Cases extends Component {
     constructor(props) {
         super(props);
         this.state={
-            //sideBarOpen:true
+            // sideBarOpen:true
         }
 
 
@@ -71,17 +71,20 @@ class DashBoard extends Component {
         console.log("UserName", JSON.stringify(this.props.userdata))
         return (
             <div style={{marginLeft:this.props.expanded?240:64}} className="dashboardCt">
+                <Header expanded={this.state.sideBarOpen}  toogleHandler={(b)=>this.setState({sideBarOpen:b})} />
                 <div className="inner">
                     <div className="text_wrapper">
-                        <h4>Account Logout</h4>
+                        <h4>Cases</h4>
                         {this.props.isLoginReducer && <div>
                             <button onClick={this.logOut}>
-                                Log Out</button>
+                               </button>
                         </div>}
                     </div>
                 </div>
 
-              <div className="footer_block p10">CIMT &copy; 2020 | All Rights Reserved.</div>
+                {/* <SideNav expanded={this.state.sideBarOpen} toogleHandler={(b)=>this.setState({sideBarOpen:b})} /> */}
+
+                <div className="footer_block p10">CIMT &copy; 2020 | All Rights Reserved.</div>
             </div>
 
         );
@@ -105,5 +108,5 @@ const mapDispatchToProps = (dispatch) => {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DashBoard);
+export default connect(mapStateToProps, mapDispatchToProps)(Cases);
 

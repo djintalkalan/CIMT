@@ -1,32 +1,58 @@
 import React, { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
-import { Button } from 'react-bootstrap'
-import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
+import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
+
+// Be sure to include styles at some point, probably during your bootstraping
+import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 
 
 
 
-class SideNav extends Component {
+class SideNavbar extends Component {
     constructor(props) {
         super(props);
         this.state = {
 
         }
     }
-
+   
 
 
 
 
     render() {
-        
-        return (
-            <div>
-               
-            </div>
 
+        return (
+            <SideNav expanded={this.props.expanded} style={{background:"#3f51b5",position:'fixed',top:64}} onToggle={(b)=>this.props.toogleHandler(b)}  >
+                <SideNav.Toggle/>
+                <SideNav.Nav defaultSelected="home">        
+                    <NavItem eventKey="home">
+                        <NavIcon>
+                            <i className="fa fa-fw fa-home" style={{ fontSize: '1.75em' }} />
+                        </NavIcon>
+                        <NavText>
+                            Home
+                    </NavText>
+                    </NavItem>
+                    <NavItem eventKey="charts">
+                        <NavIcon>
+                            <i className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em' }} />
+                        </NavIcon>
+                        <NavText>
+                            Charts
+                    </NavText>
+                        <NavItem eventKey="charts/linechart">
+                            <NavText>
+                                Line Chart
+                        </NavText>
+                        </NavItem>
+                        <NavItem eventKey="charts/barchart">
+                            <NavText>
+                                Bar Chart
+                        </NavText>
+                        </NavItem>
+                    </NavItem>
+                </SideNav.Nav>
+            </SideNav>
 
 
 
@@ -36,4 +62,4 @@ class SideNav extends Component {
     }
 }
 
-export default SideNav;
+export default SideNavbar;

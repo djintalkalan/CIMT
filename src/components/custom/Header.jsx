@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
-import { Button } from 'react-bootstrap'
+import SideNav, { Toggle } from '@trendmicro/react-sidenav';
+
 
 
 
@@ -18,9 +19,11 @@ class Header extends Component {
         return (
             <header>
                 <div className="inner">
-                    <div className="siteUrl">
+                <button classNameq={this.props.expanded?'open':'close'} onClick={()=>{this.props.toogleHandler(!this.props.expanded)}} />
+                    {/* <div className="siteUrl">
+                    
                         <a >CIMT</a>
-                    </div>
+                    </div> */}
                     <a src="#" className="logoutCt">
                         <span className="logout"><FontAwesomeIcon className="sign-out" icon={faSignOutAlt} color={'white'} /></span>
                     </a>
