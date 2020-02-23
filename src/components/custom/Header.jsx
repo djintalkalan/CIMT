@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 import SideNav, { Toggle } from '@trendmicro/react-sidenav';
+import { withRouter } from 'react-router-dom';
 
 
 
@@ -19,11 +20,11 @@ class Header extends Component {
         return (
             <header>
                 <div className="inner">
-                <button classNameq={this.props.expanded?'open':'close'} onClick={()=>{this.props.toogleHandler(!this.props.expanded)}} />
-                    {/* <div className="siteUrl">
+                {/* <button classNameq={this.props.expanded?'open':'close'} onClick={()=>{this.props.toogleHandler(!this.props.expanded)}} /> */}
+                    <div className="siteUrl">
                     
                         <a >CIMT</a>
-                    </div> */}
+                    </div>
                     <a src="#" className="logoutCt">
                         <span className="logout"><FontAwesomeIcon className="sign-out" icon={faSignOutAlt} color={'white'} /></span>
                     </a>
@@ -33,4 +34,4 @@ class Header extends Component {
     }
 }
 
-export default Header;
+export default withRouter(Header);

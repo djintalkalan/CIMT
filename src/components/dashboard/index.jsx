@@ -70,7 +70,7 @@ class DashBoard extends Component {
     render() {
         console.log("UserName", JSON.stringify(this.props.userdata))
         return (
-            <div style={{marginLeft:this.props.expanded?240:64}} className="dashboardCt">
+            <div className="dashboardCt">
                 <div className="inner">
                     <div className="text_wrapper">
                         <h4>Account Logout</h4>
@@ -78,6 +78,44 @@ class DashBoard extends Component {
                             <button onClick={this.logOut}>
                                 Log Out</button>
                         </div>}
+                        <p>sdasdfadfa abchjab vajd vdaih ajd jh hjd ajndc ah</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
+                        <p>sdasdfadfa</p>
                     </div>
                 </div>
 
