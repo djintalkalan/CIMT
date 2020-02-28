@@ -3,6 +3,8 @@ import { userDataAction, userTokenAction, isLoginAction } from "../../redux/acti
 import { connect } from "react-redux";
 import { history } from '../../routes';
 import { getPosts } from '../../api/ApiService';
+import CanvasJSReact from '../../assets/canvasjs.react';
+var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 import Header from '../custom/Header';
 import SideNav from '../custom/SideNav';
 // import logo from './logo.svg';
@@ -11,6 +13,36 @@ import SideNav from '../custom/SideNav';
 
 //Open console and perform an action on page
 
+
+  const options = {
+    animationEnabled: true,
+    exportEnabled: true,
+    theme: "light2", //"light1", "dark1", "dark2"
+    title:{
+        text: "Column Chart With Index"
+    },
+    data: [{
+        type: "column", //change type to bar, line, area, pie, etc
+        //indexLabel: "{y}", //Shows y value on all Data Points
+        indexLabelFontColor: "#5A5757",
+        indexLabelPlacement: "outside",
+        dataPoints: [
+            { x: 10, y: 71 },
+            { x: 20, y: 55 },
+            { x: 30, y: 50 },
+            { x: 40, y: 65 },
+            { x: 50, y: 71 },
+            { x: 60, y: 68 },
+            { x: 70, y: 38 },
+            { x: 80, y: 92, indexLabel: "Highest" },
+            { x: 90, y: 54 },
+            { x: 100, y: 60 },
+            { x: 110, y: 21 },
+            { x: 120, y: 49 },
+            { x: 130, y: 36 }
+        ]
+    }]
+}
 
 class DashBoard extends Component {
     constructor(props) {
@@ -73,6 +105,11 @@ class DashBoard extends Component {
             <div className="dashboardCt">
                 <div className="container">
                     <div className="inner">
+                        <div className="row">
+                            <div className="col-md-12 pt20">
+                            <CanvasJSChart options = {options} />
+                            </div>
+                        </div>
                         <div className="row pt40">
                             <div className="col-md-4">
                                 <div className="search_bar">
@@ -143,7 +180,7 @@ class DashBoard extends Component {
                             </div>
                         </div>
                         <div className="row">
-                        <div className="col-md-12">
+                        <div className="col-md-12 mb100">
                                 <div className="text_wrapper pull-right">
                                     <h4>Account Logout</h4>
                                     {this.props.isLoginReducer && <div>
