@@ -8,12 +8,17 @@
 
 
 /* Custom CSS -----------------*/
+#root {
+	height: 100%;
+}
+
 
 header {
 	position: fixed;
 	top: 0;
 	left: 0;
 	right: 0;
+	z-index: 10;
 	> .inner {
 		position: relative;
 		height: 64px;;
@@ -254,7 +259,9 @@ header {
 /* Dashboard Page -------------------------*/
 
 .dashboardCt {
+	height: 100%;
 	//padding-top: 64px;
+	background-color: #f4f6f8;
 }
 
 .sidenav---sidenav---_2tBP{
@@ -263,6 +270,16 @@ header {
 	background: #3f51b5;
 }
 
+.sidenav---sidenav-toggle---1KRjR .sidenav---icon-bar---u1f02 {
+	background-color: #000000 !important;
+}
+
+.sidenav---sidenav-nav---3tvij > .sidenav---sidenav-navitem---uwIJ- > .sidenav---navitem---9uL5T .sidenav---navicon---3gCRo,
+.sidenav---sidenav-nav---3tvij > .sidenav---sidenav-navitem---uwIJ- > .sidenav---navitem---9uL5T .sidenav---navtext---1AE_f,
+.sidenav---sidenav-nav---3tvij > .sidenav---sidenav-navitem---uwIJ- > .sidenav---navitem---9uL5T .sidenav---navicon---3gCRo > *,
+.sidenav---sidenav-nav---3tvij > .sidenav---sidenav-navitem---uwIJ- > .sidenav---navitem---9uL5T .sidenav---navtext---1AE_f > * {
+	color: #000 !important;
+}
 .main-class-body{
 	position: absolute;
 	top:64;

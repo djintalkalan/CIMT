@@ -20,7 +20,7 @@ class Header extends Component {
         return (
             <header>
                 <div className="inner">
-                {/* <button classNameq={this.props.expanded?'open':'close'} onClick={()=>{this.props.toogleHandler(!this.props.expanded)}} /> */}
+                {/* <button className={this.props.expanded?'open':'close'} onClick={()=>{this.props.toogleHandler(!this.props.expanded)}} /> */}
                     <div className="siteUrl">
                     
                         <a >CIMT</a>

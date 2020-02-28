@@ -8,6 +8,7 @@ import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/rea
 
 import Dashboard from './components/dashboard';
 import Cases from './components/cases';
+import Users from './components/users';
 import Header from './components/custom/Header';
 // import logo from './logo.svg';
 // import './App.css';
@@ -28,7 +29,7 @@ class App extends Component {
         <PrivateRoute path='/' component={({ location, history }) => (
           <React.Fragment>
             <Header />
-            <SideNav expanded={expanded} style={{ background: "#3f51b5", position: 'fixed', top: 64, bottom: 44 }}
+            <SideNav expanded={expanded} style={{ background: "#fff", position: 'fixed', top: 64, bottom: 44 }}
               onSelect={(selected) => {
                 const to = '/' + selected;
                 if (location.pathname !== to) {
@@ -44,21 +45,46 @@ class App extends Component {
                   </NavIcon>
                   <NavText>
                     Home
-                        </NavText>
+                  </NavText>
                 </NavItem>
                 <NavItem eventKey="cases">
+                  <NavIcon>
+                    <i className="fa fa-fw fa-list" style={{ fontSize: '1.75em' }} />
+                  </NavIcon>
+                  <NavText>
+                    Cases
+                  </NavText>
+                </NavItem>
+                <NavItem eventKey="users">
+                  <NavIcon>
+                    <i className="fa fa-fw fa-user" style={{ fontSize: '1.75em' }} />
+                  </NavIcon>
+                  <NavText>
+                    User
+                  </NavText>
+                </NavItem>
+                <NavItem eventKey="">
+                  <NavIcon>
+                    <i className="fa fa-fw fa-sun" style={{ fontSize: '1.75em' }} />
+                  </NavIcon>
+                  <NavText>
+                    Setting
+                  </NavText>
+                </NavItem>
+                <NavItem eventKey="">
                   <NavIcon>
                     <i className="fa fa-fw fa-home" style={{ fontSize: '1.75em' }} />
                   </NavIcon>
                   <NavText>
                     Cases
-                        </NavText>
+                  </NavText>
                 </NavItem>
               </SideNav.Nav>
             </SideNav>
-            <main style={{ marginLeft: expanded ? 240 : 64, marginTop: 64, }}>
+            <main style={{ marginLeft: expanded ? 240 : 64, marginTop: 64, height: '100%' }}>
               <Route exact path="/" component={Dashboard} />
               <Route exact path="/cases" component={Cases} />
+              <Route exact path="/users" component={Users} />
             </main>
             <div className="footer_block p10">CIMT &copy; 2020 | All Rights Reserved.</div>
           </React.Fragment>
@@ -70,7 +96,7 @@ class App extends Component {
           <Route path="/forget-password" component={ForgotPassword} />
           <Redirect from="*" to="/" />
 
-        </Switch>Î
+        </Switch>
 
 
       </Router>
