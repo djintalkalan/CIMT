@@ -25,17 +25,21 @@ class Cases extends Component {
     render() {
         console.log("UserName", JSON.stringify(this.props.userdata))
         return (
-            <div  className="dashboardCt">
-                <div className="inner">
-                    <div className="text_wrapper">
-                        <h4>Cases</h4>  
+            <div className="dashboardCt">
+                <div  className="container">
+                    <div className="inner">
+                        <div className="row">
+                            <div className="col-md-4">
+                                <div className="firCt pt70">
+                                    <h4>Insert Fir No.</h4>
+                                    <input type="text" className="form-control" placeholder="FIR NO" />
+                                    <p></p>
+                                    <button className="btn btn-primary">Find</button>
+                                </div>
+                            </div>
                         </div>
-                  
+                    </div>
                 </div>
-
-                {/* <SideNav expanded={this.state.sideBarOpen} toogleHandler={(b)=>this.setState({sideBarOpen:b})} /> */}
-
-               
             </div>
 
         );

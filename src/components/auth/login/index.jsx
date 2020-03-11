@@ -43,7 +43,7 @@ class Login extends Component {
             return
         }
         if (!password) {
-            alert("Please Enter Username");
+            alert("Password can not be empty");
             return
         }
         // let this is login response from server
