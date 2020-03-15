@@ -20,7 +20,7 @@ class Users extends Component {
         this.state = {
             userList: null,
         }
-        this.gridOptions={
+        this.gridOptions = {
             defaultColDef: {
                 sortable: true,
                 filter: true
@@ -34,13 +34,87 @@ class Users extends Component {
                 { headerName: "Last Name", field: "lastName", sortable: true, filter: true },
                 { headerName: "Username", field: "userName", sortable: true, filter: true }],
             rowData: null,
-            floatingFilter:true
+            floatingFilter: true,
+            pagination: true,
+            paginationPageSize:10
         }
     }
 
     componentDidMount() {
         // this.callPostsApi()
         let userListFromServer = [{
+            firstName: "Mark",
+            lastName: "Otto",
+            userName: "@mdo"
+        }, {
+            firstName: "Jacob",
+            lastName: "Thornton",
+            userName: "@fat",
+        }, {
+            firstName: "Larry",
+            lastName: "the Bird",
+            userName: "@twitter",
+        }, {
+            firstName: "Mark",
+            lastName: "Otto",
+            userName: "@mdo"
+        }, {
+            firstName: "Jacob",
+            lastName: "Thornton",
+            userName: "@fat",
+        }, {
+            firstName: "Larry",
+            lastName: "the Bird",
+            userName: "@twitter",
+        }, {
+            firstName: "Mark",
+            lastName: "Otto",
+            userName: "@mdo"
+        }, {
+            firstName: "Jacob",
+            lastName: "Thornton",
+            userName: "@fat",
+        }, {
+            firstName: "Larry",
+            lastName: "the Bird",
+            userName: "@twitter",
+        }, {
+            firstName: "Mark",
+            lastName: "Otto",
+            userName: "@mdo"
+        }, {
+            firstName: "Jacob",
+            lastName: "Thornton",
+            userName: "@fat",
+        }, {
+            firstName: "Larry",
+            lastName: "the Bird",
+            userName: "@twitter",
+        }, {
+            firstName: "Mark",
+            lastName: "Otto",
+            userName: "@mdo"
+        }, {
+            firstName: "Jacob",
+            lastName: "Thornton",
+            userName: "@fat",
+        }, {
+            firstName: "Larry",
+            lastName: "the Bird",
+            userName: "@twitter",
+        }, {
+            firstName: "Mark",
+            lastName: "Otto",
+            userName: "@mdo"
+        }, {
+            firstName: "Jacob",
+            lastName: "Thornton",
+            userName: "@fat",
+        }, {
+            firstName: "Larry",
+            lastName: "the Bird",
+            userName: "@twitter",
+        }, {
             firstName: "Mark",
             lastName: "Otto",
             userName: "@mdo"
