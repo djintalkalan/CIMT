@@ -180,6 +180,11 @@ class Users extends Component {
                             <div className="container">
                                 <div className="row">
                                     <div className="col-md-12">
+                                    <button className="btn btn-sm btn-success">Add</button>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-md-12">
                                         {this.state.userList && <div className="ag-theme-balham" style={{ height: 500, width: '100%' }}>
                                             <AgGridReact
                                                 animateRows={true}
