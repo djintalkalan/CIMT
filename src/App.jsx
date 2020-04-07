@@ -98,7 +98,6 @@ class App extends Component {
           <Route path="/login" component={Login} />
           <Route path="/forget-password" component={ForgotPassword} />
           <Redirect from="*" to="/" />
-
         </Switch>
 
 

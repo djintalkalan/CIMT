@@ -26,7 +26,23 @@ class Header extends Component {
                         <a >CIMT</a>
                     </div>
                     <a src="#" className="logoutCt">
-                        <span className="logout"><FontAwesomeIcon className="sign-out" icon={faSignOutAlt} color={'white'} /></span>
+                        <span className="logout"><FontAwesomeIcon onClick={(event)=>{
+                           
+
+
+                                //  clearing user's details from local storage
+                                localStorage.removeItem('userData');
+                                localStorage.removeItem('userToken');
+                                localStorage.setItem('isLogin', JSON.stringify(false));
+                                // clearing user's data in redux store
+                        
+                                this.props.userDataAction(null)
+                                this.props.userTokenAction(null)
+                                this.props.isLoginAction(false)
+                                history.push('/login')
+                                event.preventDefault();
+                        
+                        }} className="sign-out" icon={faSignOutAlt} color={'white'} /></span>
                     </a>
                 </div>
             </header>

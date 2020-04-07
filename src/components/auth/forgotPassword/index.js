@@ -12,7 +12,10 @@ import { history } from '../../../routes'
 class ForgotPassword extends Component {
     constructor(props) {
         super(props);
-        this.props.isLoginReducer && history.push('/');
+        console.log("TEST:", this.props.isLoginReducer)
+        if (this.props.isLoginReducer) {
+            history.push('/')
+        }
         this.state = {
             email: "",
         }

@@ -51,3 +51,7 @@ export async function getPosts() {
 export async function getPhotos() {
     return fetchApiData(ApiConstants.getPhotos, '', Constants.API_METHOD.get)
 }
+
+export async function getUserList() {
+    return fetchApiData(ApiConstants.getUserList, '', Constants.API_METHOD.get)
+}

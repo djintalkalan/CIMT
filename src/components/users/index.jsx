@@ -9,16 +9,20 @@ import { history } from '../../routes';
 import Header from '../custom/Header';
 
 import { AgGridReact } from 'ag-grid-react';
-
-
-
-
+import Modal from 'react-bootstrap/Modal'
+import ModalDialog from 'react-bootstrap/ModalDialog'
+import ModalTitle from 'react-bootstrap/ModalTitle'
+import ModalHeader from 'react-bootstrap/ModalHeader'
+import ModalBody from 'react-bootstrap/ModalBody'
+import { Button } from 'react-bootstrap';
+import { getUserList } from '../../api/ApiService';
 
 class Users extends Component {
     constructor(props) {
         super(props);
         this.state = {
             userList: null,
+            isAddVisible: false
         }
         this.gridOptions = {
             defaultColDef: {
@@ -27,120 +31,42 @@ class Users extends Component {
             },
             columnDefs: [
                 {
-                    headerName: "First Name", field: "firstName", sortable: true, floatingFilter: true, filter: 'agTextColumnFilter', filterParams: {
+                    headerName: "First Name", field: "first_name", sortable: true, floatingFilter: true, filter: 'agTextColumnFilter', filterParams: {
                         filterOptions: ['contains', 'notContains'], defaultOption: 'contains'
                     }, checkboxSelection: true
                 },
-                { headerName: "Last Name", field: "lastName", sortable: true, filter: true },
-                { headerName: "Username", field: "userName", sortable: true, filter: true }],
+                { headerName: "Last Name", field: "last_name", sortable: true, filter: true },
+                { headerName: "Username", field: "username", sortable: true, filter: true }],
             rowData: null,
             floatingFilter: true,
             pagination: true,
-            paginationPageSize:10
+            paginationPageSize: 10
         }
     }
 
     componentDidMount() {
-        // this.callPostsApi()
-        let userListFromServer = [{
-            firstName: "Mark",
-            lastName: "Otto",
-            userName: "@mdo"
-        }, {
-            firstName: "Jacob",
-            lastName: "Thornton",
-            userName: "@fat",
-        }, {
-            firstName: "Larry",
-            lastName: "the Bird",
-            userName: "@twitter",
-        }, {
-            firstName: "Mark",
-            lastName: "Otto",
-            userName: "@mdo"
-        }, {
-            firstName: "Jacob",
-            lastName: "Thornton",
-            userName: "@fat",
-        }, {
-            firstName: "Larry",
-            lastName: "the Bird",
-            userName: "@twitter",
-        }, {
-            firstName: "Mark",
-            lastName: "Otto",
-            userName: "@mdo"
-        }, {
-            firstName: "Jacob",
-            lastName: "Thornton",
-            userName: "@fat",
-        }, {
-            firstName: "Larry",
-            lastName: "the Bird",
-            userName: "@twitter",
-        }, {
-            firstName: "Mark",
-            lastName: "Otto",
-            userName: "@mdo"
-        }, {
-            firstName: "Jacob",
-            lastName: "Thornton",
-            userName: "@fat",
-        }, {
-            firstName: "Larry",
-            lastName: "the Bird",
-            userName: "@twitter",
-        }, {
-            firstName: "Mark",
-            lastName: "Otto",
-            userName: "@mdo"
-        }, {
-            firstName: "Jacob",
-            lastName: "Thornton",
-            userName: "@fat",
-        }, {
-            firstName: "Larry",
-            lastName: "the Bird",
-            userName: "@twitter",
-        }, {
-            firstName: "Mark",
-            lastName: "Otto",
-            userName: "@mdo"
-        }, {
-            firstName: "Jacob",
-            lastName: "Thornton",
-            userName: "@fat",
-        }, {
-            firstName: "Larry",
-            lastName: "the Bird",
-            userName: "@twitter",
-        }, {
-            firstName: "Mark",
-            lastName: "Otto",
-            userName: "@mdo"
-        }, {
-            firstName: "Jacob",
-            lastName: "Thornton",
-            userName: "@fat",
-        }, {
-            firstName: "Larry",
-            lastName: "the Bird",
-            userName: "@twitter",
-        }, {
-            firstName: "Mark",
-            lastName: "Otto",
-            userName: "@mdo"
-        }, {
-            firstName: "Jacob",
-            lastName: "Thornton",
-            userName: "@fat",
-        }, {
-            firstName: "Larry",
-            lastName: "the Bird",
-            userName: "@twitter",
-        }]
-        this.setState({
-            userList: userListFromServer
+         this.callUserListApi()
+        // let userListFromServer = [{
+        //     firstName: "Mark",
+        //     lastName: "Otto",
+        //     userName: "@mdo"
+        // }, {
+        //     firstName: "Jacob",
+        //     lastName: "Thornton",
+        //     userName: "@fat",
+        // }, {
+        //     firstName: "Larry",
+        //     lastName: "the Bird",
+        //     userName: "@twitter",
+        // },]
+        // this.setState({
+        //     userList: userListFromServer
+        // })
+    }
+    callUserListApi(){
+        getUserList().then(res=>{
+            console.log("USERS",JSON.stringify(res))
+            this.setState({userList:res.users})
         })
     }
 
@@ -164,12 +90,32 @@ class Users extends Component {
             )
     }
 
+    renderAddModal() {
+        return (
+            <Modal show={this.state.isAddVisible} onHide={() => { this.setState({ isAddVisible: false }) }}>
+                <Modal.Header closeButton >
+                    <Modal.Title>Modal heading</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => { this.setState({ isAddVisible: false }) }}>
+                        Close
+                         </Button>
+                    <Button variant="primary" onClick={() => { this.setState({ isAddVisible: false }) }}>
+                        Save Changes
+                         </Button>
+                </Modal.Footer>
+            </Modal>
+        )
+    }
+
 
     render() {
         //console.log("UserName", JSON.stringify(this.props.userdata))
         return (
             <div className="dashboardCt pt20">
                 <div className="inner">
+                    {this.renderAddModal()}
                     <Tabs>
                         <TabList>
                             <Tab>Add User</Tab>
@@ -180,7 +126,7 @@ class Users extends Component {
                             <div className="container">
                                 <div className="row">
                                     <div className="col-md-12">
-                                    <button className="btn btn-sm btn-success">Add</button>
+                                        <button onClick={() => this.setState({ isAddVisible: true })} className="btn btn-sm btn-success">Add</button>
                                     </div>
                                 </div>
                                 <div className="row">
