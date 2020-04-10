@@ -44,6 +44,10 @@ export async function loginApi(param) {
     return fetchApiData(ApiConstants.loginUser, param, Constants.API_METHOD.post)
 }
 
+export async function addUserApi(param) {
+    return fetchApiData(ApiConstants.addUser, param, Constants.API_METHOD.post)
+}
+
 export async function getPosts() {
     return fetchApiData(ApiConstants.getPosts, '', Constants.API_METHOD.get)
 }

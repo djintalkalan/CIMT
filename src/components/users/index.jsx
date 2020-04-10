@@ -16,6 +16,7 @@ import ModalHeader from 'react-bootstrap/ModalHeader'
 import ModalBody from 'react-bootstrap/ModalBody'
 import { Button } from 'react-bootstrap';
 import { getUserList } from '../../api/ApiService';
+import { addUserApi} from '../../api/ApiService';
 
 class Users extends Component {
     constructor(props) {
@@ -24,6 +25,7 @@ class Users extends Component {
             userList: null,
             isAddVisible: false
         }
+        this.handleSubmit = this.handleSubmit.bind(this);
         this.gridOptions = {
             defaultColDef: {
                 sortable: true,
@@ -42,6 +44,50 @@ class Users extends Component {
             pagination: true,
             paginationPageSize: 10
         }
+    }
+
+    handleUsernameChange = (event) => {
+        this.setState({ username: event.target.value })
+    }
+
+    handlePasswordChange = (event) => {
+        this.setState({ password: event.target.value })
+
+    }
+
+    handleSubmit = (event) => {
+
+        const { username, password } = this.state
+
+        if (!username) {
+            alert("Please Enter Username/Mobile");
+            return
+        }
+        if (!password) {
+            alert("Password can not be empty");
+            return
+        }
+        // let this is login response from server
+        const params = {
+            username: this.state.username,
+            password: this.state.password,
+        }
+
+        this.callAddUserApi(params)
+
+        event.preventDefault();
+    }
+
+    callAddUserApi = (params) => {
+        console.log("ADD_USER_API_PARAMS:" + JSON.stringify(params))
+
+        addUserApi(params).then(res => {
+            console.log("ADD USER STATUS",JSON.stringify(res))
+            this.setState({addUserStatus:res.comment})
+            history.push('/users')
+        });
+
+
     }
 
     componentDidMount() {
@@ -94,17 +140,36 @@ class Users extends Component {
         return (
             <Modal show={this.state.isAddVisible} onHide={() => { this.setState({ isAddVisible: false }) }}>
                 <Modal.Header closeButton >
-                    <Modal.Title>Modal heading</Modal.Title>
+                    <Modal.Title>Add User</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={() => { this.setState({ isAddVisible: false }) }}>
+                <Modal.Body>
+                    <form
+                        onSubmit={this.handleSubmit} >
+                        <div className="form-group">
+                            <label>Username</label>
+                            <input
+                                value={this.state.username}
+                                onChange={this.handleUsernameChange}
+                                type="text" className="form-control" name="username" placeholder="Phone/Email" />
+                        </div>
+                        <div className="form-group">
+                            <label>Password</label>
+                            <input type="password"
+                                value={this.state.password}
+                                onChange={this.handlePasswordChange}
+                                className="form-control" name="password" placeholder="********" />
+                        </div>
+                        <Button variant="secondary" onClick={() => { this.setState({ isAddVisible: false }) }} className="mr10">
                         Close
                          </Button>
-                    <Button variant="primary" onClick={() => { this.setState({ isAddVisible: false }) }}>
+                        <Button type="submit" variant="primary" onClick={() => { this.setState({ isAddVisible: false }) }}>
                         Save Changes
                          </Button>
-                </Modal.Footer>
+                    </form>
+                </Modal.Body>
+                {/* <Modal.Footer> */}
+                    
+                {/* </Modal.Footer> */}
             </Modal>
         )
     }

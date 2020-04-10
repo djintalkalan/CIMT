@@ -48,8 +48,8 @@ class Login extends Component {
         }
         // let this is login response from server
         const params = {
-            cust_phone: this.state.username,
-            cust_password: this.state.password,
+            username: this.state.username,
+            password: this.state.password,
         }
 
         this.callLoginApi(params)
@@ -79,31 +79,32 @@ class Login extends Component {
 
         loginApi(params).then(res => {
             console.log("SIGN_IN_API_RES:" + JSON.stringify(res))
-            if (res && res.success) {
-                this.setState({
-                    isLoading: false,
-                }, () => {
-                    if (res.data) {
-                        localStorage.setItem('userData', JSON.stringify(res.data));
-                        localStorage.setItem('userToken', JSON.stringify("MYSTATICTOKEN"));
-                        localStorage.setItem('isLogin', JSON.stringify(true));
+            history.push('/users')
+            // if (res && res.success) {
+            //     this.setState({
+            //         isLoading: false,
+            //     }, () => {
+            //         if (res.data) {
+            //             localStorage.setItem('userData', JSON.stringify(res.data));
+            //             localStorage.setItem('userToken', JSON.stringify("MYSTATICTOKEN"));
+            //             localStorage.setItem('isLogin', JSON.stringify(true));
 
-                        this.props.userDataAction(res.data)
-                        this.props.userTokenAction("MYSTATICTOKEN")
-                        this.props.isLoginAction(true)
+            //             this.props.userDataAction(res.data)
+            //             this.props.userTokenAction("MYSTATICTOKEN")
+            //             this.props.isLoginAction(true)
 
-                        history.push('/')
-                    }
-                })
-            } else {
-                this.setState({
-                    isLoading: false,
-                })
-                if (res && res.error) {
-                     alert(res.error)
-                }
-                // this.setStaticData()
-            }
+            //             history.push('/')
+            //         }
+            //     })
+            // } else {
+            //     this.setState({
+            //         isLoading: false,
+            //     })
+            //     if (res && res.error) {
+            //          alert(res.error)
+            //     }
+            //     // this.setStaticData()
+            // }
 
         }).catch(err => {
             this.setState({
@@ -114,7 +115,7 @@ class Login extends Component {
                     alert(JSON.stringify(err));
                 }
             }, 100);
-            this.setStaticData()
+            // this.setStaticData()
         });
 
     }
@@ -162,14 +163,14 @@ class Login extends Component {
                                 <input
                                     value={this.state.username}
                                     onChange={this.handleUsernameChange}
-                                    type="text" className="form-control" name="login_user" placeholder="Phone/Email" />
+                                    type="text" className="form-control" name="username" placeholder="Phone/Email" />
                             </div>
                             <div className="form-group">
                                 <label>Password</label>
                                 <input type="password"
                                     value={this.state.password}
                                     onChange={this.handlePasswordChange}
-                                    className="form-control" name="login_pwd" placeholder="********" />
+                                    className="form-control" name="password" placeholder="********" />
                             </div>
                             <button type="submit" className="btn btn-primary btn-sm">Sign in</button>
                             <div className="signup mt20">
