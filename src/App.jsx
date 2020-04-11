@@ -9,7 +9,9 @@ import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/rea
 import Dashboard from './components/dashboard';
 import Cases from './components/cases';
 import Users from './components/users';
+import UserProfile from './components/users/UserProfile';
 import Header from './components/custom/Header';
+import SideNavbar from './components/custom/SideNav';
 
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-balham.css';
@@ -97,6 +99,7 @@ class App extends Component {
         <Switch>
           <Route path="/login" component={Login} />
           <Route path="/forget-password" component={ForgotPassword} />
+          <Route path="/userprofile" component={UserProfile} />
           <Redirect from="*" to="/" />
         </Switch>
 

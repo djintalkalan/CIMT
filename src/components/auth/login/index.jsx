@@ -48,8 +48,8 @@ class Login extends Component {
         }
         // let this is login response from server
         const params = {
-            username: this.state.username,
-            password: this.state.password,
+            cust_phone: this.state.username,
+            cust_password: this.state.password,
         }
 
         this.callLoginApi(params)
@@ -79,32 +79,32 @@ class Login extends Component {
 
         loginApi(params).then(res => {
             console.log("SIGN_IN_API_RES:" + JSON.stringify(res))
-            history.push('/users')
-            // if (res && res.success) {
-            //     this.setState({
-            //         isLoading: false,
-            //     }, () => {
-            //         if (res.data) {
-            //             localStorage.setItem('userData', JSON.stringify(res.data));
-            //             localStorage.setItem('userToken', JSON.stringify("MYSTATICTOKEN"));
-            //             localStorage.setItem('isLogin', JSON.stringify(true));
+            // history.push('/users')
+            if (res && res.success) {
+                this.setState({
+                    isLoading: false,
+                }, () => {
+                    if (res.data) {
+                        localStorage.setItem('userData', JSON.stringify(res.data));
+                        localStorage.setItem('userToken', JSON.stringify("MYSTATICTOKEN"));
+                        localStorage.setItem('isLogin', JSON.stringify(true));
 
-            //             this.props.userDataAction(res.data)
-            //             this.props.userTokenAction("MYSTATICTOKEN")
-            //             this.props.isLoginAction(true)
+                        this.props.userDataAction(res.data)
+                        this.props.userTokenAction("MYSTATICTOKEN")
+                        this.props.isLoginAction(true)
 
-            //             history.push('/')
-            //         }
-            //     })
-            // } else {
-            //     this.setState({
-            //         isLoading: false,
-            //     })
-            //     if (res && res.error) {
-            //          alert(res.error)
-            //     }
-            //     // this.setStaticData()
-            // }
+                        history.push('/')
+                    }
+                })
+            } else {
+                this.setState({
+                    isLoading: false,
+                })
+                if (res && res.error) {
+                     alert(res.error)
+                }
+                // this.setStaticData()
+            }
 
         }).catch(err => {
             this.setState({

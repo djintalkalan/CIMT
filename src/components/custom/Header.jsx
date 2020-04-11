@@ -3,6 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 import SideNav, { Toggle } from '@trendmicro/react-sidenav';
 import { withRouter } from 'react-router-dom';
+import logo from '../../../public/images/profile.jpg';
+// import Dropdown from 'react-bootstrap/Dropdown';
+
 
 
 
@@ -13,19 +16,68 @@ class Header extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            showMenu: false,
         }
+
+        this.showMenu = this.showMenu.bind(this);
+        this.closeMenu = this.closeMenu.bind(this);
+
     }
+
+    showMenu(event) {
+        event.preventDefault();
+        
+        this.setState({ showMenu: true }, () => {
+          document.addEventListener('click', this.closeMenu);
+        });
+    }
+      
+    closeMenu() {
+        this.setState({ showMenu: false }, () => {
+            document.removeEventListener('click', this.closeMenu);
+        });
+    }
+
+
+
     render() {
         return (
             <header>
                 <div className="inner">
-                {/* <button className={this.props.expanded?'open':'close'} onClick={()=>{this.props.toogleHandler(!this.props.expanded)}} /> */}
+                {/* <a className={this.props.expanded?'open':'close'} onClick={()=>{this.props.toogleHandler(!this.props.expanded)}} /> */}
                     <div className="siteUrl">
-                    
                         <a >CIMT</a>
                     </div>
-                    <a src="#" className="logoutCt">
+                    {/* <Dropdown>
+                        <Dropdown.Toggle variant="success" id="dropdown-basic">
+                            Dropdown Button
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                            <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                            <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown> */}
+                    <a src="#" className="logoutCt" onClick={this.showMenu}>
+                        <img src={logo} />
+                    </a>
+         
+                    {
+                    this.state.showMenu
+                        ? (
+                        <div className="menuCt">
+                            <button> User Profile </button>
+                            <button> Logout </button>
+                            <button> Change Password </button>
+                        </div>
+                        )
+                        : (
+                        null
+                        )
+                    }
+
+                    {/* <a src="#" className="logoutCt">
                         <span className="logout"><FontAwesomeIcon onClick={(event)=>{
                            
 
@@ -43,7 +95,7 @@ class Header extends Component {
                                 event.preventDefault();
                         
                         }} className="sign-out" icon={faSignOutAlt} color={'white'} /></span>
-                    </a>
+                    </a> */}
                 </div>
             </header>
         );
