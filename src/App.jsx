@@ -6,15 +6,14 @@ import { PrivateRoute, history } from './routes'
 import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 
 
-import Dashboard from './components/dashboard';
-import Cases from './components/cases';
-import Users from './components/users';
 import UserProfile from './components/users/UserProfile';
 import Header from './components/custom/Header';
 import SideNavbar from './components/custom/SideNav';
 
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-balham.css';
+import DashboardLayout from './components/layouts/DashboardLayout';
+import Home from './components/Home';
 // import logo from './logo.svg';
 // import './App.css';
 
@@ -30,76 +29,13 @@ class App extends Component {
     return (
       <Router history={history}>
 
-
-        <PrivateRoute path='/' component={({ location, history }) => (
-          <React.Fragment>
-            <Header />
-            <SideNav expanded={expanded} style={{ background: "#fff", position: 'fixed', top: 64, bottom: 44 }}
-              onSelect={(selected) => {
-                const to = '/' + selected;
-                if (location.pathname !== to) {
-                  history.push(to);
-                }
-              }}
-              onToggle={(b) => this.setState({ expanded: b })} >
-              <SideNav.Toggle />
-              <SideNav.Nav defaultSelected="">
-                <NavItem eventKey="">
-                  <NavIcon>
-                    <i className="fa fa-fw fa-home" style={{ fontSize: '1.75em' }} />
-                  </NavIcon>
-                  <NavText>
-                    Home
-                  </NavText>
-                </NavItem>
-                <NavItem eventKey="cases">
-                  <NavIcon>
-                    <i className="fa fa-fw fa-list" style={{ fontSize: '1.75em' }} />
-                  </NavIcon>
-                  <NavText>
-                    Cases
-                  </NavText>
-                </NavItem>
-                <NavItem eventKey="users">
-                  <NavIcon>
-                    <i className="fa fa-fw fa-user" style={{ fontSize: '1.75em' }} />
-                  </NavIcon>
-                  <NavText>
-                    User
-                  </NavText>
-                </NavItem>
-                <NavItem eventKey="">
-                  <NavIcon>
-                    <i className="fa fa-fw fa-sun" style={{ fontSize: '1.75em' }} />
-                  </NavIcon>
-                  <NavText>
-                    Setting
-                  </NavText>
-                </NavItem>
-                <NavItem eventKey="">
-                  <NavIcon>
-                    <i className="fa fa-fw fa-home" style={{ fontSize: '1.75em' }} />
-                  </NavIcon>
-                  <NavText>
-                    Cases
-                  </NavText>
-                </NavItem>
-              </SideNav.Nav>
-            </SideNav>
-            <main style={{ marginLeft: expanded ? 240 : 64, marginTop: 64, height: '100%' }}>
-              <Route exact path="/" component={Dashboard} />
-              <Route exact path="/cases" component={Cases} />
-              <Route exact path="/users" component={Users} />
-            </main>
-            <div className="footer_block p10">CIMT &copy; 2020 | All Rights Reserved.</div>
-          </React.Fragment>
-
-        )}
-        />
         <Switch>
+          <PrivateRoute exact path="/" component={Home} />
+          <PrivateRoute exact path="/cases" component={Home} />
+          <PrivateRoute exact path="/users" component={Home} />
           <Route path="/login" component={Login} />
           <Route path="/forget-password" component={ForgotPassword} />
-          <Route path="/userprofile" component={UserProfile} />
+          <PrivateRoute path="/userprofile" component={UserProfile} />
           <Redirect from="*" to="/" />
         </Switch>
 

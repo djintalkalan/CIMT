@@ -4,6 +4,7 @@ import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 import SideNav, { Toggle } from '@trendmicro/react-sidenav';
 import { withRouter } from 'react-router-dom';
 import logo from '../../../public/images/profile.jpg';
+import { history } from '../../routes';
 // import Dropdown from 'react-bootstrap/Dropdown';
 
 
@@ -68,7 +69,7 @@ class Header extends Component {
                         ? (
                         <div className="menuCt">
                             <button> User Profile </button>
-                            <button> Logout </button>
+                            <button onClick={()=>{localStorage.clear();history.push('/login')}}> Logout </button>
                             <button> Change Password </button>
                         </div>
                         )
