@@ -3,6 +3,8 @@ import { Route } from 'react-router-dom';
 import Dashboard from "../dashboard"
 import Cases from "../cases"
 import Users from "../users"
+import AddEvidence from "../cases/AddEvidence"
+import UserProfile from "../users/UserProfile"
 import DashboardLayout from '../layouts/DashboardLayout'
 
 const filterScreen = (path) => {
@@ -13,6 +15,10 @@ const filterScreen = (path) => {
             return <Users />
         case '/cases':
             return <Cases />
+        case '/addevidence':
+            return <AddEvidence />
+        case '/userprofile':
+            return <UserProfile />
     }
 }
 

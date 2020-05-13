@@ -5,7 +5,7 @@ import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { PrivateRoute, history } from './routes'
 import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 
-
+import AddEvidence from './components/cases/AddEvidence';
 import UserProfile from './components/users/UserProfile';
 import Header from './components/custom/Header';
 import SideNavbar from './components/custom/SideNav';
@@ -35,7 +35,8 @@ class App extends Component {
           <PrivateRoute exact path="/users" component={Home} />
           <Route path="/login" component={Login} />
           <Route path="/forget-password" component={ForgotPassword} />
-          <PrivateRoute path="/userprofile" component={UserProfile} />
+          <PrivateRoute path="/userprofile" component={Home} />
+          <PrivateRoute path="/addevidence" component={Home} />
           <Redirect from="*" to="/" />
         </Switch>
 

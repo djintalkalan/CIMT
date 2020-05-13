@@ -1,19 +1,21 @@
 import React from 'react';
 import Sidebar from './partial/sidebar'
 import Header from '../custom/Header';
+import Footer from '../custom/Footer';
 function DashboardLayout(props) {
     console.log(props)
     return (
         <React.Fragment>
             <Header />
-            <div style={{marginTop:'65px'}}>
-                <div style={{position:'fixed', width: '140px',height:'100%'}} className='row-md-2'>
+            <div className="mainCt">
+                <div className='sidebarCt'>
                 <Sidebar style={{ }} />
                 </div>
-                <div style={{marginLeft:'140px'}}>
+                <div className="contentCt">
                     {props.children}
                 </div>
             </div>
+            <Footer />
         </React.Fragment>
     );
 }

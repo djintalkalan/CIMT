@@ -117,7 +117,8 @@ header {
     bottom: 0px;
     text-align: left;
     color: #fff;
-    background-color: #000;
+	background-color: #000;
+	z-index: 2;
 }
 
 
@@ -276,25 +277,16 @@ header {
 	transition: .5s;
 }
 
-.contentCt {
-	width: 100%;
-    margin-left: 250px;
-    padding-left: 10px;
-    padding-top: 20px;
-}
-
-
 .backgroundColor {
 	background-color: #f4f6f8;
 }
 
-/* Dashboard Page -------------------------*/
 
-.dashboardCt {
-	height: 100%;
-	//padding-top: 64px;
-	background-color: #f4f6f8;
-}
+
+
+
+
+
 
 .sidenav---sidenav---_2tBP{
 	position: fixed;

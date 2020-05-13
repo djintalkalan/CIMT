@@ -68,8 +68,8 @@ class Header extends Component {
                     this.state.showMenu
                         ? (
                         <div className="menuCt">
-                            <button> User Profile </button>
-                            <button onClick={()=>{localStorage.clear();history.push('/login')}}> Logout </button>
+                            <button onClick={()=> {history.push('/userprofile')}}> User Profile </button>
+                            <button onClick={()=> {localStorage.clear();history.push('/login')}}> Logout </button>
                             <button> Change Password </button>
                         </div>
                         )

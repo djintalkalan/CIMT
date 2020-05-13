@@ -9,36 +9,65 @@ import { history } from '../../routes';
 import Header from '../custom/Header';
 
 import { AgGridReact } from 'ag-grid-react';
-import Modal from 'react-bootstrap/Modal'
-import ModalDialog from 'react-bootstrap/ModalDialog'
-import ModalTitle from 'react-bootstrap/ModalTitle'
-import ModalHeader from 'react-bootstrap/ModalHeader'
-import ModalBody from 'react-bootstrap/ModalBody'
+import Modal from 'react-bootstrap/Modal';
 import { Button } from 'react-bootstrap';
 import { getUserList } from '../../api/ApiService';
 import { addUserApi} from '../../api/ApiService';
+import { getRoleList } from '../../api/ApiService';
+import { addRoleApi} from '../../api/ApiService';
 
 class Users extends Component {
     constructor(props) {
         super(props);
         this.state = {
             userList: null,
-            isAddVisible: false
+            isAddVisible: false,
+            isAddVisible1: false
         }
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.gridOptions = {
+        this.gridOptionsUser = {
             defaultColDef: {
                 sortable: true,
                 filter: true
             },
             columnDefs: [
-                {
-                    headerName: "First Name", field: "first_name", sortable: true, floatingFilter: true, filter: 'agTextColumnFilter', filterParams: {
-                        filterOptions: ['contains', 'notContains'], defaultOption: 'contains'
-                    }, checkboxSelection: true
-                },
+                { headerName: "ID", field: "id", sortable: true, filter: true },
+                { headerName: "First Name", field: "first_name", sortable: true, filter: true },
+                // {
+                //     headerName: "First Name", field: "first_name", sortable: true, floatingFilter: true, filter: 'agTextColumnFilter', filterParams: {
+                //         filterOptions: ['contains', 'notContains'], defaultOption: 'contains'
+                //     }, checkboxSelection: true
+                // },
                 { headerName: "Last Name", field: "last_name", sortable: true, filter: true },
-                { headerName: "Username", field: "username", sortable: true, filter: true }],
+                { headerName: "Username", field: "username", sortable: true, filter: true },
+                { headerName: "Email", field: "email", sortable: true, filter: true }],
+                
+                defaultColDef: {
+                    // set the default column width
+                    width: 150,
+                    // make every column editable
+                    editable: true,
+                    // make every column use 'text' filter by default
+                    filter: 'agTextColumnFilter',
+                    // make columns resizable
+                    resizable: true,
+                  },
+
+            rowData: null,
+            floatingFilter: true,
+            pagination: true,
+            paginationPageSize: 10
+        }
+
+        this.gridOptionsRole = {
+            defaultColDef: {
+                sortable: true,
+                filter: true
+            },
+            columnDefs: [
+                { headerName: "ID", field: "id", sortable: true, filter: true },
+                { headerName: "Name", field: "name", sortable: true, filter: true },
+                { headerName: "Description", field: "description", sortable: true, filter: true }],
             rowData: null,
             floatingFilter: true,
             pagination: true,
@@ -55,9 +84,24 @@ class Users extends Component {
 
     }
 
+    handleFirstnameChange = (event) => {
+        this.setState({ firstname: event.target.value })
+
+    }
+
+    handleLastnameChange = (event) => {
+        this.setState({ lastname: event.target.value })
+
+    }
+
+    handleEmailChange = (event) => {
+        this.setState({ email: event.target.value })
+
+    }
+
     handleSubmit = (event) => {
 
-        const { username, password } = this.state
+        const { firstname, lastname, username, password, email } = this.state
 
         if (!username) {
             alert("Please Enter Username/Mobile");
@@ -69,7 +113,10 @@ class Users extends Component {
         }
         // let this is login response from server
         const params = {
+            first_name: this.state.firstname,
+            last_name: this.state.lastname,
             username: this.state.username,
+            email: this.state.email,
             password: this.state.password,
         }
 
@@ -90,8 +137,46 @@ class Users extends Component {
 
     }
 
+    handleRolenameChange = (event) => {
+        this.setState({ rolename: event.target.value })
+
+    }
+
+    handleRoledescChange = (event) => {
+        this.setState({ roledesc: event.target.value })
+
+    }
+
+    handleSubmitRole = (event) => {
+
+        const { rolename, roledesc } = this.state
+
+        // let this is login response from server
+        const params = {
+            name: this.state.rolename,
+            description: this.state.roledesc
+        }
+
+        this.callAddRoleApi(params)
+
+        event.preventDefault();
+    }
+
+    callAddRoleApi = (params) => {
+        console.log("ADD_ROLE_API_PARAMS:" + JSON.stringify(params))
+
+        addRoleApi(params).then(res => {
+            console.log("ADD ROLE STATUS",JSON.stringify(res))
+            this.setState({addUserStatus:res.comment})
+            history.push('/users')
+        });
+
+
+    }
+
     componentDidMount() {
          this.callUserListApi()
+         this.callRoleListApi()
         // let userListFromServer = [{
         //     firstName: "Mark",
         //     lastName: "Otto",
@@ -112,31 +197,20 @@ class Users extends Component {
     callUserListApi(){
         getUserList().then(res=>{
             console.log("USERS",JSON.stringify(res))
-            this.setState({userList:res.users})
+            this.setState({userList:res.data})
         })
     }
 
-    renderUserList() {
-        const { userList } = this.state;
-        if (userList && userList.length > 0)
-            return (
-                <tbody>
-                    {userList.map((item, index) => {
-                        return (
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>{item.firstName}</td>
-                                <td>{item.lastName}</td>
-                                <td>{item.userName}</td>
-                                <td><button className="btn btn-sm btn-primary">Edit</button></td>
-                            </tr>
-                        )
-                    })}
-                </tbody>
-            )
+    callRoleListApi(){
+        getRoleList().then(res=>{
+            console.log("ROLES",JSON.stringify(res))
+            this.setState({roleList:res.data})
+        })
     }
 
-    renderAddModal() {
+
+
+    renderUserModal() {
         return (
             <Modal show={this.state.isAddVisible} onHide={() => { this.setState({ isAddVisible: false }) }}>
                 <Modal.Header closeButton >
@@ -146,19 +220,47 @@ class Users extends Component {
                     <form
                         onSubmit={this.handleSubmit} >
                         <div className="form-group">
-                            <label>Username</label>
+                            <span>First Name</span>
+                            <input
+                                value={this.state.firstname}
+                                onChange={this.handleFirstnameChange}
+                                type="text" className="form-control" name="firstname" placeholder="First Name" />
+                        </div>
+                        <div className="form-group">
+                            <span>Last Name</span>
+                            <input
+                                value={this.state.lastname}
+                                onChange={this.handleLastnameChange}
+                                type="text" className="form-control" name="lastname" placeholder="Last Name" />
+                        </div>
+                        <div className="form-group">
+                            <span>Username</span>
                             <input
                                 value={this.state.username}
                                 onChange={this.handleUsernameChange}
                                 type="text" className="form-control" name="username" placeholder="Phone/Email" />
                         </div>
                         <div className="form-group">
-                            <label>Password</label>
+                            <span>Email</span>
+                            <input
+                                value={this.state.email}
+                                onChange={this.handleEmailChange}
+                                type="email" className="form-control" name="email" placeholder="Email" />
+                        </div>
+                        <div className="form-group">
+                            <span>Password</span>
                             <input type="password"
                                 value={this.state.password}
                                 onChange={this.handlePasswordChange}
                                 className="form-control" name="password" placeholder="********" />
                         </div>
+                        <div className="form-group">
+                            <span>Confirm Password</span>
+                            <input type="password"
+                                className="form-control" name="confirmPassword" placeholder="********" />
+                        </div>
+                        
+
                         <Button variant="secondary" onClick={() => { this.setState({ isAddVisible: false }) }} className="mr10">
                         Close
                          </Button>
@@ -167,9 +269,42 @@ class Users extends Component {
                          </Button>
                     </form>
                 </Modal.Body>
-                {/* <Modal.Footer> */}
-                    
-                {/* </Modal.Footer> */}
+            </Modal>
+        )
+    }
+
+    renderRoleModal() {
+        return (
+            <Modal show={this.state.isAddVisible1} onHide={() => { this.setState({ isAddVisible1: false }) }}>
+                <Modal.Header closeButton >
+                    <Modal.Title>Add User</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <form
+                        onSubmit={this.handleSubmitRole} >
+                        <div className="form-group">
+                            <span>Role Name</span>
+                            <input
+                                value={this.state.rolename}
+                                onChange={this.handleRolenameChange}
+                                type="text" className="form-control" name="rolename" placeholder="Role Name" />
+                        </div>
+                        <div className="form-group">
+                            <span>Role Description</span>
+                            <input
+                                value={this.state.roledesc}
+                                onChange={this.handleRoledescChange}
+                                type="text" className="form-control" name="roledesc" placeholder="Role Desc" />
+                        </div>
+                        
+                        <Button variant="secondary" onClick={() => { this.setState({ isAddVisible1: false }) }} className="mr10">
+                        Close
+                         </Button>
+                        <Button type="submit" variant="primary" onClick={() => { this.setState({ isAddVisible1: false }) }}>
+                        Save Changes
+                         </Button>
+                    </form>
+                </Modal.Body>
             </Modal>
         )
     }
@@ -178,9 +313,10 @@ class Users extends Component {
     render() {
         //console.log("UserName", JSON.stringify(this.props.userdata))
         return (
-            <div className="dashboardCt pt20">
+            <div className="dashboardCt">
                 <div className="inner">
-                    {this.renderAddModal()}
+                    {this.renderUserModal()}
+                    {this.renderRoleModal()}
                     <Tabs>
                         <TabList>
                             <Tab>Add User</Tab>
@@ -188,7 +324,7 @@ class Users extends Component {
                         </TabList>
 
                         <TabPanel>
-                            <div className="container">
+                            <div className="container-fluid">
                                 <div className="row">
                                     <div className="col-md-12">
                                         <button onClick={() => this.setState({ isAddVisible: true })} className="btn btn-sm btn-success">Add</button>
@@ -201,22 +337,10 @@ class Users extends Component {
                                                 animateRows={true}
                                                 rowSelection="multiple"
                                                 //columnDefs={this.state.columnDefs}
-                                                gridOptions={this.gridOptions}
+                                                gridOptions={this.gridOptionsUser}
                                                 rowData={this.state.userList}>
                                             </AgGridReact>
                                         </div>}
-                                        {/* <table class="table table-striped mt30">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">#</th>
-                                                    <th scope="col">First</th>
-                                                    <th scope="col">Last</th>
-                                                    <th scope="col">Username</th>
-                                                    <th scope="col">Edit</th>
-                                                </tr>
-                                            </thead>
-                                            {this.renderUserList()}
-                                           </table> */}
                                     </div>
                                 </div>
                             </div>
@@ -224,7 +348,26 @@ class Users extends Component {
 
                         </TabPanel>
                         <TabPanel>
-                            <h2>Role Content Area</h2>
+                            <div className="container-fluid">
+                                <div className="row">
+                                    <div className="col-md-12">
+                                        <button onClick={() => this.setState({ isAddVisible1: true })} className="btn btn-sm btn-success">Add</button>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-md-12">
+                                        {this.state.userList && <div className="ag-theme-balham" style={{ height: 500, width: '100%' }}>
+                                            <AgGridReact
+                                                animateRows={true}
+                                                rowSelection="multiple"
+                                                //columnDefs={this.state.columnDefs}
+                                                gridOptions={this.gridOptionsRole}
+                                                rowData={this.state.roleList}>
+                                            </AgGridReact>
+                                        </div>}
+                                    </div>
+                                </div>
+                            </div>
                         </TabPanel>
                     </Tabs>
                 </div>

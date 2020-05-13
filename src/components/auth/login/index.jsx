@@ -48,8 +48,8 @@ class Login extends Component {
         }
         // let this is login response from server
         const params = {
-            cust_phone: this.state.username,
-            cust_password: this.state.password,
+            username: this.state.username,
+            password: this.state.password,
         }
 
         this.callLoginApi(params)

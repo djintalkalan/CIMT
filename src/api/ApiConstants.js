@@ -1,14 +1,20 @@
 
 const baseUrl ="https://jsonplaceholder.typicode.com"
-const baseUrl_heroku ="https://cors-anywhere.herokuapp.com/https://cimtapp.herokuapp.com"
+const baseUrl_heroku ="https://cors-anywhere.herokuapp.com/https://cimt.herokuapp.com"
 const baseUrl2 ="https://kartforu.com/deepak/shally_maid_api/api"
 
 export const ApiConstants = {
     getPhotos:baseUrl+"/photos",
     getPosts:baseUrl+"/posts",
-    loginUser:baseUrl2+"/customer/login.php",
+    loginUser1:baseUrl2+"/customer/login.php",
     getUserList:baseUrl_heroku+"/GetAllUser/",
-    loginUser1:baseUrl_heroku+"/validateuser/",
-    addUser:baseUrl_heroku+"/Adduser/"
+    loginUser:baseUrl_heroku+"/validateuser/",
+    addUser:baseUrl_heroku+"/Adduser/",
+
+    getRoleList:baseUrl_heroku+"/getallroles/",
+    addRole:baseUrl_heroku+"/addrole/",
+
+    getCaseList:baseUrl_heroku+"/GetAllCase/",
+    addCase:baseUrl_heroku+"/AddCase/",
 }
 

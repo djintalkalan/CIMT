@@ -59,3 +59,19 @@ export async function getPhotos() {
 export async function getUserList() {
     return fetchApiData(ApiConstants.getUserList, '', Constants.API_METHOD.get)
 }
+
+export async function getRoleList() {
+    return fetchApiData(ApiConstants.getRoleList, '', Constants.API_METHOD.get)
+}
+
+export async function addRoleApi(param) {
+    return fetchApiData(ApiConstants.addRole, param, Constants.API_METHOD.post)
+}
+
+export async function getCaseList() {
+    return fetchApiData(ApiConstants.getCaseList, '', Constants.API_METHOD.get)
+}
+
+export async function addCaseApi(param) {
+    return fetchApiData(ApiConstants.addCase, param, Constants.API_METHOD.post)
+}

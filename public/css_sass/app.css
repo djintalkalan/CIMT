@@ -98,12 +98,9 @@ h6 {
   -moz-transition: all 0.2s ease-in-out;
   -o-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out; }
-  .btn:focus,
-  .btn:link:focus,
-  .btn:focus:focus,
-  .btn:visited:focus,
-  .btn:active:focus {
-    outline: 0; }
+
+.btn:focus, .btn:link:focus, .btn:focus:focus, .btn:visited:focus, .btn:active:focus {
+  box-shadow: none; }
 
 .btn-blue,
 .btn-blue:link,
@@ -197,108 +194,53 @@ h6 {
     .popup_content {
       padding: 50px 20px; } }
 
-/* Sidebar and Menu Bar ============*/
-.sidebar {
-  position: fixed;
-  left: 0;
+.mainCt {
   height: 100%;
-  width: 300px;
+  margin-top: 64px; }
+
+.contentCt {
+  width: 100%;
+  height: 100%;
+  padding-left: 240px;
+  padding-top: 20px;
+  background-color: #f4f6f8; }
+
+/* Sidebar and Menu Bar ============*/
+.sidebarCt {
+  position: fixed;
+  left: -1px;
+  width: 230px;
+  height: 100%;
   display: inline-block;
-  background-color: #f8f8f8;
+  background-color: #fff;
   border: 1px solid #e7e7e7;
   border-bottom: none;
   border-top: none;
-  z-index: 9999; }
+  z-index: 1; }
+  .sidebarCt .box-circle a {
+    margin-top: 1px;
+    display: block;
+    padding: 10px;
+    color: #3f51b5; }
+    .sidebarCt .box-circle a:hover {
+      background-color: #3f51b5;
+      color: #fff;
+      text-decoration: none; }
+    .sidebarCt .box-circle a.active {
+      background-color: #3f51b5;
+      color: #fff;
+      text-decoration: none; }
 
-.menu ul {
-  padding-left: 0;
-  margin: 0;
-  list-style: none;
-  font-size: 14px;
-  font-weight: 300;
-  line-height: 24px;
-  font-weight: 400;
-  font-family: 'Roboto'; }
-
-.sub-menu li {
-  line-height: 120%;
-  /*margin: 12px 0;*/
-  position: relative;
-  background: #f7f7f7; }
-
-.menu ul li.menu-item-has-children ul {
-  display: none; }
-
-.menu ul a {
-  display: block;
-  padding: 10px 14px;
-  color: #3d3d3d;
-  text-decoration: none;
-  border-bottom: 1px solid #e7e7e7; }
-  .menu ul a span {
-    margin-left: 7px; }
-
-ul.sub-menu {
-  background-color: transparent;
-  border: none; }
-  ul.sub-menu a {
-    padding-left: 20px; }
-
-.menu ul a:active, .menu ul a:focus, .menu ul a:hover {
-  color: #7b821f;
-  text-decoration: none; }
-
-.menu-item-has-children > a {
-  padding-left: 20px;
-  background-image: url("../public/images/arrow-left-icon.png");
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  color: #00afff;
-  display: inline-block; }
-  .menu-item-has-children > a.menu-down-arrow {
-    background-image: url("../public/images/arrow-down-icon.png"); }
-
-.menu ul a:active,
-.menu ul a:focus,
-.menu ul a:hover,
-.menu ul li.active-parents > a,
-.menu .current-menu-item > a {
-  color: #00afff; }
-
-.menu ul a:focus,
-.menu ul a:hover,
-.menu .current-menu-item > a {
-  background-color: #eeeeee; }
-
-.collapse_menu {
-  display: block;
-  padding: 10px 14px;
-  color: #3d3d3d;
-  font-size: 14px;
-  text-decoration: none; }
-  .collapse_menu span {
-    margin-left: 13px; }
-  .collapse_menu:hover, .collapse_menu:focus {
-    color: #00afff; }
-
-.collapsed.sidebar {
-  width: 50px; }
-.collapsed .menu-item-has-children > a {
-  background: none; }
-.collapsed .menu > ul > li {
-  position: relative; }
-  .collapsed .menu > ul > li > a > span {
-    display: none; }
-  .collapsed .menu > ul > li ul.sub-menu {
-    position: absolute;
-    left: 100%;
-    top: 0px;
-    min-width: 200px;
-    white-space: nowrap; }
-  .collapsed .menu > ul > li:hover ul.sub-menu {
-    display: block; }
-.collapsed .collapse_menu span {
-  display: none; }
+.evidenceCt .table td, .evidenceCt .table th {
+  padding: 5px !important; }
+.evidenceCt table td:first-child {
+  padding-left: 0px !important; }
+.evidenceCt .form-control {
+  padding: 5px;
+  border-radius: 0px;
+  font-size: 14px; }
+.evidenceCt button {
+  vertical-align: sub; }
 
 .loader {
   display: none;
@@ -432,7 +374,8 @@ header {
   bottom: 0px;
   text-align: left;
   color: #fff;
-  background-color: #000; }
+  background-color: #000;
+  z-index: 2; }
 
 /* ==================================== */
 /*		  	  Navigaton Menu		
@@ -581,18 +524,7 @@ header {
   transform: rotate(-45deg) translate(7px, -7px);
   transition: .5s; }
 
-.contentCt {
-  width: 100%;
-  margin-left: 250px;
-  padding-left: 10px;
-  padding-top: 20px; }
-
 .backgroundColor {
-  background-color: #f4f6f8; }
-
-/* Dashboard Page -------------------------*/
-.dashboardCt {
-  height: 100%;
   background-color: #f4f6f8; }
 
 .sidenav---sidenav---_2tBP {

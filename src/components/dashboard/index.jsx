@@ -103,7 +103,7 @@ class DashBoard extends Component {
         console.log("UserName", JSON.stringify(this.props.userdata))
         return (
             <div className="dashboardCt">
-                <div className="container">
+                <div className="container-fluid">
                     <div className="inner">
                         <div className="row">
                             <div className="col-md-12 pt20">
@@ -122,7 +122,7 @@ class DashBoard extends Component {
                         </div>
                         <div className="row">
                             <div className="col-md-12">
-                                <table class="table table-striped mt30">
+                                <table className="table table-striped mt30">
                                 <thead>
                                     <tr>
                                     <th scope="col">#</th>
@@ -192,8 +192,6 @@ class DashBoard extends Component {
                         </div>
                     </div>
                 </div>
-
-              <div className="footer_block p10">CIMT &copy; 2020 | All Rights Reserved.</div>
             </div>
 
         );
