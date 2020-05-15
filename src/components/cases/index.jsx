@@ -30,6 +30,8 @@ class Cases extends Component {
             user: '',
         }
 
+        this.agGrid
+
         this.gridOptionsCase = {
             defaultColDef: {
                 sortable: true,
@@ -42,7 +44,7 @@ class Cases extends Component {
                 { headerName: "Address", field: "address", sortable: true, filter: true },
                 {
                     headerName: "Action", field: "user_id", sortable: false, filter: false, cellRendererFramework: function (params) {
-                        return <Button style={{ height: '100%' }} onClick={() => history.push('/addevidence',  { data: params.data })} > Test </Button>
+                        return <Button style={{ height: '100%' }} onClick={() => history.push('/addevidence', { data: params.data })} > Test </Button>
                     },
                 }],
             rowData: null,
@@ -130,8 +132,24 @@ class Cases extends Component {
 
         addCaseApi(params).then(res => {
             console.log("ADD CASE STATUS", JSON.stringify(res))
-            this.setState({ addCaseStatus: res.addcase })
-            history.push('/cases')
+            this.setState({ addCaseStatus: res.addcase }, () => {
+                let caseList = this.state.caseList;
+                caseList.push({
+                    "case_no": parseInt(params.case_no),
+                    "created_date": "",
+                    "fir_no": parseInt(params.fir_no),
+                    "name": params.name,
+                    "address": params.address,
+                    "user_id": params.user
+                })
+                console.log("CASE_LIST:", caseList)
+                this.setState({ caseList }, () => {
+                    // this.agGrid.setRowData(caseList)
+                    this.api.setRowData(caseList);
+                })
+            })
+
+            // history.push('/cases')
         });
 
 
@@ -264,6 +282,16 @@ class Cases extends Component {
             )
     }
 
+    onGridReady(params) {
+        const rowData = this.state.caseList;
+
+        this.api = params.api;
+
+        if (rowData.length > 0 && this.api) {
+            this.api.setRowData(rowData);
+        }
+    }
+
     render() {
         console.log("caseList", JSON.stringify(this.state.caseList))
         return (
@@ -283,9 +311,10 @@ class Cases extends Component {
                                     <AgGridReact
                                         animateRows={true}
                                         rowSelection="multiple"
-                                        //columnDefs={this.state.columnDefs}
                                         gridOptions={this.gridOptionsCase}
-                                        rowData={this.state.caseList}>
+                                        deltaRowDataMode={true}
+                                        onGridReady={(params) => this.onGridReady(params)}
+                                        getRowNodeId={data => data.fir_no}>
                                     </AgGridReact>
                                 </div>}
                             </div>
