@@ -72,7 +72,7 @@ class AddEvidence extends Component {
         let form_data = new FormData();
         form_data.append('evidence_image', this.state.image, this.state.image.name);
         form_data.append('evidence_name', "sdjfhjsdf");
-        form_data.append('case', 2);
+        form_data.append('case_no', 2);
         form_data.append('evidence_desc', this.state.imagedesc);
         for (var pair of form_data.entries()) {
             console.log(pair[0] + ': ' + pair[1]);
@@ -107,13 +107,17 @@ class AddEvidence extends Component {
                             onSubmit={this.handleSubmitEvidence} >
                             <div className="row">
 
-                                <div className="col-md-6">
+                                <div className="col-md-4">
                                     <span>User ID</span>
-                                    <input type="text" value="2" onChange={this.handleChange1} disabled name="userid" />
+                                    <input type="text" value={this.state.data.user_id} onChange={this.handleChange1} disabled name="userid" />
                                 </div>
-                                <div className="col-md-6">
+                                <div className="col-md-4">
                                     <span>Case ID</span>
-                                    <input type="text" value="2" onChange={this.handleChange1} disabled name="caseno" />
+                                    <input type="text" value={this.state.data.case_no} onChange={this.handleChange1} disabled name="caseno" />
+                                </div>
+                                <div className="col-md-4">
+                                    <span>FIR No.</span>
+                                    <input type="text" value={this.state.data.fir_no} onChange={this.handleChange1} disabled name="caseno" />
                                 </div>
                             </div>
                             <div className="row">

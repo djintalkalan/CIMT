@@ -44,7 +44,7 @@ class Cases extends Component {
                 { headerName: "Address", field: "address", sortable: true, filter: true },
                 {
                     headerName: "Action", field: "user_id", sortable: false, filter: false, cellRendererFramework: function (params) {
-                        return <Button style={{ height: '100%' }} onClick={() => history.push('/addevidence', { data: params.data })} > Test </Button>
+                        return <Button className="btn btn-sm btn-success" onClick={() => history.push('/addevidence', { data: params.data })} > Test </Button>
                     },
                 }],
             rowData: null,
@@ -145,7 +145,7 @@ class Cases extends Component {
                 console.log("CASE_LIST:", caseList)
                 this.setState({ caseList }, () => {
                     // this.agGrid.setRowData(caseList)
-                    this.api.setRowData(caseList);
+                    this.agGrid.setRowData(caseList);
                 })
             })
 
@@ -285,10 +285,10 @@ class Cases extends Component {
     onGridReady(params) {
         const rowData = this.state.caseList;
 
-        this.api = params.api;
+        this.agGrid = params.api;
 
-        if (rowData.length > 0 && this.api) {
-            this.api.setRowData(rowData);
+        if (rowData.length > 0 && this.agGrid) {
+            this.agGrid.setRowData(rowData);
         }
     }
 

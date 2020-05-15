@@ -1,6 +1,6 @@
 
 const baseUrl ="https://jsonplaceholder.typicode.com"
-const baseUrl_heroku ="https://cimt.herokuapp.com"
+const baseUrl_heroku ="https://cors-anywhere.herokuapp.com/https://cimt.herokuapp.com"
 const baseUrl2 ="https://kartforu.com/deepak/shally_maid_api/api"
 
 export const ApiConstants = {
