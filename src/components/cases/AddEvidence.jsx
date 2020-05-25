@@ -23,36 +23,6 @@ class AddEvidence extends Component {
 
     }
 
-
-
-    // handleChange = idx => e => {
-    //     const { name, value } = e.target;
-    //     const rows = [...this.state.rows];
-    //     rows[idx] = {
-    //       [name]: value
-    //     };
-    //     this.setState({
-    //       rows
-    //     });
-    // };
-
-    //   handleAddRow = () => {
-    //     const item = {
-    //       userid: "",
-    //       caseno: "",
-    //       image: "",
-    //       imagedesc: ""
-    //     };
-    //     this.setState({
-    //       rows: [...this.state.rows, item]
-    //     });
-    //   };
-    //   handleRemoveRow = () => {
-    //     this.setState({
-    //       rows: this.state.rows.slice(0, -1)
-    //     });
-    //   };
-
     handleChange1 = (e) => {
         this.setState({
             [e.target.id]: e.target.value
@@ -103,56 +73,58 @@ class AddEvidence extends Component {
             <div className="evidenceCt">
                 <div className="container-fluid">
                     <div className="inner">
+                        <h4>Evidence Information</h4>
                         <form
                             onSubmit={this.handleSubmitEvidence} >
                             <div className="row">
-
-                                <div className="col-md-4">
-                                    <span>User ID</span>
-                                    <input type="text" value={this.state.data.user_id} onChange={this.handleChange1} disabled name="userid" />
-                                </div>
-                                <div className="col-md-4">
-                                    <span>Case ID</span>
-                                    <input type="text" value={this.state.data.case_no} onChange={this.handleChange1} disabled name="caseno" />
-                                </div>
-                                <div className="col-md-4">
-                                    <span>FIR No.</span>
-                                    <input type="text" value={this.state.data.fir_no} onChange={this.handleChange1} disabled name="caseno" />
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-md-12">
-                                    <table className="table mt20">
+                                <div className="col-md-6">
+                                    <table className="table">
                                         <tbody>
-                                            {/* {this.state.rows.map((item, idx) => ( */}
-                                            <tr id="addr0">
+                                            <tr>
                                                 <td>
+                                                    <span>User ID</span>
+                                                    <input type="text" value={this.state.data.user_id} onChange={this.handleChange1} disabled name="userid" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                <span>Case ID</span>
+                                                <input type="text" value={this.state.data.case_no} onChange={this.handleChange1} disabled name="caseno" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                <span>FIR No.</span>
+                                                <input type="text" value={this.state.data.fir_no} onChange={this.handleChange1} disabled name="caseno" />
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div className="col-md-6">
+                                <table className="table">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <span>Choose Evidence</span>
                                                     <input type="file"
                                                         id="image" name="image"
                                                         accept="image/png, image/jpeg" className="form-control" onChange={this.handleImageChange} required />
                                                 </td>
+                                            </tr>
+                                            <tr>
                                                 <td>
+                                                <span>Description</span>
                                                     <input type="text" className="form-control" name="imagedesc" id="imagedesc" placeholder="Description" onChange={this.handleChange1} />
                                                 </td>
+                                            </tr>
+                                            <tr>
                                                 <td>
                                                     <button type="submit" className="btn btn-sm btn-success float-right">Add Evidence</button>
                                                 </td>
                                             </tr>
-                                            {/* // ))} */}
                                         </tbody>
                                     </table>
-                                    {/* <button
-                                            onClick={this.handleAddRow}
-                                            className="btn btn-danger btn-sm mr20">
-                                            Add
-                                        </button>
-                                        <button
-                                            onClick={this.handleRemoveRow}
-                                            className="btn btn-danger btn-sm">
-                                            Delete
-                                        </button> */}
-
-                                    {/* <button type="submit" className="btn btn-primary float-right">Submit</button> */}
                                 </div>
                             </div>
                         </form>

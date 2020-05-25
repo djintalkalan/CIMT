@@ -44,7 +44,7 @@ class Cases extends Component {
                 { headerName: "Address", field: "address", sortable: true, filter: true },
                 {
                     headerName: "Action", field: "user_id", sortable: false, filter: false, cellRendererFramework: function (params) {
-                        return <Button className="btn btn-sm btn-success" onClick={() => history.push('/addevidence', { data: params.data })} > Test </Button>
+                        return <Button className="btn btn-sm btn-success btn-small" onClick={() => history.push('/addevidence', { data: params.data })} > Test </Button>
                     },
                 }],
             rowData: null,
@@ -225,46 +225,6 @@ class Cases extends Component {
         )
     }
 
-    // renderEvidenceModal() {
-    //     return (
-    //         <Modal show={this.state.isAddEvidVisible} onHide={() => { this.setState({ isAddEvidVisible: false }) }}>
-    //             <Modal.Header closeButton >
-    //                 <Modal.Title>Add Case</Modal.Title>
-    //             </Modal.Header>
-    //             <Modal.Body>
-    //                 <form
-    //                     onSubmit={this.handleSubmitEvidence} >
-    //                     <div className="form-group">
-    //                         <span>User Id</span>
-    //                         <input type="text" placeholder='User ID' className="form-control" id='userid' value={this.state.userid} onChange={this.handleChange} required/>
-    //                     </div>
-    //                     <div className="form-group">
-    //                         <span>Case No</span>
-    //                         <input type="text" placeholder='Case No' className="form-control" id='case_no' value={this.state.case_no} onChange={this.handleChange} required/>
-    //                     </div>
-    //                     <div className="form-group">
-    //                         <span>Image</span>
-    //                         <input type="file"
-    //                             id="image"
-    //                             accept="image/png, image/jpeg" className="form-control" onChange={this.handleImageChange} required/>
-    //                     </div>
-    //                     <div className="form-group">
-    //                         <span>Image Desc (Optional)</span>
-    //                         <input type="text" className="form-control" name="imagedesc" id="imagedesc" placeholder="Description" value={this.state.imagedesc} onChange={this.handleChange} />
-    //                     </div>
-
-    //                     <Button variant="secondary" onClick={() => { this.setState({ isAddEvidVisible: false }) }} className="mr10">
-    //                     Close
-    //                     </Button>
-    //                     <Button type="submit" variant="primary" onClick={() => { this.setState({ isAddEvidVisible: false }) }}>
-    //                     Upload
-    //                     </Button>
-    //                 </form>
-    //             </Modal.Body>
-    //         </Modal>
-    //     )
-    // }
-
     renderUserList() {
         const { userList } = this.state;
         if (userList && userList.length > 0)
@@ -302,7 +262,7 @@ class Cases extends Component {
                         {this.renderCaseModal()}
                         {/* {this.renderEvidenceModal()} */}
 
-                        <div className="firCt">
+                        <div className="firCt mb10">
                             <button onClick={() => this.setState({ isAddCaseVisible: true })} className="btn btn-sm btn-success">Add Case</button>
                         </div>
                         <div className="row">
@@ -317,11 +277,6 @@ class Cases extends Component {
                                         getRowNodeId={data => data.fir_no}>
                                     </AgGridReact>
                                 </div>}
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-md-12">
-                                <a href="/addevidence" /*onClick={() => this.setState({ isAddEvidVisible: true })} */ className="btn btn-sm btn-primary">Add Evidence</a>
                             </div>
                         </div>
                     </div>

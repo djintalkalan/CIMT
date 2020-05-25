@@ -79,11 +79,6 @@ class Users extends Component {
         this.setState({ username: event.target.value })
     }
 
-    handlePasswordChange = (event) => {
-        this.setState({ password: event.target.value })
-
-    }
-
     handleFirstnameChange = (event) => {
         this.setState({ firstname: event.target.value })
 
@@ -101,23 +96,22 @@ class Users extends Component {
 
     handleSubmit = (event) => {
 
-        const { firstname, lastname, username, password, email } = this.state
+        const { firstname, lastname, username, email } = this.state
 
         if (!username) {
             alert("Please Enter Username/Mobile");
             return
         }
-        if (!password) {
-            alert("Password can not be empty");
-            return
-        }
+        // if (!password) {
+        //     alert("Password can not be empty");
+        //     return
+        // }
         // let this is login response from server
         const params = {
             first_name: this.state.firstname,
             last_name: this.state.lastname,
             username: this.state.username,
             email: this.state.email,
-            password: this.state.password,
         }
 
         this.callAddUserApi(params)
@@ -247,7 +241,7 @@ class Users extends Component {
                                 onChange={this.handleEmailChange}
                                 type="email" className="form-control" name="email" placeholder="Email" />
                         </div>
-                        <div className="form-group">
+                        {/* <div className="form-group">
                             <span>Password</span>
                             <input type="password"
                                 value={this.state.password}
@@ -258,7 +252,7 @@ class Users extends Component {
                             <span>Confirm Password</span>
                             <input type="password"
                                 className="form-control" name="confirmPassword" placeholder="********" />
-                        </div>
+                        </div> */}
                         
 
                         <Button variant="secondary" onClick={() => { this.setState({ isAddVisible: false }) }} className="mr10">

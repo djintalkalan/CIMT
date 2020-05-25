@@ -8,7 +8,13 @@ class UserProfile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            
+            name: "",
+            firstName: "",
+            lastName: "",
+            userId: "",
+            email: "",
+            userName: "",
+
         }
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -58,17 +64,29 @@ class UserProfile extends Component {
     }
 
     componentDidMount() {
-        
+
+        const { name, firstname, lastname, email, user_id } = JSON.parse(this.props.userDataReducer)
+        this.setState({
+            name,
+            email,
+            firstName:firstname,
+            lastName:lastname,
+            userId:user_id,
+        },()=>{
+            console.log("CHANGED STATE:",this.state)
+            console.log("USRDATA STATE:",this.props.userDataReducer)
+        })
     }
-    
+
 
 
     render() {
-        //console.log("UserName", JSON.stringify(this.props.userdata))
+        console.log("UserName", JSON.stringify(this.state))
+        console.log("USERDATA:", JSON.stringify(this.props.userDataReducer))
         return (
             <div className="dashboardCt pt20">
                 <div className="inner">
-                   <div className="container-fluid">
+                    <div className="container-fluid">
                         <form
                             onSubmit={this.handleSubmit} >
                             <div className="row">
@@ -76,8 +94,8 @@ class UserProfile extends Component {
                                     <div className="form-group">
                                         <span>First Name</span>
                                         <input
-                                            value={this.state.firstname}
-                                            onChange={this.handleFirstnameChange}
+                                            value={this.state.firstName}
+                                            onChange={(e)=>this.setState({firstName:e.target.value})}
                                             type="text" className="form-control" name="firstname" placeholder="First Name" />
                                     </div>
                                 </div>
@@ -85,8 +103,8 @@ class UserProfile extends Component {
                                     <div className="form-group">
                                         <span>Last Name</span>
                                         <input
-                                            value={this.state.lastname}
-                                            onChange={this.handleLastnameChange}
+                                            value={this.state.lastName}
+                                            onChange={(e)=>this.setState({lastName:e.target.value})}
                                             type="text" className="form-control" name="lastname" placeholder="Last Name" />
                                     </div>
                                 </div>
@@ -96,8 +114,8 @@ class UserProfile extends Component {
                                     <div className="form-group">
                                         <span>Username</span>
                                         <input
-                                            value={this.state.username}
-                                            onChange={this.handleUsernameChange}
+                                            value={this.state.name}
+                                            onChange={(e)=>this.setState({name:e.target.value})}
                                             type="text" className="form-control" name="username" placeholder="Phone/Email" />
                                     </div>
                                 </div>
@@ -106,7 +124,7 @@ class UserProfile extends Component {
                                         <span>Email</span>
                                         <input
                                             value={this.state.email}
-                                            onChange={this.handleEmailChange}
+                                            onChange={(e)=>this.setState({email:e.target.value})}
                                             type="email" className="form-control" name="email" placeholder="Email" />
                                     </div>
                                 </div>
@@ -133,7 +151,7 @@ class UserProfile extends Component {
                             </div>
 
                             <Button type="submit" className="btn btn-primary">
-                            Save Changes
+                                Save Changes
                             </Button>
                         </form>
                     </div>
@@ -144,7 +162,7 @@ class UserProfile extends Component {
 }
 
 const mapStateToProps = state => {
-    //console.log("Redux State:", JSON.stringify(state))
+    // console.log("Redux State:", JSON.stringify(state))
     return {
         userDataReducer: state.userDataReducer,
         isLoginReducer: state.isLoginReducer,
