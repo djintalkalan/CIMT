@@ -14,7 +14,8 @@ import { loginApi } from '../../../api/ApiService';
 class Login extends Component {
     constructor(props) {
         super(props);
-        this.props.isLoginReducer && history.push('/')
+        // this.props.isLoginReducer && history.push('/')
+        localStorage.getItem('userData') && history.push('/')
         this.state = {
             username: "Himanshu11",
             password: "wzX24srJwt"
