@@ -87,7 +87,7 @@ class Login extends Component {
                     if (res.data) {
                         let dat = res.data;
                         dat= dat.replace(/'/g,'"');
-                        localStorage.setItem('userData', JSON.parse(dat));
+                        localStorage.setItem('userData', dat);
                         localStorage.setItem('userToken', JSON.stringify("MYSTATICTOKEN"));
                         localStorage.setItem('isLogin', JSON.stringify(true));
                         this.props.userDataAction(JSON.parse(dat))
