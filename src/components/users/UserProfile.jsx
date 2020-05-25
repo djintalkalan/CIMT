@@ -65,7 +65,7 @@ class UserProfile extends Component {
 
     componentDidMount() {
 
-        const { name, firstname, lastname, email, user_id } = JSON.parse(this.props.userDataReducer)
+        const { name, firstname, lastname, email, user_id } = this.props.userDataReducer
         this.setState({
             name,
             email,

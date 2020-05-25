@@ -16,8 +16,8 @@ class Login extends Component {
         super(props);
         this.props.isLoginReducer && history.push('/')
         this.state = {
-            username: "",
-            password: ""
+            username: "Himanshu11",
+            password: "wzX24srJwt"
         }
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
@@ -85,14 +85,14 @@ class Login extends Component {
                     isLoading: false,
                 }, () => {
                     if (res.data) {
-                        localStorage.setItem('userData', JSON.stringify(res.data));
+                        let dat = res.data;
+                        dat= dat.replace(/'/g,'"');
+                        localStorage.setItem('userData', JSON.parse(dat));
                         localStorage.setItem('userToken', JSON.stringify("MYSTATICTOKEN"));
                         localStorage.setItem('isLogin', JSON.stringify(true));
-
-                        this.props.userDataAction(res.data)
+                        this.props.userDataAction(JSON.parse(dat))
                         this.props.userTokenAction("MYSTATICTOKEN")
                         this.props.isLoginAction(true)
-
                         history.push('/')
                     }
                 })
