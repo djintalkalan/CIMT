@@ -299,3 +299,65 @@ h6 {
 		vertical-align: sub;
 	}
 }
+
+
+.evidenceCt {
+	.evidence-block {
+		display: inline-block;
+		margin-right: 20px;
+		margin-bottom: 20px;
+		padding: 10px 20px;
+		background-color: #fff;
+		border: 1px solid #ddd;
+		text-align: center;
+		img {
+			display: block;
+			width: 120px;
+			height: 100px;
+		}
+		span{
+			display: block;
+			margin-top: 10px;
+			color: #333333;
+			font-size: 14px;
+		}
+	}
+}
+
+.tableCt {
+	display: block;
+	min-height: 305px;
+	width: 100%;
+	padding: 20px;
+	background-color: #fff;
+	border: 1px solid #ddd;
+	tbody {
+		width: 100%;
+    	display: table;
+	}
+	tr {
+		td {
+			display: block;
+			margin-bottom: 12px;
+		}
+		span {
+			display: block;
+			font-size: 15px;
+			font-weight: 400;
+			font-family: 'Roboto', sans-serif;
+			margin-bottom: 2px;
+		}
+		input {
+			display: block;
+			width: 100%;
+			padding: 5px;
+			border: 1px solid #dadada;
+			border-radius: 2px;
+			color: #333333;
+			font-size: 14px;
+			font-weight: 300;
+			background-color: #fff;
+			border-radius: 0px;
+		}
+	}
+}

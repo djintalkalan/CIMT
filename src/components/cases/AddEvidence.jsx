@@ -41,14 +41,14 @@ class AddEvidence extends Component {
 
         let form_data = new FormData();
         form_data.append('evidence_image', this.state.image, this.state.image.name);
-        form_data.append('evidence_name', "sdjfhjsdf");
-        form_data.append('case_no', 2);
+        form_data.append('evidence_name', this.state.name);
+        form_data.append('case_no', this.state.data.case_no);
         form_data.append('evidence_desc', this.state.imagedesc);
         for (var pair of form_data.entries()) {
             console.log(pair[0] + ': ' + pair[1]);
         }
-        // console.log("Info", form_data);
-        // return
+        console.log("Info", form_data);
+        return
         let url = 'https://cors-anywhere.herokuapp.com/https://cimt.herokuapp.com/AddEvidence/';
         axios.post(url, form_data, {
             headers: {
@@ -62,9 +62,27 @@ class AddEvidence extends Component {
     };
 
     componentDidMount() {
-        //    console.log(this.props.location);
+        // this.callGetEvidenceApi()
+
+        axios.get(`https://cors-anywhere.herokuapp.com/https://cimt.herokuapp.com/GetAllEvidence/1`)
+        .then(res => {
+            console.log("GetEvidence", JSON.stringify(res))
+            this.setState({ getEvidenceList: res.data })
+        })
     }
 
+    renderGetEvidenceList() {
+        const { getEvidenceList } = this.state;
+        if (getEvidenceList && getEvidenceList.length > 0)       
+            {getEvidenceList.map((item, index) => {
+                return (
+                    <div className="evidenceCt">
+                        <img src={item.evidence_image} />
+                        <span>{item.evidence_desc}</span>
+                    </div>
+                )
+            })}
+    }
 
 
     render() {
@@ -73,12 +91,37 @@ class AddEvidence extends Component {
             <div className="evidenceCt">
                 <div className="container-fluid">
                     <div className="inner">
-                        <h4>Evidence Information</h4>
+                        <div className="row">
+                            <div className="col-md-12">
+                                {this.renderGetEvidenceList()}
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="evidenceCt mb30 px15">
+                                <h5>Evidence collected</h5>
+                                <div className="evidence-block mt20 px20">
+                                    <img src="https://django-cimt-files.s3.amazonaws.com/evidence_1/demo.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAZRYSCU5TSJZOCIMP%2F20200603%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20200603T115015Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=aa22b36dd06eb29d23198b5a89d3ccaface8f17ec24739894a8970c6b4c39b2f" />
+                                    <span>Demo</span>
+                                    <button type="submit" className="btn btn-sm btn-dark mt10">Compare</button>
+                                </div>
+                                <div className="evidence-block">
+                                    <img src="https://django-cimt-files.s3.amazonaws.com/evidence_1/demo.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAZRYSCU5TSJZOCIMP%2F20200603%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20200603T115015Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=aa22b36dd06eb29d23198b5a89d3ccaface8f17ec24739894a8970c6b4c39b2f" />
+                                    <span>Demo</span>
+                                    <button type="submit" className="btn btn-sm btn-dark mt10">Compare</button>
+                                </div>
+                                <div className="evidence-block">
+                                    <img src="https://django-cimt-files.s3.amazonaws.com/evidence_1/demo.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAZRYSCU5TSJZOCIMP%2F20200603%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20200603T115015Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=aa22b36dd06eb29d23198b5a89d3ccaface8f17ec24739894a8970c6b4c39b2f" />
+                                    <span>Demo</span>
+                                    <button type="submit" className="btn btn-sm btn-dark mt10">Compare</button>
+                                </div>
+                            </div>
+                        </div>
                         <form
                             onSubmit={this.handleSubmitEvidence} >
+                            <h5>Add Evidence</h5>
                             <div className="row">
                                 <div className="col-md-6">
-                                    <table className="table">
+                                    <table className="tableCt">
                                         <tbody>
                                             <tr>
                                                 <td>
@@ -102,7 +145,7 @@ class AddEvidence extends Component {
                                     </table>
                                 </div>
                                 <div className="col-md-6">
-                                <table className="table">
+                                <table className="tableCt">
                                         <tbody>
                                             <tr>
                                                 <td>
@@ -114,13 +157,19 @@ class AddEvidence extends Component {
                                             </tr>
                                             <tr>
                                                 <td>
+                                                <span>Name</span>
+                                                    <input type="text" className="form-control" name="name" id="name" placeholder="Name" onChange={this.handleChange1} />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
                                                 <span>Description</span>
                                                     <input type="text" className="form-control" name="imagedesc" id="imagedesc" placeholder="Description" onChange={this.handleChange1} />
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <button type="submit" className="btn btn-sm btn-success float-right">Add Evidence</button>
+                                                    <button type="submit" className="btn btn-sm btn-success float-right mt10">Add Evidence</button>
                                                 </td>
                                             </tr>
                                         </tbody>

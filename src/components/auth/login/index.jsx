@@ -3,6 +3,7 @@ import { userDataAction, userTokenAction, isLoginAction } from "../../../redux/a
 import { connect } from "react-redux";
 import { history } from '../../../routes'
 import { loginApi } from '../../../api/ApiService';
+import { ToastContainer, toast } from 'react-toastify';
 
 // import logo from './logo.svg';
 // import './App.css';
@@ -36,18 +37,6 @@ class Login extends Component {
     }
 
     handleSubmit = (event) => {
-
-        const { username, password } = this.state
-
-        if (!username) {
-            alert("Please Enter Username/Mobile");
-            return
-        }
-        if (!password) {
-            alert("Password can not be empty");
-            return
-        }
-        // let this is login response from server
         const params = {
             username: this.state.username,
             password: this.state.password,
@@ -164,14 +153,14 @@ class Login extends Component {
                                 <input
                                     value={this.state.username}
                                     onChange={this.handleUsernameChange}
-                                    type="text" className="form-control" name="username" placeholder="Phone/Email" />
+                                    type="text" className="form-control" name="username" required placeholder="Phone/Email" />
                             </div>
                             <div className="form-group">
                                 <label>Password</label>
                                 <input type="password"
                                     value={this.state.password}
                                     onChange={this.handlePasswordChange}
-                                    className="form-control" name="password" placeholder="********" />
+                                    className="form-control" name="password" required placeholder="********" />
                             </div>
                             <button type="submit" className="btn btn-primary btn-sm">Sign in</button>
                             <div className="signup mt20">
