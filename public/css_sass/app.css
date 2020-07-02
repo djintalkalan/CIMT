@@ -236,6 +236,18 @@ h6 {
       background-color: #3f51b5;
       color: #fff;
       text-decoration: none; }
+  .sidebarCt .box-circle.menu-item-has-children .sub-menu {
+    display: none; }
+  .sidebarCt .box-circle.menu-item-has-children > a {
+    background-image: url("../images/arrow-left-icon.png");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 6px 12px; }
+    .sidebarCt .box-circle.menu-item-has-children > a.menu-down-arrow {
+      background-image: url("../images/arrow-down-icon.png");
+      background-size: 12px 6px; }
+  .sidebarCt .box-circle.menu-item-has-children a.active + .sub-menu {
+    display: block; }
 
 .evidenceCt .table td, .evidenceCt .table th {
   padding: 5px !important; }

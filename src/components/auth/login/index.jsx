@@ -68,6 +68,7 @@ class Login extends Component {
         console.log("SIGN_IN_API_PARAMS:" + JSON.stringify(params))
 
         loginApi(params).then(res => {
+            const notify = () => toast("Wow so easy !");
             console.log("SIGN_IN_API_RES:" + JSON.stringify(res))
             // history.push('/users')
             if (res && res.success) {
@@ -91,7 +92,17 @@ class Login extends Component {
                     isLoading: false,
                 })
                 if (res && res.error) {
-                     alert(res.error)
+                    toast(res.error, {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                    alert(res.error)
+
                 }
                 // this.setStaticData()
             }
