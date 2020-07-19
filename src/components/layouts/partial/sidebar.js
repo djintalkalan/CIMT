@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import logo from '../../../../public/images/profile.jpg';
 
 class Sidebar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            type: 0
+            type: 0,
+            userSubmenuVisible1: false,
+            userSubmenuVisible2: false
+
         }
     }
 
@@ -14,53 +18,113 @@ class Sidebar extends Component {
         this.state.path = window.location.pathname
         return (
             <div className="page-sidebar">
-   
+                <div className="img-wrapper">
+                <img src={logo} />
+                </div>
+
                 <div className="sidebar-list position-relative">
-                    {/* <div className="box-circle ">
+                    <div className="box-circle ">
                         <Link to={'/'} className={"" + (this.state.path == '/' ? "active" : " ")}>
                             <i className="fa fa-tachometer" aria-hidden="true"></i>
                             <span>Dashboard</span>
                         </Link>
                     </div>
 
-                    <div className="box-circle ">
-                        <Link to={'/users'} className={"" + (this.state.path == '/users' ? "active" : " ")}>
-                            <span>Users</span>
+                    <div className="box-circle menu-item-has-children">
+                        <Link onClick={() => { this.setState({ userSubmenuVisible1: !this.state.userSubmenuVisible1 }) }} >
+                            <span>Add Details</span>
                         </Link>
                     </div>
 
+                    {/** HERE SUBMENU UNDER USERS START its visiblity handled by custom onclick event that we added (userSubmenuVisible1) */}
+
+                    {this.state.userSubmenuVisible1 &&
+                        <div className="sub-menu">
+                            {/** WE DEFINE CUSTOM submenu of users here */}
+                            <div className="box-circle ">
+                                <Link to={'/cases'} className={"" + (this.state.path == '/cases' ? "active" : " ")}>
+                                    <span>&#8692; Cases</span>
+                                </Link>
+                            </div> 
+
+                            <div className={"box-circle"}>
+                                <Link to={'/newchargesheet'} className={"" + (this.state.path == '/newchargesheet' ? "active" : " ")} >
+                                    <span>&#8692; New Charge Sheet</span>
+                                </Link>
+                            </div>
+
+                            <div className={"box-circle"}>
+                                <Link to={'/'} className={"" + (this.state.path == '/' ? "active" : " ")} >
+                                    <span>&#8692; Charge Sheet</span>
+                                </Link>
+                            </div>
+
+
+                        </div>
+                    }
+
+
+                    <div className="box-circle menu-item-has-children">
+                        <Link onClick={() => { this.setState({ userSubmenuVisible2: !this.state.userSubmenuVisible2 }) }} >
+                            <span>Admin</span>
+                        </Link>
+                    </div>
+
+                    {/** HERE SUBMENU UNDER USERS START its visiblity handled by custom onclick event that we added (userSubmenuVisible2) */}
+
+                    {this.state.userSubmenuVisible2 &&
+                        <div className="sub-menu">
+                            {/** WE DEFINE CUSTOM submenu of users here */}
+                            <div className={"box-circle"}>
+                                <Link to={'/users'} className={"" + (this.state.path == '/users' ? "active" : " ")} >
+                                    <span>&#8692; Users</span>
+                                </Link>
+                            </div>
+                            <div className={"box-circle"}>
+                                <Link to={'/#'} >
+                                    <span>&#8692; Designation</span>
+                                </Link>
+                            </div>
+                            <div className={"box-circle"}>
+                                <Link to={'/#'} >
+                                    <span>&#8692; Office</span>
+                                </Link>
+                            </div>
+                            <div className={"box-circle"}>
+                                <Link to={'/#'} >
+                                    <span>&#8692; Office Location</span>
+                                </Link>
+                            </div>
+                            <div className={"box-circle"}>
+                                <Link to={'/#'} >
+                                    <span>&#8692; District</span>
+                                </Link>
+                            </div>
+                            <div className={"box-circle"}>
+                                <Link to={'/#'} >
+                                    <span>&#8692; Division</span>
+                                </Link>
+                            </div>
+                            <div className={"box-circle"}>
+                                <Link to={'/#'} >
+                                    <span>&#8692; Module Type</span>
+                                </Link>
+                            </div>
+                            <div className={"box-circle"}>
+                                <Link to={'/#'} >
+                                    <span>&#8692; Pincode Areas</span>
+                                </Link>
+                            </div>
+
+                        </div>
+                    }
+
                     <div className="box-circle ">
-                        <Link to={'/cases'} className={"" + (this.state.path == '/cases' ? "active" : " ")}>
-                        <span>Cases</span>
+                        <Link to={'/'} className={"" + (this.state.path == '/' ? "active" : " ")}>
+                            <i className="fa fa-tachometer" aria-hidden="true"></i>
+                            <span>Help Desk</span>
                         </Link>
-                    </div> */}
-
-                    {/* <div className="box-circle ">
-                        <Link to={'/addevidence'} className={"" + (this.state.path == '/addevidence' ? "active" : " ")}>
-                        <span>Add Evidence</span>
-                        </Link>
-                    </div> */}
-
-                    <ul id="menu-menu-2">
-                        <li className="box-circle"><a href={'/'} className={"" + (this.state.path == '/' ? "active" : " ")} >Dashboard</a></li>
-                        <li className="box-circle menu-item-has-children"><a href={'/users'} className={"" + (this.state.path == '/users' ? "active menu-down-arrow" : " ")} >Users</a>
-                            <ul className="sub-menu">
-                                <li className="box-circle"><a href="#">About1</a></li>
-                                <li className="box-circle"><a href="#">About2</a></li>
-                            </ul>
-                        </li>
-                        <li className="box-circle"><a href={'/cases'} className={"" + (this.state.path == '/cases' ? "active menu-down-arrow" : " ")} >Cases</a></li>
-                        <li className="box-circle"><a href="#">Contact</a></li>
-                        {/* <li className="box-circle menu-item-has-children "><a href="#" className="menu-down-arrow">Information</a>
-                            <ul className="sub-menu" style="display: block;">
-                                <li className="box-circle menu-item-has-children "><a href="#">Page Title1</a>
-                                    <ul className="sub-menu">
-                                        <li className="box-circle "><a href="#">Page Title2</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li> */}
-                    </ul>
+                    </div>
 
                 </div>
             </div>

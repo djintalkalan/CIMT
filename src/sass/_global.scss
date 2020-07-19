@@ -256,26 +256,35 @@ h6 {
 	width: 230px;
 	height: 100%;
 	display: inline-block;
-	background-color: #fff;
+	background-color: #f4f4e9;
 	border: 1px solid #e7e7e7;
     border-bottom: none;
     border-top: none;
 	z-index: 1;
+	.img-wrapper {
+		border-bottom: 1px solid #e7e7e7;
+		text-align: center;
+		img {
+			margin: 10px auto;
+			height: 110px;
+			width: 110px;
+		}
+	}
 	.box-circle {
 		a{
 			margin-top: 1px;
 			display: block;
-			padding: 10px;
-			color: #3f51b5;
+			padding: 8px 10px;
+			font-size: 14px;
+			color: #ffffff;
+			background-color: #922525;
 
 			&:hover {
-				background-color: #3f51b5;
-				color: #fff;
+				background-color: #f58383;
 				text-decoration: none;
 			}
 			&.active {
-				background-color: #3f51b5;
-				color: #fff;
+				background-color: #f58383;
 				text-decoration: none;
 			}
 		}
@@ -298,54 +307,79 @@ h6 {
 			}
 		}
 	}
+	.sub-menu {
+		background-color: #f4f6f8;
+		.box-circle {
+			a {
+				margin: 0px;
+				padding: 8px 15px;
+				color: #922525;
+				background-color: #fff;
+			}
+		}
+	}
 }
 
-.evidenceCt {
-	.table td, .table th {
-		padding: 5px !important;
-	}
+// .evidenceCt {
+// 	.table td, .table th {
+// 		padding: 5px !important;
+// 	}
 	
-	table td:first-child {
-		padding-left: 0px !important;
-	}
+// 	table td:first-child {
+// 		padding-left: 0px !important;
+// 	}
 
-	.form-control {
-		padding: 5px;
-		border-radius: 0px;
-		font-size: 14px;
-	}
-	button {
-		vertical-align: sub;
-	}
-}
+// 	.form-control {
+// 		padding: 5px;
+// 		border-radius: 0px;
+// 		font-size: 14px;
+// 	}
+// 	button {
+// 		vertical-align: sub;
+// 	}
+// }
 
 
-.evidenceCt {
-	.evidence-block {
-		display: inline-block;
-		margin-right: 20px;
-		margin-bottom: 20px;
-		padding: 10px 20px;
+// .evidenceCt {
+// 	.evidence-block {
+// 		display: inline-block;
+// 		margin-right: 20px;
+// 		margin-bottom: 20px;
+// 		padding: 10px 20px;
+// 		background-color: #fff;
+// 		border: 1px solid #ddd;
+// 		text-align: center;
+// 		img {
+// 			display: block;
+// 			width: 120px;
+// 			height: 100px;
+// 		}
+// 		span{
+// 			display: block;
+// 			margin-top: 10px;
+// 			color: #333333;
+// 			font-size: 14px;
+// 		}
+// 	}
+// }
+
+.boxCt {
+	margin-bottom: 30px;;
+	.inner {
+		padding: 10px 20px 25px;
 		background-color: #fff;
 		border: 1px solid #ddd;
-		text-align: center;
-		img {
+		span {
 			display: block;
-			width: 120px;
-			height: 100px;
 		}
-		span{
-			display: block;
-			margin-top: 10px;
-			color: #333333;
-			font-size: 14px;
+		input {
+			width: 100%;
 		}
 	}
 }
 
 .tableCt {
 	display: block;
-	min-height: 305px;
 	width: 100%;
 	padding: 20px;
 	background-color: #fff;
@@ -355,6 +389,14 @@ h6 {
     	display: table;
 	}
 	tr {
+		&.one-third {
+			width: 33%;
+			float: left;
+		}
+		&.half {
+			width: 50%;
+			float: left;
+		}
 		td {
 			display: block;
 			margin-bottom: 12px;
@@ -379,4 +421,69 @@ h6 {
 			border-radius: 0px;
 		}
 	}
+}
+
+
+.customAccordion {
+	.accordion>.card>.card-header {
+		margin: 0px;
+    	padding: 0px;
+	}
+	button {
+		width: 100%;
+		padding: 7px 10px;
+		text-align: left;
+		background: #f4f4e9;
+		color: #922525;
+		font-size: 16px;
+		background-image: url("../images/acc-plusicon.png");
+		background-repeat: no-repeat;
+		background-position: right 10px center;
+		background-size: 22px 22px;
+		&:focus, &:active {
+			color: #922525;
+			text-decoration: none;
+			background-image: url("../images/acc-minusicon.png");
+		}
+		&:hover {
+			color: #922525;
+			text-decoration: none;
+		}
+	}
+	.card-body {
+		background: #f4f4e9;
+		span {
+			margin-bottom: 15px;
+			padding: 10px;
+			min-width: 200px;
+			// width: 40%;
+			float: left;
+			font-size: 14px;
+			text-align: right;
+			line-height: 12px;
+		}
+		input {
+			padding: 10px;
+			width: auto;
+			height: 30px;
+			float: left;
+			font-size: 14px;
+			background: #f4f4e9;
+			border: 1px solid #000;
+			border-radius: 0;
+			&:focus {
+				box-shadow: none;
+			}
+		}
+		textarea {
+			width: auto;
+			border: 1px solid #000;
+			background: #f4f4e9;
+		}
+	}
+}
+
+.required:after {
+    content:" *";
+    color: red;
 }

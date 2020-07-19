@@ -31,20 +31,13 @@ class Users extends Component {
                 filter: true
             },
             columnDefs: [
-                { headerName: "ID", field: "id", sortable: true, filter: true },
-                { headerName: "First Name", field: "first_name", sortable: true, filter: true },
-                // {
-                //     headerName: "First Name", field: "first_name", sortable: true, floatingFilter: true, filter: 'agTextColumnFilter', filterParams: {
-                //         filterOptions: ['contains', 'notContains'], defaultOption: 'contains'
-                //     }, checkboxSelection: true
-                // },
-                { headerName: "Last Name", field: "last_name", sortable: true, filter: true },
-                { headerName: "Username", field: "username", sortable: true, filter: true },
-                { headerName: "Email", field: "email", sortable: true, filter: true }],
+                { headerName: "ID", field: "id", sortable: true, filter: true, width: 120},
+                { headerName: "First Name", field: "first_name", sortable: true, filter: true, width: 170 },
+                { headerName: "Last Name", field: "last_name", sortable: true, filter: true, width: 170 },
+                { headerName: "Username", field: "username", sortable: true, filter: true, width: 200 },
+                { headerName: "Email", field: "email", sortable: true, filter: true, width: 300 }],
                 
                 defaultColDef: {
-                    // set the default column width
-                    width: 150,
                     // make every column editable
                     editable: true,
                     // make every column use 'text' filter by default

@@ -218,23 +218,30 @@ h6 {
   width: 230px;
   height: 100%;
   display: inline-block;
-  background-color: #fff;
+  background-color: #f4f4e9;
   border: 1px solid #e7e7e7;
   border-bottom: none;
   border-top: none;
   z-index: 1; }
+  .sidebarCt .img-wrapper {
+    border-bottom: 1px solid #e7e7e7;
+    text-align: center; }
+    .sidebarCt .img-wrapper img {
+      margin: 10px auto;
+      height: 110px;
+      width: 110px; }
   .sidebarCt .box-circle a {
     margin-top: 1px;
     display: block;
-    padding: 10px;
-    color: #3f51b5; }
+    padding: 8px 10px;
+    font-size: 14px;
+    color: #ffffff;
+    background-color: #922525; }
     .sidebarCt .box-circle a:hover {
-      background-color: #3f51b5;
-      color: #fff;
+      background-color: #f58383;
       text-decoration: none; }
     .sidebarCt .box-circle a.active {
-      background-color: #3f51b5;
-      color: #fff;
+      background-color: #f58383;
       text-decoration: none; }
   .sidebarCt .box-circle.menu-item-has-children .sub-menu {
     display: none; }
@@ -248,39 +255,27 @@ h6 {
       background-size: 12px 6px; }
   .sidebarCt .box-circle.menu-item-has-children a.active + .sub-menu {
     display: block; }
+  .sidebarCt .sub-menu {
+    background-color: #f4f6f8; }
+    .sidebarCt .sub-menu .box-circle a {
+      margin: 0px;
+      padding: 8px 15px;
+      color: #922525;
+      background-color: #fff; }
 
-.evidenceCt .table td, .evidenceCt .table th {
-  padding: 5px !important; }
-.evidenceCt table td:first-child {
-  padding-left: 0px !important; }
-.evidenceCt .form-control {
-  padding: 5px;
-  border-radius: 0px;
-  font-size: 14px; }
-.evidenceCt button {
-  vertical-align: sub; }
-
-.evidenceCt .evidence-block {
-  display: inline-block;
-  margin-right: 20px;
-  margin-bottom: 20px;
-  padding: 10px 20px;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  text-align: center; }
-  .evidenceCt .evidence-block img {
-    display: block;
-    width: 120px;
-    height: 100px; }
-  .evidenceCt .evidence-block span {
-    display: block;
-    margin-top: 10px;
-    color: #333333;
-    font-size: 14px; }
+.boxCt {
+  margin-bottom: 30px; }
+  .boxCt .inner {
+    padding: 10px 20px 25px;
+    background-color: #fff;
+    border: 1px solid #ddd; }
+    .boxCt .inner span {
+      display: block; }
+    .boxCt .inner input {
+      width: 100%; }
 
 .tableCt {
   display: block;
-  min-height: 305px;
   width: 100%;
   padding: 20px;
   background-color: #fff;
@@ -288,6 +283,12 @@ h6 {
   .tableCt tbody {
     width: 100%;
     display: table; }
+  .tableCt tr.one-third {
+    width: 33%;
+    float: left; }
+  .tableCt tr.half {
+    width: 50%;
+    float: left; }
   .tableCt tr td {
     display: block;
     margin-bottom: 12px; }
@@ -308,6 +309,57 @@ h6 {
     font-weight: 300;
     background-color: #fff;
     border-radius: 0px; }
+
+.customAccordion .accordion > .card > .card-header {
+  margin: 0px;
+  padding: 0px; }
+.customAccordion button {
+  width: 100%;
+  padding: 7px 10px;
+  text-align: left;
+  background: #f4f4e9;
+  color: #922525;
+  font-size: 16px;
+  background-image: url("../images/acc-plusicon.png");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 22px 22px; }
+  .customAccordion button:focus, .customAccordion button:active {
+    color: #922525;
+    text-decoration: none;
+    background-image: url("../images/acc-minusicon.png"); }
+  .customAccordion button:hover {
+    color: #922525;
+    text-decoration: none; }
+.customAccordion .card-body {
+  background: #f4f4e9; }
+  .customAccordion .card-body span {
+    margin-bottom: 15px;
+    padding: 10px;
+    min-width: 200px;
+    float: left;
+    font-size: 14px;
+    text-align: right;
+    line-height: 12px; }
+  .customAccordion .card-body input {
+    padding: 10px;
+    width: auto;
+    height: 30px;
+    float: left;
+    font-size: 14px;
+    background: #f4f4e9;
+    border: 1px solid #000;
+    border-radius: 0; }
+    .customAccordion .card-body input:focus {
+      box-shadow: none; }
+  .customAccordion .card-body textarea {
+    width: auto;
+    border: 1px solid #000;
+    background: #f4f4e9; }
+
+.required:after {
+  content: " *";
+  color: red; }
 
 .loader {
   display: none;
@@ -364,7 +416,7 @@ header {
     height: 64px;
     padding: 20px;
     color: #FFFFFF;
-    background-color: #3f51b5; }
+    background-color: #922525; }
     header > .inner .siteUrl {
       position: absolute;
       top: 10px;
@@ -597,7 +649,7 @@ header {
 .sidenav---sidenav---_2tBP {
   position: fixed;
   top: 64px;
-  background: #3f51b5; }
+  background: #922525; }
 
 .sidenav---sidenav-toggle---1KRjR .sidenav---icon-bar---u1f02 {
   background-color: #000000 !important; }

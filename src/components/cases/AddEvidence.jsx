@@ -7,6 +7,7 @@ import { getUserList } from '../../api/ApiService';
 import Modal from 'react-bootstrap/Modal';
 import { Button } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
+import { AgGridReact } from 'ag-grid-react';
 
 
 //Open console and perform an action on page
@@ -19,6 +20,40 @@ class AddEvidence extends Component {
         this.state = {
             rows: [],
             data: props.location.state.data
+        }
+
+        this.gridCaseEvidence = {
+            defaultColDef: {
+                sortable: true,
+                filter: true
+            },
+            columnDefs: [
+                { headerName: "ID", field: "id", sortable: true, filter: false },
+                {
+                    headerName: "Evidence", field: "url", sortable: false, filter: false, cellRendererFramework: function (params) {
+                        return <img src="url" />
+                    },
+                },
+                { headerName: "Case No", field: "case_no_id", sortable: true, filter: true },
+                { headerName: "Evidence Name", field: "evidence_name", sortable: true, filter: true },
+                { headerName: "Evidence Desc", field: "evidence_desc", sortable: true, filter: true },
+                { headerName: "Status", field: "case_no_id", sortable: true, filter: true }],
+
+                defaultColDef: {
+                    // set the default column width
+                    width: 160,
+                    // make every column editable
+                    editable: true,
+                    // make every column use 'text' filter by default
+                    filter: 'agTextColumnFilter',
+                    // make columns resizable
+                    resizable: true,
+                  },
+
+            rowData: null,
+            floatingFilter: true,
+            pagination: true,
+            paginationPageSize: 10
         }
 
     }
@@ -67,22 +102,23 @@ class AddEvidence extends Component {
         axios.get(`https://cors-anywhere.herokuapp.com/https://cimt.herokuapp.com/GetAllEvidence/1`)
         .then(res => {
             console.log("GetEvidence", JSON.stringify(res))
-            this.setState({ getEvidenceList: res.data })
+            this.setState({ getEvidenceList: res.data.data })
         })
     }
 
-    renderGetEvidenceList() {
-        const { getEvidenceList } = this.state;
-        if (getEvidenceList && getEvidenceList.length > 0)       
-            {getEvidenceList.map((item, index) => {
-                return (
-                    <div className="evidenceCt">
-                        <img src={item.evidence_image} />
-                        <span>{item.evidence_desc}</span>
-                    </div>
-                )
-            })}
-    }
+    // renderGetEvidenceList() {
+    //     const { getEvidenceList } = this.state;
+    //     if (getEvidenceList && getEvidenceList.length > 0)       
+    //         {getEvidenceList.map((item, index) => {
+    //             return (
+    //                 <div className="evidenceCt">
+    //                     <img src={item.evidence_image} />
+    //                     <span>{item.evidence_desc}</span>
+    //                 </div>
+    //             )
+    //         })
+    //     }
+    // }
 
 
     render() {
@@ -91,12 +127,12 @@ class AddEvidence extends Component {
             <div className="evidenceCt">
                 <div className="container-fluid">
                     <div className="inner">
-                        <div className="row">
+                        {/* <div className="row">
                             <div className="col-md-12">
                                 {this.renderGetEvidenceList()}
                             </div>
-                        </div>
-                        <div className="row">
+                        </div> */}
+                        {/* <div className="row">
                             <div className="evidenceCt mb30 px15">
                                 <h5>Evidence collected</h5>
                                 <div className="evidence-block mt20 px20">
@@ -115,36 +151,32 @@ class AddEvidence extends Component {
                                     <button type="submit" className="btn btn-sm btn-dark mt10">Compare</button>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                         <form
                             onSubmit={this.handleSubmitEvidence} >
                             <h5>Add Evidence</h5>
                             <div className="row">
-                                <div className="col-md-6">
-                                    <table className="tableCt">
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <span>User ID</span>
-                                                    <input type="text" value={this.state.data.user_id} onChange={this.handleChange1} disabled name="userid" />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                <span>Case ID</span>
-                                                <input type="text" value={this.state.data.case_no} onChange={this.handleChange1} disabled name="caseno" />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                <span>FIR No.</span>
-                                                <input type="text" value={this.state.data.fir_no} onChange={this.handleChange1} disabled name="caseno" />
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                <div className="col-md-4 boxCt">
+                                    <div className="inner">
+                                        <span>User ID</span>
+                                        <input type="text" value={this.state.data.user_id} onChange={this.handleChange1} disabled name="userid" />
+                                    </div>
                                 </div>
-                                <div className="col-md-6">
+                                <div className="col-md-4 boxCt">
+                                    <div className="inner">
+                                        <span>Case ID</span>
+                                        <input type="text" value={this.state.data.case_no} onChange={this.handleChange1} disabled name="caseno" />
+                                    </div>
+                                </div>
+                                <div className="col-md-4 boxCt">
+                                    <div className="inner">
+                                        <span>FIR No.</span>
+                                        <input type="text" value={this.state.data.fir_no} onChange={this.handleChange1} disabled name="caseno" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-md-12">
                                 <table className="tableCt">
                                         <tbody>
                                             <tr>
@@ -155,14 +187,14 @@ class AddEvidence extends Component {
                                                         accept="image/png, image/jpeg" className="form-control" onChange={this.handleImageChange} required />
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td>
+                                            <tr className="half">
+                                                <td className="px10">
                                                 <span>Name</span>
                                                     <input type="text" className="form-control" name="name" id="name" placeholder="Name" onChange={this.handleChange1} />
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td>
+                                            <tr className="half">
+                                                <td className="px10">
                                                 <span>Description</span>
                                                     <input type="text" className="form-control" name="imagedesc" id="imagedesc" placeholder="Description" onChange={this.handleChange1} />
                                                 </td>
@@ -177,6 +209,20 @@ class AddEvidence extends Component {
                                 </div>
                             </div>
                         </form>
+                        <div className="row">
+                            <div className="col-md-12 mb60">
+                                <h5 className="mt40 mb20">Evidence List</h5>
+                                {this.state.getEvidenceList && <div className="ag-theme-balham" style={{ height: 400, width: '100%' }}>
+                                    <AgGridReact
+                                        animateRows={true}
+                                        rowSelection="multiple"
+                                        //columnDefs={this.state.columnDefs}
+                                        gridOptions={this.gridCaseEvidence}
+                                        rowData={this.state.getEvidenceList}>
+                                    </AgGridReact>
+                                </div>}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

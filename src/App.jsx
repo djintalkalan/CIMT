@@ -31,13 +31,16 @@ class App extends Component {
       <Router history={history}>
 
         <Switch>
-          <PrivateRoute exact path="/" component={Home} />
-          <PrivateRoute exact path="/cases" component={Home} />
-          <PrivateRoute exact path="/users" component={Home} />
           <Route path="/login" component={Login} />
           <Route path="/forget-password" component={ForgotPassword} />
+
+          <PrivateRoute exact path="/" component={Home} />
+          <PrivateRoute exact path="/users" component={Home} />
           <PrivateRoute path="/userprofile" component={Home} />
+
+          <PrivateRoute exact path="/cases" component={Home} />
           <PrivateRoute path="/addevidence" component={Home} />
+          <PrivateRoute path="/newchargesheet" component={Home} />
           <Redirect from="*" to="/" />
         </Switch>
 
