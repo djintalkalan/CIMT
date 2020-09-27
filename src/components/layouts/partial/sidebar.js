@@ -54,8 +54,38 @@ class Sidebar extends Component {
                             </div>
 
                             <div className={"box-circle"}>
-                                <Link to={'/'} className={"" + (this.state.path == '/' ? "active" : " ")} >
+                                <Link to={'/chargesheet'} className={"" + (this.state.path == '/chargesheet' ? "active" : " ")} >
                                     <span>&#8692; Charge Sheet</span>
+                                </Link>
+                            </div>
+                            <div className={"box-circle"}>
+                                <Link to={'/drawingchargesheet'} className={"" + (this.state.path == '/drawingchargesheet' ? "active" : " ")} >
+                                    <span>&#8692; Drawing up the Charge Sheet</span>
+                                </Link>
+                            </div>
+                            <div className={"box-circle"}>
+                                <Link to={'/chargesheet'} className={"" + (this.state.path == '/chargesheet' ? "active" : " ")} >
+                                    <span>&#8692; Issue of Charge Memo</span>
+                                </Link>
+                            </div>
+                            <div className={"box-circle"}>
+                                <Link to={'/chargesheet'} className={"" + (this.state.path == '/chargesheet' ? "active" : " ")} >
+                                    <span>&#8692; Follow up on Charge Memo</span>
+                                </Link>
+                            </div>
+                            <div className={"box-circle"}>
+                                <Link to={'/chargesheet'} className={"" + (this.state.path == '/chargesheet' ? "active" : " ")} >
+                                    <span>&#8692; Add Explanation Details</span>
+                                </Link>
+                            </div>
+                            <div className={"box-circle"}>
+                                <Link to={'/chargesheet'} className={"" + (this.state.path == '/chargesheet' ? "active" : " ")} >
+                                    <span>&#8692; Inquiry Officer Action Update</span>
+                                </Link>
+                            </div>
+                            <div className={"box-circle"}>
+                                <Link to={'/chargesheet'} className={"" + (this.state.path == '/chargesheet' ? "active" : " ")} >
+                                    <span>&#8692; Follow up on Inquiry Report</span>
                                 </Link>
                             </div>
 

@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { history } from '../../routes';
 import { getPosts } from '../../api/ApiService';
 import CanvasJSReact from '../../assets/canvasjs.react';
+import Fingerprint2 from 'fingerprintjs2'
+var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 import Header from '../custom/Header';
 import SideNav from '../custom/SideNav';
@@ -14,34 +16,118 @@ import SideNav from '../custom/SideNav';
 //Open console and perform an action on page
 
 
-  const options = {
+const monthlyCases = {
     animationEnabled: true,
-    exportEnabled: true,
-    theme: "light2", //"light1", "dark1", "dark2"
-    title:{
-        text: "Column Chart With Index"
-    },
-    data: [{
-        type: "column", //change type to bar, line, area, pie, etc
-        //indexLabel: "{y}", //Shows y value on all Data Points
-        indexLabelFontColor: "#5A5757",
-        indexLabelPlacement: "outside",
-        dataPoints: [
-            { x: 10, y: 71 },
-            { x: 20, y: 55 },
-            { x: 30, y: 50 },
-            { x: 40, y: 65 },
-            { x: 50, y: 71 },
-            { x: 60, y: 68 },
-            { x: 70, y: 38 },
-            { x: 80, y: 92, indexLabel: "Highest" },
-            { x: 90, y: 54 },
-            { x: 100, y: 60 },
-            { x: 110, y: 21 },
-            { x: 120, y: 49 },
-            { x: 130, y: 36 }
-        ]
-    }]
+	theme: "light2",
+	title: {
+		text: "Monthly Cases Data"
+	},
+	axisX: {
+		// valueFormatString: "MMM"
+	},
+	axisY: {
+		// prefix: "$",
+		// labelFormatter: addSymbols
+	},
+	toolTip: {
+		shared: true
+	},
+	legend: {
+		cursor: "pointer",
+		// itemclick: toggleDataSeries
+	},
+	data: [
+	{
+		type: "column",
+		name: "Actual Cases",
+		showInLegend: true,
+		xValueFormatString: "MMMM YYYY",
+		// yValueFormatString: "$#,##0",
+		dataPoints: [
+			{ x: new Date(2019, 0), y: 200 },
+			{ x: new Date(2019, 1), y: 300 },
+			{ x: new Date(2019, 2), y: 250 },
+			{ x: new Date(2019, 3), y: 700, indexLabel: "High Renewals" },
+			{ x: new Date(2019, 4), y: 500 },
+			{ x: new Date(2019, 5), y: 350 },
+			{ x: new Date(2019, 6), y: 300 },
+			{ x: new Date(2019, 7), y: 430 },
+			{ x: new Date(2019, 8), y: 350 },
+			{ x: new Date(2019, 9), y:  300},
+			{ x: new Date(2019, 10), y: 400 },
+			{ x: new Date(2019, 11), y: 500 }
+		]
+	}, 
+	{
+		type: "line",
+		name: "Expected Cases",
+		showInLegend: true,
+		// yValueFormatString: "$#,##0",
+		dataPoints: [
+			{ x: new Date(2019, 0), y: 300 },
+			{ x: new Date(2019, 1), y: 320 },
+			{ x: new Date(2019, 2), y: 350 },
+			{ x: new Date(2019, 3), y: 350 },
+			{ x: new Date(2019, 4), y: 270 },
+			{ x: new Date(2019, 5), y: 230 },
+			{ x: new Date(2019, 6), y: 320 },
+			{ x: new Date(2019, 7), y: 430 },
+			{ x: new Date(2019, 8), y: 410 },
+			{ x: new Date(2019, 9), y: 450 },
+			{ x: new Date(2019, 10), y: 420 },
+			{ x: new Date(2019, 11), y: 500 }
+		]
+	},
+	{
+		type: "area",
+		name: "Pending",
+		markerBorderColor: "white",
+		markerBorderThickness: 2,
+		showInLegend: true,
+		// yValueFormatString: "$#,##0",
+		dataPoints: [
+			{ x: new Date(2019, 0), y: 150 },
+			{ x: new Date(2019, 1), y: 170 },
+			{ x: new Date(2019, 2), y: 160 },
+			{ x: new Date(2019, 3), y: 300 },
+			{ x: new Date(2019, 4), y: 200 },
+			{ x: new Date(2019, 5), y: 150 },
+			{ x: new Date(2019, 6), y: 130 },
+			{ x: new Date(2019, 7), y: 200 },
+			{ x: new Date(2019, 8), y: 150 },
+			{ x: new Date(2019, 9), y:  100 },
+			{ x: new Date(2019, 10), y: 190 },
+			{ x: new Date(2019, 11), y: 220 }
+		]
+	}]
+}
+
+
+const stateReport = {
+    animationEnabled: true,
+	title:{
+		text: "State Monthly Report"
+	},
+	legend:{
+		cursor: "pointer",
+		// itemclick: explodePie
+	},
+	data: [{
+		type: "pie",
+		showInLegend: true,
+		toolTipContent: "{name}: <strong>{y}%</strong>",
+		indexLabel: "{name} - {y}%",
+		dataPoints: [
+			{ y: 26, name: "Ambala", exploded: true },
+			{ y: 20, name: "Bhiwani" },
+			{ y: 5, name: "Faridabad" },
+			{ y: 3, name: "Gurugram" },
+			{ y: 7, name: "Hisar" },
+			{ y: 17, name: "Jhajjar" },
+			{ y: 22, name: "Fatehabad"},
+		]
+	}]
+
 }
 
 class DashBoard extends Component {
@@ -57,6 +143,22 @@ class DashBoard extends Component {
 
     componentDidMount() {
         // this.callPostsApi()
+
+        setTimeout(() => {
+            if (window.requestIdleCallback) {
+                requestIdleCallback(function () {
+                    Fingerprint2.get(function (components) {
+                      console.log(components) // an array of components: {key: ..., value: ...}
+                    })
+                })
+            } else {
+                setTimeout(function () {
+                    Fingerprint2.get(function (components) {
+                      console.log(components) // an array of components: {key: ..., value: ...}
+                    })  
+                }, 500)
+            }
+        }, 1000);
     }
 
     callPostsApi = () => {
@@ -106,81 +208,94 @@ class DashBoard extends Component {
                 <div className="container-fluid">
                     <div className="inner">
                         <div className="row">
+                            <div className="col-md-4">
+                                <div className="threeBlockCss">
+                                    <span className="title">Total Case: </span>
+                                    <span className="titleans">4550</span>
+                                </div>
+                            </div>
+                            <div className="col-md-4">
+                                <div className="threeBlockCss">
+                                    <span className="title">Ongoing Case: </span>
+                                    <span className="titleans">4350</span>
+                                </div>
+                            </div>
+                            <div className="col-md-4">
+                                <div className="threeBlockCss">
+                                    <span className="title">Complete Case: </span>
+                                    <span className="titleans">2120</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="row">
                             <div className="col-md-12 pt20">
-                            <CanvasJSChart options = {options} />
+                                <CanvasJSChart options = {monthlyCases} />
                             </div>
                         </div>
                         <div className="row pt40">
                             <div className="col-md-4">
                                 <div className="search_bar">
-                                    <input type="text" className="form-control" placeholder="Search" />
+                                    {/* <input type="text" className="form-control" placeholder="Search" /> */}
                                 </div>
                             </div>
                             <div className="col-md-8 text-right">
-                                <button className="btn btn-success">Add New</button>
+                                {/* <button className="btn btn-success">Add New</button> */}
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col-md-12">
+                            <div className="col-md-6 mb50 px30 py30 mt30">
+                                <CanvasJSChart options = {stateReport} />
+                            </div>
+                            <div className="col-md-6">
+                                <h4 className="mt50">User Status Table</h4>
                                 <table className="table table-striped mt30">
                                 <thead>
                                     <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">First</th>
-                                    <th scope="col">Last</th>
-                                    <th scope="col">Handle</th>
-                                    <th scope="col">Edit</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">City</th>
+                                    <th scope="col">Assigned Cases</th>
+                                    <th scope="col">Ongoing Cases</th>
+                                    <th scope="col">Complete Cases</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                     <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                    <td><button className="btn btn-sm btn-primary">Edit</button></td>
+                                    <td>Rakesh</td>
+                                    <td>Hisar</td>
+                                    <td>400</td>
+                                    <td>120</td>
+                                    <td>280</td>
                                     </tr>
                                     <tr>
                                     <th scope="row">2</th>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>@fat</td>
-                                    <td><button className="btn btn-sm btn-primary">Edit</button></td>
+                                    <td>Tulsi</td>
+                                    <td>Hisar</td>
+                                    <td>200</td>
+                                    <td>80</td>
+                                    <td>120</td>
                                     </tr>
                                     <tr>
                                     <th scope="row">3</th>
-                                    <td>Larry</td>
-                                    <td>the Bird</td>
-                                    <td>@twitter</td>
-                                    <td><button className="btn btn-sm btn-primary">Edit</button></td>
+                                    <td>Himanshu</td>
+                                    <td>Rohtak</td>
+                                    <td>300</td>
+                                    <td>20</td>
+                                    <td>100</td>
                                     </tr>
                                     <tr>
                                     <th scope="row">4</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                    <td><button className="btn btn-sm btn-primary">Edit</button></td>
-                                    </tr>
-                                    <tr>
-                                    <th scope="row">5</th>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>@fat</td>
-                                    <td><button className="btn btn-sm btn-primary">Edit</button></td>
-                                    </tr>
-                                    <tr>
-                                    <th scope="row">6</th>
-                                    <td>Larry</td>
-                                    <td>the Bird</td>
-                                    <td>@twitter</td>
-                                    <td><button className="btn btn-sm btn-primary">Edit</button></td>
+                                    <td>Kailash</td>
+                                    <td>Bhiwani</td>
+                                    <td>130</td>
+                                    <td>40</td>
+                                    <td>80</td>
                                     </tr>
                                 </tbody>
                             </table>
                             </div>
-                        </div>
-                        <div className="row">
-                        <div className="col-md-12 mb100">
+                             <div className="col-md-12 mb100">
                                 <div className="text_wrapper pull-right">
                                     <h4>Account Logout</h4>
                                     {this.props.isLoginReducer && <div>

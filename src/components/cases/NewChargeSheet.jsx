@@ -7,6 +7,8 @@ import { withRouter } from 'react-router-dom';
 import { AgGridReact } from 'ag-grid-react';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
+import Modal from 'react-bootstrap/Modal';
+import { getRoleList } from '../../api/ApiService';
 
 
 //Open console and perform an action on page
@@ -16,10 +18,74 @@ class NewChargeSheet extends Component {
     constructor(props) {
         super(props);
         // console.log("HISTORY:-", props.location.state.data)
-        // this.state = {
-        //     rows: [],
-        //     data: props.location.state.data
-        // }
+       this.state = {
+            userList: null,
+            isAddVisibleEnquiry: false,
+            isAddVisibleImputation: false,
+            isAddVisibleDocuments: false,
+            isAddVisibleWitness: false,
+            //     data: props.location.state.data
+        }
+
+        this.gridOptionsVisibleEnquiry = {
+            defaultColDef: {
+                sortable: true,
+                filter: true
+            },
+            columnDefs: [
+                { headerName: "ID", field: "id", sortable: true, filter: true },
+                { headerName: "Name", field: "name", sortable: true, filter: true },
+                { headerName: "Description", field: "description", sortable: true, filter: true }],
+            rowData: null,
+            floatingFilter: true,
+            pagination: true,
+            paginationPageSize: 10
+        }
+
+        this.gridOptionsVisibleImputation = {
+            defaultColDef: {
+                sortable: true,
+                filter: true
+            },
+            columnDefs: [
+                { headerName: "ID", field: "id", sortable: true, filter: true },
+                { headerName: "Name", field: "name", sortable: true, filter: true },
+                { headerName: "Description", field: "description", sortable: true, filter: true }],
+            rowData: null,
+            floatingFilter: true,
+            pagination: true,
+            paginationPageSize: 10
+        }
+
+        this.gridOptionsVisibleDocuments = {
+            defaultColDef: {
+                sortable: true,
+                filter: true
+            },
+            columnDefs: [
+                { headerName: "ID", field: "id", sortable: true, filter: true },
+                { headerName: "Name", field: "name", sortable: true, filter: true },
+                { headerName: "Description", field: "description", sortable: true, filter: true }],
+            rowData: null,
+            floatingFilter: true,
+            pagination: true,
+            paginationPageSize: 10
+        }
+
+        this.gridOptionsVisibleWitness = {
+            defaultColDef: {
+                sortable: true,
+                filter: true
+            },
+            columnDefs: [
+                { headerName: "ID", field: "id", sortable: true, filter: true },
+                { headerName: "Name", field: "name", sortable: true, filter: true },
+                { headerName: "Description", field: "description", sortable: true, filter: true }],
+            rowData: null,
+            floatingFilter: true,
+            pagination: true,
+            paginationPageSize: 10
+        }
 
     }
 
@@ -56,7 +122,7 @@ class NewChargeSheet extends Component {
     };
 
     componentDidMount() {
-        // this.callGetEvidenceApi()
+        this.callRoleListApi()
 
         // axios.get(`https://cors-anywhere.herokuapp.com/https://cimt.herokuapp.com/GetAllEvidence/1`)
         // .then(res => {
@@ -65,16 +131,235 @@ class NewChargeSheet extends Component {
         // })
     }
 
+    callRoleListApi(){
+        getRoleList().then(res=>{
+            console.log("Testing Mode",JSON.stringify(res))
+            this.setState({roleList:res.data})
+        })
+    }
+
+    renderVisibleEnquiry() {
+        return (
+            <Modal show={this.state.isAddVisibleEnquiry} onHide={() => { this.setState({ isAddVisibleEnquiry: false }) }} dialogClassName="modal-90w custom" aria-labelledby="example-custom-modal-styling-title">
+                <Modal.Header closeButton >
+                    <Modal.Title>Add User</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <form
+                        onSubmit={this.handleSubmitRole} >
+                        <div className="inner">
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <span className="title required">Name of Charged Officer </span>
+                                    <input type="text"
+                                        id="charged_officer" name="charged_officer" className="form-control" onChange={this.handleChange} required />
+                                </div>
+                                <div className="col-md-6">
+                                <span className="title required">Working Place of Imputation</span>
+                                    <input type="text"
+                                        id="place_working" name="place_working" className="form-control" onChange={this.handleChange} required />
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <span className="title required">Designation at Imputation </span>
+                                    <input type="text"
+                                        id="designation" name="designation" className="form-control" onChange={this.handleChange} required />
+                                </div>
+                                <div className="col-md-6">
+                                <span className="title required">Officer Treasury Code</span>
+                                    <input type="text"
+                                        id="officer_treasury_code" name="officer_treasury_code" className="form-control" onChange={this.handleChange} required />
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <span className="title required">Email </span>
+                                    <input type="text"
+                                        id="email" name="email" className="form-control" onChange={this.handleChange} required />
+                                </div>
+                                <div className="col-md-6">
+                                <span className="title required">Phone Number </span>
+                                    <input type="text"
+                                        id="phone" name="phone" className="form-control" onChange={this.handleChange} required />
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-md-12">
+                                    <span className="title required">Previous Charges if Any </span>
+                                    <textarea name="previous_charges" className="form-control"></textarea>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-md-12">
+                                    <span className="title required">Attachment If Any </span>
+                                    <textarea name="attachment_desc1" className="form-control"></textarea>
+                                    <label className="custom-file-upload">
+                                        <input type="file"
+                                            id="charged_officer_case_attachment" name="charged_officer_case_attachment" className="form-control" onChange={this.handleChange} />
+                                    </label>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-md-12">
+                                    <a href="#" className="btn btn-sm btn-dark float-right mt10 ml10">Clear</a>
+                                    <a href="#" className="btn btn-sm btn-dark float-right mt10">Add to List</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-md-12">
+                                <div>
+                                    {<div className="ag-theme-balham mt20" style={{ height: 200, width: '100%' }}>
+                                        <AgGridReact
+                                            animateRows={true}
+                                            rowSelection="multiple"
+                                            //columnDefs={this.state.columnDefs}
+                                            gridOptions={this.gridOptionsVisibleEnquiry}
+                                            rowData={this.state.roleList}>
+                                        </AgGridReact>
+                                    </div>}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <Button variant="secondary" onClick={() => { this.setState({ isAddVisibleEnquiry: false }) }} className="mr10">
+                        Close
+                         </Button>
+                        <Button type="submit" variant="primary" onClick={() => { this.setState({ isAddVisibleEnquiry: false }) }}>
+                        Save Changes
+                         </Button>
+                    </form>
+                </Modal.Body>
+            </Modal>
+        )
+    }
+
+    renderVisibleImputation() {
+        return (
+            <Modal show={this.state.isAddVisibleImputation} onHide={() => { this.setState({ isAddVisibleImputation: false }) }}>
+                <Modal.Header closeButton >
+                    <Modal.Title>Add User</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <form
+                        onSubmit={this.handleSubmitRole} >
+                        <div className="form-group">
+                            <span>Role Name</span>
+                            <input
+                                value={this.state.rolename}
+                                onChange={this.handleRolenameChange}
+                                type="text" className="form-control" name="rolename" placeholder="Role Name" />
+                        </div>
+                        <div className="form-group">
+                            <span>Role Description</span>
+                            <input
+                                value={this.state.roledesc}
+                                onChange={this.handleRoledescChange}
+                                type="text" className="form-control" name="roledesc" placeholder="Role Desc" />
+                        </div>
+                        
+                        <Button variant="secondary" onClick={() => { this.setState({ isAddVisibleImputation: false }) }} className="mr10">
+                        Close
+                         </Button>
+                        <Button type="submit" variant="primary" onClick={() => { this.setState({ isAddVisibleImputation: false }) }}>
+                        Save Changes
+                         </Button>
+                    </form>
+                </Modal.Body>
+            </Modal>
+        )
+    }
+
+    renderVisibleDocuments() {
+        return (
+            <Modal show={this.state.isAddVisibleDocuments} onHide={() => { this.setState({ isAddVisibleDocuments: false }) }}>
+                <Modal.Header closeButton >
+                    <Modal.Title>Add User</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <form
+                        onSubmit={this.handleSubmitRole} >
+                        <div className="form-group">
+                            <span>Role Name</span>
+                            <input
+                                value={this.state.rolename}
+                                onChange={this.handleRolenameChange}
+                                type="text" className="form-control" name="rolename" placeholder="Role Name" />
+                        </div>
+                        <div className="form-group">
+                            <span>Role Description</span>
+                            <input
+                                value={this.state.roledesc}
+                                onChange={this.handleRoledescChange}
+                                type="text" className="form-control" name="roledesc" placeholder="Role Desc" />
+                        </div>
+                        
+                        <Button variant="secondary" onClick={() => { this.setState({ isAddVisibleDocuments: false }) }} className="mr10">
+                        Close
+                         </Button>
+                        <Button type="submit" variant="primary" onClick={() => { this.setState({ isAddVisibleDocuments: false }) }}>
+                        Save Changes
+                         </Button>
+                    </form>
+                </Modal.Body>
+            </Modal>
+        )
+    }
+
+    renderVisibleWitness() {
+        return (
+            <Modal show={this.state.isAddVisibleWitness} onHide={() => { this.setState({ isAddVisibleWitness: false }) }}>
+                <Modal.Header closeButton >
+                    <Modal.Title>Add User</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <form
+                        onSubmit={this.handleSubmitRole} >
+                        <div className="form-group">
+                            <span>Role Name</span>
+                            <input
+                                value={this.state.rolename}
+                                onChange={this.handleRolenameChange}
+                                type="text" className="form-control" name="rolename" placeholder="Role Name" />
+                        </div>
+                        <div className="form-group">
+                            <span>Role Description</span>
+                            <input
+                                value={this.state.roledesc}
+                                onChange={this.handleRoledescChange}
+                                type="text" className="form-control" name="roledesc" placeholder="Role Desc" />
+                        </div>
+                        
+                        <Button variant="secondary" onClick={() => { this.setState({ isAddVisibleWitness: false }) }} className="mr10">
+                        Close
+                         </Button>
+                        <Button type="submit" variant="primary" onClick={() => { this.setState({ isAddVisibleWitness: false }) }}>
+                        Save Changes
+                         </Button>
+                    </form>
+                </Modal.Body>
+            </Modal>
+        )
+    }
+
    
     render() {
         console.log("UserName", JSON.stringify(this.props.userdata))
         return (
             <div className="evidenceCt">
                 <div className="container-fluid">
-                    <div className="inner customAccordion">
-                        <form
-                            onSubmit={this.handleSubmitNewChargeSheet} >
-                            <h5>Add New Case</h5>
+                    <form className="mb60"
+                        onSubmit={this.handleSubmitNewChargeSheet} >
+
+                        <div className="inner customAccordion">
+
+                        {this.renderVisibleEnquiry()}
+                        {this.renderVisibleImputation()}
+                        {this.renderVisibleDocuments()}
+                        {this.renderVisibleWitness()}
+
+                        <h5>Add New Case</h5>
 
                             <Accordion defaultActiveKey="0">
                                 <Card>
@@ -85,46 +370,58 @@ class NewChargeSheet extends Component {
                                     </Card.Header>
                                     <Accordion.Collapse eventKey="0">
                                     <Card.Body>
-                                        <div className="row">
-                                            <div className="col-md-6">
-                                                <span className="required">File No </span>
-                                                <input type="text"
-                                                    id="image" name="file_no" className="form-control" onChange={this.handleChange} required />
+                                        <div className="inner">
+                                            <div className="row">
+                                                <div className="col-md-6">
+                                                    <span className="title required">File No </span>
+                                                    <input type="text"
+                                                        id="file_no" name="file_no" className="form-control" onChange={this.handleChange} required />
+                                                </div>
+                                                <div className="col-md-6">
+                                                <span className="title required">File Year </span>
+                                                    <input type="text"
+                                                        id="file_year" name="file_year" className="form-control" onChange={this.handleChange} required />
+                                                </div>
                                             </div>
-                                            <div className="col-md-6">
-                                            <span className="required">File Year </span>
-                                                <input type="text"
-                                                    id="image" name="file_year" className="form-control" onChange={this.handleChange} required />
+                                            <div className="row">
+                                                <div className="col-md-6">
+                                                    <span className="title required">Office </span>
+                                                    <input type="text"
+                                                        id="office" name="office" className="form-control" onChange={this.handleChange} required />
+                                                </div>
+                                                <div className="col-md-6">
+                                                <span className="title required">Nature of Misconduct </span>
+                                                    <input type="text"
+                                                        id="nature_misconduct" name="nature_misconduct" className="form-control" onChange={this.handleChange} required />
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-md-6">
-                                                <span className="required">Office </span>
-                                                <input type="text"
-                                                    id="image" name="office" className="form-control" onChange={this.handleChange} required />
+                                            <div className="row">
+                                                <div className="col-md-6">
+                                                    <span className="title required">Source of Complaint </span>
+                                                    <input type="text"
+                                                        id="source_complaint" name="source_complaint" className="form-control" onChange={this.handleChange} required />
+                                                </div>
+                                                <div className="col-md-6">
+                                                <span className="title required">Nature of complaint </span>
+                                                    <input type="text"
+                                                        id="nature_complaint" name="nature_complaint" className="form-control" onChange={this.handleChange} required />
+                                                </div>
                                             </div>
-                                            <div className="col-md-6">
-                                            <span className="required">Nature of Misconduct </span>
-                                                <input type="text"
-                                                    id="image" name="nature_misconduct" className="form-control" onChange={this.handleChange} required />
+                                            <div className="row">
+                                                <div className="col-md-12">
+                                                    <span className="title required">Complaint Address </span>
+                                                    <textarea name="complaint_address" className="form-control"></textarea>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-md-6">
-                                                <span className="required">Source of Complaint </span>
-                                                <input type="text"
-                                                    id="image" name="source_complaint" className="form-control" onChange={this.handleChange} required />
-                                            </div>
-                                            <div className="col-md-6">
-                                            <span className="required">Nature of complaint </span>
-                                                <input type="text"
-                                                    id="image" name="nature_complaint" className="form-control" onChange={this.handleChange} required />
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-md-12">
-                                                <span className="required">Complaint Address </span>
-                                                <textarea name="complaint_address" className="form-control"></textarea>
+                                            <div className="row">
+                                                <div className="col-md-12">
+                                                    <span className="title required">Attachment If Any </span>
+                                                    <textarea name="attachment_desc" className="form-control"></textarea>
+                                                    <label className="custom-file-upload">
+                                                        <input type="file"
+                                                            id="case_attachment" name="case_attachment" className="form-control" onChange={this.handleChange} />
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
                                        
@@ -138,7 +435,84 @@ class NewChargeSheet extends Component {
                                     </Accordion.Toggle>
                                     </Card.Header>
                                     <Accordion.Collapse eventKey="1">
-                                    <Card.Body>Hello! I'm another body</Card.Body>
+                                    <Card.Body>
+                                        <div className="inner">
+                                            <div className="row">
+                                                <div className="col-md-6">
+                                                    <span className="title required">Name of Charged Officer </span>
+                                                    <input type="text"
+                                                        id="charged_officer" name="charged_officer" className="form-control" onChange={this.handleChange} required />
+                                                </div>
+                                                <div className="col-md-6">
+                                                <span className="title required">Working Place of Imputation </span>
+                                                    <input type="text"
+                                                        id="place_working" name="place_working" className="form-control" onChange={this.handleChange} required />
+                                                </div>
+                                            </div>
+                                            <div className="row">
+                                                <div className="col-md-6">
+                                                    <span className="title required">Designation at Imputation </span>
+                                                    <input type="text"
+                                                        id="designation" name="designation" className="form-control" onChange={this.handleChange} required />
+                                                </div>
+                                                <div className="col-md-6">
+                                                <span className="title required">Officer Treasury Code</span>
+                                                    <input type="text"
+                                                        id="officer_treasury_code" name="officer_treasury_code" className="form-control" onChange={this.handleChange} required />
+                                                </div>
+                                            </div>
+                                            <div className="row">
+                                                <div className="col-md-6">
+                                                    <span className="title required">Email </span>
+                                                    <input type="text"
+                                                        id="email" name="email" className="form-control" onChange={this.handleChange} required />
+                                                </div>
+                                                <div className="col-md-6">
+                                                <span className="title required">Phone Number </span>
+                                                    <input type="text"
+                                                        id="phone" name="phone" className="form-control" onChange={this.handleChange} required />
+                                                </div>
+                                            </div>
+                                            <div className="row">
+                                                <div className="col-md-12">
+                                                    <span className="title required">Previous Charges if Any </span>
+                                                    <textarea name="previous_charges" className="form-control"></textarea>
+                                                </div>
+                                            </div>
+                                            <div className="row">
+                                                <div className="col-md-12">
+                                                    <span className="title required">Attachment If Any </span>
+                                                    <textarea name="attachment_desc1" className="form-control"></textarea>
+                                                    <label className="custom-file-upload">
+                                                        <input type="file"
+                                                            id="charged_officer_case_attachment" name="charged_officer_case_attachment" className="form-control" onChange={this.handleChange} />
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div className="row">
+                                                <div className="col-md-12">
+                                                    <a href="#" className="btn btn-sm btn-dark float-right mt10 ml10">Clear</a>
+                                                    <a href="#" className="btn btn-sm btn-dark float-right mt10">Add to List</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-12">
+                                                <div>
+                                                    {<div className="ag-theme-balham mt20" style={{ height: 200, width: '100%' }}>
+                                                        <AgGridReact
+                                                            animateRows={true}
+                                                            rowSelection="multiple"
+                                                            //columnDefs={this.state.columnDefs}
+                                                            gridOptions={this.gridOptionsVisibleEnquiry}
+                                                            rowData={this.state.roleList}>
+                                                        </AgGridReact>
+                                                    </div>}
+                                                </div>
+                                            </div>
+                                        </div>
+                                       
+                                    </Card.Body>
                                     </Accordion.Collapse>
                                 </Card>
                                 <Card>
@@ -148,13 +522,168 @@ class NewChargeSheet extends Component {
                                     </Accordion.Toggle>
                                     </Card.Header>
                                     <Accordion.Collapse eventKey="2">
-                                    <Card.Body>Hello! I'm another body</Card.Body>
+                                    <Card.Body>
+                                        <div className="inner">
+                                            <div className="row">
+                                                <div className="col-md-6">
+                                                    <span className="title required">Proposal File Rc No. </span>
+                                                    <input type="text"
+                                                        id="proposal_file_no" name="proposal_file_no" className="form-control" onChange={this.handleChange} required />
+                                                </div>
+                                                <div className="col-md-6">
+                                                <span className="title required">Date </span>
+                                                    <input type="date"
+                                                        id="date" name="date" className="form-control" onChange={this.handleChange} required />
+                                                </div>
+                                            </div>
+                                            <div className="row">
+                                                <div className="col-md-6">
+                                                    <span className="title required">Submitted By </span>
+                                                    <input type="text"
+                                                        id="submitted_by" name="submitted_by" className="form-control" onChange={this.handleChange} required />
+                                                </div>
+                                                <div className="col-md-6">
+                                                <span className="title required">Submitted To</span>
+                                                    <input type="text"
+                                                        id="submitted_to" name="submitted_to" className="form-control" onChange={this.handleChange} required />
+                                                </div>
+                                            </div>
+                                            <div className="row">
+                                                <div className="col-md-12">
+                                                    <span className="title required">Subject in Brief </span>
+                                                    <textarea name="subject_in_brief" className="form-control"></textarea>
+                                                </div>
+                                            </div>
+                                            <div className="row">
+                                                <div className="col-md-12">
+                                                    <span className="title required">Attachment If Any </span>
+                                                    <textarea name="attachment_desc2" className="form-control"></textarea>
+                                                    <label className="custom-file-upload">
+                                                        <input type="file"
+                                                            id="drafts_attachment" name="drafts_attachment" className="form-control" onChange={this.handleChange} />
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div className="row">
+                                                <div className="col-md-12">
+                                                    <a href="#" className="btn btn-sm btn-dark float-right mt10 ml10">Clear</a>
+                                                    <a href="#" className="btn btn-sm btn-dark float-right mt10">Add to List</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-12">
+                                                <div>
+                                                    {<div className="ag-theme-balham mt20" style={{ height: 200, width: '100%' }}>
+                                                        <AgGridReact
+                                                            animateRows={true}
+                                                            rowSelection="multiple"
+                                                            //columnDefs={this.state.columnDefs}
+                                                            gridOptions={this.gridOptionsVisibleEnquiry}
+                                                            rowData={this.state.roleList}>
+                                                        </AgGridReact>
+                                                    </div>}
+                                                </div>
+                                            </div>
+                                        </div>
+                                       
+                                    </Card.Body>
+                                    </Accordion.Collapse>
+                                </Card>
+                                <Card>
+                                    <Card.Header>
+                                    <Accordion.Toggle as={Button} variant="link" eventKey="3">
+                                        Draft Articles
+                                    </Accordion.Toggle>
+                                    </Card.Header>
+                                    <Accordion.Collapse eventKey="3">
+                                    <Card.Body>
+                                        <div className="inner">
+                                            <div className="row">
+                                                <div className="col-md-6">
+                                                    <span className="title required">Drafts Article Number </span>
+                                                    <input type="text"
+                                                        id="drafts_article_number" name="drafts_article_number" className="form-control" onChange={this.handleChange} required />
+                                                </div>
+                                                <div className="col-md-6">
+                                                <span className="title required">Date of Misconduct </span>
+                                                    <input type="date"
+                                                        id="date_misconduct" name="date_misconduct" className="form-control" onChange={this.handleChange} required />
+                                                </div>
+                                            </div>
+                                            <div className="row">
+                                                <div className="col-md-12">
+                                                    <span className="title required">Gist of Draft Articles </span>
+                                                    <textarea name="gist_draft_article" className="form-control"></textarea>
+                                                </div>
+                                            </div>
+                                            <div className="row">
+                                                <div className="col-md-6">
+                                                    <span className="title required">Misconduct Type </span>
+                                                    <input type="text"
+                                                        id="misconduct_type" name="misconduct_type" className="form-control" onChange={this.handleChange} required />
+                                                </div>
+                                                <div className="col-md-6">
+                                                <span className="title required">Amount Involved if Any</span>
+                                                    <input type="text"
+                                                        id="amount_involved" name="amount_involved" className="form-control" onChange={this.handleChange} required />
+                                                </div>
+                                            </div>
+                                            <div className="row">
+                                                <div className="col-md-12">
+                                                    <span className="title required">Attachment If Any </span>
+                                                    <textarea name="attachment_desc2" className="form-control"></textarea>
+                                                    <label className="custom-file-upload">
+                                                        <input type="file"
+                                                            id="drafts_attachment" name="drafts_attachment" className="form-control" onChange={this.handleChange} />
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div className="row">
+                                                <div className="col-md-12">
+                                                    <a href="#" onClick={() => this.setState({ isAddVisibleEnquiry: true })} className="btn btn-info mr20 mb10">Add <br/> Preliminary Enquiry</a>
+                                                    <a href="#" onClick={() => this.setState({ isAddVisibleImputation: true })} className="btn btn-info mr20 mb10">Add <br/> Drafts Imputation</a>
+                                                    <a href="#" onClick={() => this.setState({ isAddVisibleDocuments: true })} className="btn btn-info mr20 mb10">Add <br/> List of Documents</a>
+                                                    <a href="#" onClick={() => this.setState({ isAddVisibleWitness: true })} className="btn btn-info mr20 mb10">Add <br/> List of Witness</a>
+                                                </div>
+                                            </div>
+                                            <div className="row">
+                                                <div className="col-md-12">
+                                                    <a href="#" className="btn btn-sm btn-dark float-right ml10">Clear</a>
+                                                    <a href="#" className="btn btn-sm btn-dark float-right">Add to List</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-12">
+                                                <div>
+                                                    {<div className="ag-theme-balham mt20" style={{ height: 200, width: '100%' }}>
+                                                        <AgGridReact
+                                                            animateRows={true}
+                                                            rowSelection="multiple"
+                                                            //columnDefs={this.state.columnDefs}
+                                                            gridOptions={this.gridOptionsVisibleEnquiry}
+                                                            rowData={this.state.roleList}>
+                                                        </AgGridReact>
+                                                    </div>}
+                                                </div>
+                                            </div>
+                                        </div>
+                                       
+                                    </Card.Body>
                                     </Accordion.Collapse>
                                 </Card>
                             </Accordion>
-                        </form>
-                    </div>
+                        
+                        </div>
+                        <div className="text-right mt20">
+                            <Button className="btn btn-success mr10">Clear</Button>
+                            <Button className="btn btn-success mr10">Save Draft</Button>
+                            <Button type="submit" className="btn btn-success">Submit</Button>
+                        </div>
+                    </form>
                 </div>
+                
             </div>
         );
     }

@@ -4,7 +4,12 @@ import Dashboard from "../dashboard"
 import Cases from "../cases"
 import Users from "../users"
 import AddEvidence from "../cases/AddEvidence"
+
 import NewChargeSheet from "../cases/NewChargeSheet"
+import ChargeSheet from "../cases/ChargeSheet"
+import DrawingChargeSheet from "../cases/DrawingChargeSheet"
+
+
 import UserProfile from "../users/UserProfile"
 import DashboardLayout from '../layouts/DashboardLayout'
 
@@ -22,6 +27,10 @@ const filterScreen = (path) => {
             return <UserProfile />
         case '/newchargesheet':
             return <NewChargeSheet />
+        case '/chargesheet':
+            return <ChargeSheet />
+        case '/drawingchargesheet':
+            return <DrawingChargeSheet />
     }
 }
 

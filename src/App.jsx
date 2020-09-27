@@ -41,6 +41,8 @@ class App extends Component {
           <PrivateRoute exact path="/cases" component={Home} />
           <PrivateRoute path="/addevidence" component={Home} />
           <PrivateRoute path="/newchargesheet" component={Home} />
+          <PrivateRoute path="/chargesheet" component={Home} />
+          <PrivateRoute path="/drawingchargesheet" component={Home} />
           <Redirect from="*" to="/" />
         </Switch>
 
