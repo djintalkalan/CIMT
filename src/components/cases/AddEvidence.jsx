@@ -31,7 +31,8 @@ class AddEvidence extends Component {
                 { headerName: "ID", field: "id", sortable: true, filter: false },
                 {
                     headerName: "Evidence", field: "url", sortable: false, filter: false, cellRendererFramework: function (params) {
-                        return <img src="url" />
+                        // console.log("PARAMETER", params)
+                        return <img src={params.value} />
                     },
                 },
                 { headerName: "Case No", field: "case_no_id", sortable: true, filter: true },
@@ -83,7 +84,7 @@ class AddEvidence extends Component {
             console.log(pair[0] + ': ' + pair[1]);
         }
         console.log("Info", form_data);
-        return
+
         let url = 'https://cors-anywhere.herokuapp.com/https://cimt.herokuapp.com/AddEvidence/';
         axios.post(url, form_data, {
             headers: {
@@ -99,7 +100,7 @@ class AddEvidence extends Component {
     componentDidMount() {
         // this.callGetEvidenceApi()
 
-        axios.get(`https://cors-anywhere.herokuapp.com/https://cimt.herokuapp.com/GetAllEvidence/1`)
+        axios.get(`https://cors-anywhere.herokuapp.com/https://cimt.herokuapp.com/GetAllEvidence/`+this.state.data.case_no)
         .then(res => {
             console.log("GetEvidence", JSON.stringify(res))
             this.setState({ getEvidenceList: res.data.data })
@@ -184,7 +185,7 @@ class AddEvidence extends Component {
                                                     <span>Choose Evidence</span>
                                                     <input type="file"
                                                         id="image" name="image"
-                                                        accept="image/png, image/jpeg" className="form-control" onChange={this.handleImageChange} required />
+                                                        accept="image/bmp, image/jpg, image/jpeg, image/png, image/tif, image/tiff, application/pdf, .tif" multiple className="form-control" onChange={this.handleImageChange} required />
                                                 </td>
                                             </tr>
                                             <tr className="half">

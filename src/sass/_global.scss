@@ -515,6 +515,35 @@ h6 {
 			box-shadow: none;
 		}
 	}
+	.searchcase {
+		width: 100%;
+	}
+}
+
+.chargedOfficerCt {
+	.inner {
+		position: relative;
+		padding: 30px 20px 20px;
+		border: 1px solid #922525;
+		.chargedOfficesTitle {
+			position: absolute;
+			top: 0px;
+			left: 20px;
+			margin-top: -16px;
+			padding: 5px 10px;
+			background-color: #922525;
+			color: #fff;
+			border-radius: 5px;
+		}
+		span {
+			margin: 0px;
+			padding: 6px;
+			text-align: left;
+		}
+		span.title {
+			text-align: right;
+		}
+	}
 }
 
 .custom-file-upload {

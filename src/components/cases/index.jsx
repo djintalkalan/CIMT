@@ -143,10 +143,8 @@ class Cases extends Component {
                     "user_id": params.user
                 })
                 console.log("CASE_LIST:", caseList)
-                this.setState({ caseList }, () => {
-                    // this.agGrid.setRowData(caseList)
-                    this.agGrid.setRowData(caseList);
-                })
+                this.setState({ caseList })
+                this.agGrid.setRowData(caseList);
             })
 
             // history.push('/cases')

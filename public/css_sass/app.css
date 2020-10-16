@@ -380,6 +380,28 @@ h6 {
   border-radius: 0; }
   .customForm input:focus {
     box-shadow: none; }
+.customForm .searchcase {
+  width: 100%; }
+
+.chargedOfficerCt .inner {
+  position: relative;
+  padding: 30px 20px 20px;
+  border: 1px solid #922525; }
+  .chargedOfficerCt .inner .chargedOfficesTitle {
+    position: absolute;
+    top: 0px;
+    left: 20px;
+    margin-top: -16px;
+    padding: 5px 10px;
+    background-color: #922525;
+    color: #fff;
+    border-radius: 5px; }
+  .chargedOfficerCt .inner span {
+    margin: 0px;
+    padding: 6px;
+    text-align: left; }
+  .chargedOfficerCt .inner span.title {
+    text-align: right; }
 
 .custom-file-upload {
   background: url("../images/upload-photo-icon-21.jpg") left center;

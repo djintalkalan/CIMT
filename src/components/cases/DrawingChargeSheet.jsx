@@ -187,27 +187,74 @@ class DrawingChargeSheet extends Component {
 
                         <div className="inner">
                             <h5>Follow up on Charge Memo</h5>
-                            <div className="row mt30">
+                            <div className="row mt30 mb30">
                                 <div className="col-md-2 text-right">
-                                    <span className="title">Search Case: </span>
+                                    <div className="title">Search Case : </div>
                                 </div>
-                                <div className="col-md-3">
-                                    <input type="text" id="searchcase" name="searchcase" className="form-control" onChange={this.handleChange} placeholder="Type case name" />
+                                <div className="col-md-4">
+                                    <input type="text" id="searchcase" name="searchcase" className="form-control searchcase" onChange={this.handleChange} placeholder="Type case name" />
                                 </div>
                             </div>
-                            <div className="chargedOfficerCt">
+                            <div className="chargedOfficerCt mx20 my40">
+                                <div className="row">
+                                    <div className="col-md-6">
+                                        <span className="title">Case Number : </span>
+                                        <span className=""></span>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <span className="title">Controlling Officer : </span>
+                                        <span className=""></span>
+                                    </div>
+                                </div>
+                                <div className="inner">
+                                    <span className="chargedOfficesTitle">Charged Officer </span>
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                            <span className="title">Name : </span>
+                                            <span className=""></span>
+                                        </div>
+                                        <div className="col-md-6"></div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                            <span className="title">Work Place of Imputation : </span>
+                                            <span className=""></span>
+                                        </div>
+                                        <div className="col-md-6">
+                                            <span className="title">Designation at Imputation : </span>
+                                            <span className=""></span>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                            <span className="title">Present Work Place : </span>
+                                            <span className=""></span>
+                                        </div>
+                                        <div className="col-md-6">
+                                            <span className="title">Present Designation : </span>
+                                            <span className=""></span>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                            <span className="title">Misconduct Type : </span>
+                                            <span className=""></span>
+                                        </div>
+                                        <div className="col-md-6"></div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-md-12 text-right mt10">
+                                            <button type="submit" className="btn btn-sm btn-dark">View Full Details</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div className="row">
-                                <div className="col-md-6">
-                                    <span className="title required">File No </span>
-                                    <input type="text"
-                                        id="file_no" name="file_no" className="form-control" onChange={this.handleChange} required />
+                                <div className="col-md-12 mx20">
+                                    <a href="#" className="btn btn-info mr20 mb10">Add Dispatch Detail</a>
+                                    <a href="#" className="btn btn-info mr20 mb10">Add SR Entry Details</a>
+                                    <a href="#" className="btn btn-info mr20 mb10">Add Follow-up Action</a>
                                 </div>
-                                <div className="col-md-6">
-                                <span className="title required">File Year </span>
-                                    <input type="text"
-                                        id="file_year" name="file_year" className="form-control" onChange={this.handleChange} required />
-                                </div>
-                            </div>
                             </div>
                         </div>
                     {/* </form> */}
