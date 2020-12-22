@@ -176,7 +176,7 @@ class Login extends Component {
                             <button type="submit" className="btn btn-primary btn-sm">Sign in</button>
                             <div className="signup mt20">
                                 <a href="forget-password" className="">Forget Password</a>
-                                <a href="sign-up">Sign Up/Register</a>
+                                {/* <a href="sign-up">Sign Up/Register</a> */}
                             </div>
                         </form>
                     </div>

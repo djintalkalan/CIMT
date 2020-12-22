@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { userDataAction, userTokenAction, isLoginAction } from "../../../redux/actions"
 import { connect } from "react-redux";
 import { history } from '../../../routes'
+import { passwordResetApi } from '../../../api/ApiService';
+import { ToastContainer, toast } from 'react-toastify';
 // import logo from './logo.svg';
 // import './App.css';
 
@@ -29,13 +31,35 @@ class ForgotPassword extends Component {
 
 
     handleSubmit = (event) => {
+        const params = {
+            email: this.state.email,
+        }
 
-        // let this is login response from server
+        this.callPassResetApi(params)
 
-        this.setState({
-            email: "", password: ""
-        })
         event.preventDefault();
+    }
+
+    callPassResetApi = (params) => {
+        console.log("SIGN_IN_API_PARAMS:" + JSON.stringify(params))
+
+        passwordResetApi(params).then(res => {
+            const notify = () => toast("Wow so easy !");
+            console.log("SIGN_IN_API_RES:" + JSON.stringify(res))
+            // history.push('/users')
+
+        }).catch(err => {
+            this.setState({
+                isLoading: false,
+            })
+            setTimeout(() => {
+                if (err) {
+                    alert(JSON.stringify(err));
+                }
+            }, 100);
+            // this.setStaticData()
+        });
+
     }
 
 
@@ -57,7 +81,7 @@ class ForgotPassword extends Component {
                                     type="text" className="form-control" name="login_user" placeholder="Phone/Email" />
                             </div>
 
-                            <button type="submit" className="btn btn-normal">Submit Email</button>
+                            <button type="submit" className="btn btn-sm btn-primary">Submit</button>
                             <div className="signup mt20">
                                 <a href="login" className="">Login</a>
                             </div>

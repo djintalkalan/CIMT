@@ -70,7 +70,7 @@ class Header extends Component {
                         <div className="menuCt">
                             <button onClick={()=> {history.push('/userprofile')}}> User Profile </button>
                             <button onClick={()=> {localStorage.clear();history.push('/login')}}> Logout </button>
-                            <button> Change Password </button>
+                            <button onClick={()=> {history.push('/changepass')}}> Change Password </button>
                         </div>
                         )
                         : (

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Login from './components/auth/login'
 import ForgotPassword from './components/auth/forgotPassword'
+import ResetPassword from './components/auth/resetPassword'
 import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { PrivateRoute, history } from './routes'
 // import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
@@ -33,10 +34,12 @@ class App extends Component {
         <Switch>
           <Route path="/login" component={Login} />
           <Route path="/forget-password" component={ForgotPassword} />
+          <Route path="/resetpass" component={ResetPassword} />
 
           <PrivateRoute exact path="/" component={Home} />
           <PrivateRoute exact path="/users" component={Home} />
           <PrivateRoute path="/userprofile" component={Home} />
+          <PrivateRoute path="/changepass" component={Home} />
 
           <PrivateRoute exact path="/cases" component={Home} />
           <PrivateRoute path="/addevidence" component={Home} />

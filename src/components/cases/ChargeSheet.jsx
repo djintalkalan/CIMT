@@ -130,7 +130,7 @@ class ChargeSheet extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     <form
-                        onSubmit={this.handleSubmitRole} >
+                        onSubmit={this.handleSubmitChargeSheet} >
                         <div className="inner">
                             <div className="row">
                                 <div className="col-md-6">

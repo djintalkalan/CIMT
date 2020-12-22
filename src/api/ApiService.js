@@ -44,6 +44,14 @@ export async function loginApi(param) {
     return fetchApiData(ApiConstants.loginUser, param, Constants.API_METHOD.post)
 }
 
+export async function passwordResetApi(param) {
+    return fetchApiData(ApiConstants.passwordReset, param, Constants.API_METHOD.post)
+}
+
+export async function changePassApi(param) {
+    return fetchApiData(ApiConstants.changePass, param, Constants.API_METHOD.post)
+}
+
 export async function addUserApi(param) {
     return fetchApiData(ApiConstants.addUser, param, Constants.API_METHOD.post)
 }
@@ -74,4 +82,20 @@ export async function getCaseList() {
 
 export async function addCaseApi(param) {
     return fetchApiData(ApiConstants.addCase, param, Constants.API_METHOD.post)
+}
+
+export async function getOfficeList() {
+    return fetchApiData(ApiConstants.getOffices, '', Constants.API_METHOD.get)
+}
+
+export async function getNatureMisconductList() {
+    return fetchApiData(ApiConstants.getNatureMisconduct, '', Constants.API_METHOD.get)
+}
+
+export async function getSourceComplaintList() {
+    return fetchApiData(ApiConstants.getSourceComplaint, '', Constants.API_METHOD.get)
+}
+
+export async function getDesignationList() {
+    return fetchApiData(ApiConstants.getDesignation, '', Constants.API_METHOD.get)
 }

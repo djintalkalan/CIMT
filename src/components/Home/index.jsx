@@ -11,6 +11,8 @@ import DrawingChargeSheet from "../cases/DrawingChargeSheet"
 
 
 import UserProfile from "../users/UserProfile"
+import ChangePassword from "../auth/changePassword"
+// import ResetPassword from "../auth/resetPassword"
 import DashboardLayout from '../layouts/DashboardLayout'
 
 const filterScreen = (path) => {
@@ -25,6 +27,10 @@ const filterScreen = (path) => {
             return <AddEvidence />
         case '/userprofile':
             return <UserProfile />
+        case '/changepass':
+            return <ChangePassword />
+        // case '/resetpass':
+        //     return <ResetPassword />
         case '/newchargesheet':
             return <NewChargeSheet />
         case '/chargesheet':
