@@ -23,7 +23,10 @@ class NewChargeSheet extends Component {
             isAddVisibleImputation: false,
             isAddVisibleDocuments: false,
             isAddVisibleWitness: false,
-            roleList :[]
+            chargeOfficerList :[],
+            draftChargeList :[],
+            draftArticleList :[],
+            preliminaryInquiryList :[]
             //     data: props.location.state.data
         }
 
@@ -242,33 +245,34 @@ class NewChargeSheet extends Component {
     }
 
     onAddOfficerChargeList= () => {
-        let {roleList} = this.state
+        let {chargeOfficerList} = this.state
         const item = { charged_officer: this.state.charged_officer, place_imputation: this.state.office,           designation: this.state.designation, officer_treasury_code: this.state.officer_treasury_code, charged_officer_email: this.state.charged_officer_email, charged_officer_phone: this.state.charged_officer_phone, charged_officer_previous_charges: this.state.charged_officer_previous_charges, attachment: this.state.charged_officer_case_attachment_file }
 
-        roleList.push(item)
+        chargeOfficerList.push(item)
 
         this.setState({
-            roleList:roleList
+            chargeOfficerList:chargeOfficerList
         })
 
     }
 
-    renderRoleList() {
-        let {roleList} = this.state
-        // const { roleList } = [{ id: this.state., name: "Deepak", description: "This is Description" }]
+    renderchargeOfficerList() {
+        let {chargeOfficerList} = this.state
+        // console.log("stateInfo", this.state);
+        // const { chargeOfficerList } = [{ id: this.state., name: "Deepak", description: "This is Description" }]
        
-        // let roleList = [{ id: 123, name: "Deepak", description: "This is Description" }]
-        if (roleList && roleList.length > 0)
+        // let chargeOfficerList = [{ id: 123, name: "Deepak", description: "This is Description" }]
+        if (chargeOfficerList && chargeOfficerList.length > 0)
             return (
                 <div className="col-md-12">
                     <div className="search_bar">
                         <font style={{ fontSize: 20 }}>List</font>
                     </div>
                     <div className="col-md-12">
-                        <table className="table table-striped mt30">
+                        <table className="table table-striped table-sm table-responsive mt30">
                             <thead>
                                 <tr>
-                                    <th scope="col">Id</th>
+                                    <th scope="col">No.</th>
                                     <th scope="col">Charged Officer</th>
                                     <th scope="col">Working Place of Imputation</th>
                                     <th scope="col">Designation at Imputation</th>
@@ -280,7 +284,7 @@ class NewChargeSheet extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                {roleList.map((item, index) => (
+                                {chargeOfficerList.map((item, index) => (
                                     <tr>
                                         <th scope="row">{index}</th>
                                         <td>{item.charged_officer}</td>
@@ -290,9 +294,9 @@ class NewChargeSheet extends Component {
                                         <td>{item.charged_officer_email}</td>
                                         <td>{item.charged_officer_phone}</td>
                                         <td>{item.charged_officer_previous_charges}</td>
-                                        <td>{item.charged_officer_case_attachment_file}</td>
-                                        <td><a onClick={() => this.setState({ roleList: roleList.splice(index, 1) })} className='btn btn-sm btn-danger' >Delete</a></td>
-                                        {/* <a href="#" className="btn btn-sm btn-dark float-right mt10">Add to List</a> */}
+                                        <td><img height='20px' width='20px' src={item.charged_officer_case_attachment_file} /></td>
+                                        <td><a onClick={() => this.setState({ chargeOfficerList: chargeOfficerList.splice(index, 1) })} className='btn btn-sm btn-danger' >Delete</a></td>
+                                        {/* <a href="#" className="btn btn-sm btn-dark float-right mt10 btn-custom">Add to List</a> */}
 
                                     </tr>
                                 ))
@@ -303,6 +307,197 @@ class NewChargeSheet extends Component {
                     </div>
                 </div>
             )
+    }
+
+    onAddDraftChargeList= () => {
+        let {draftChargeList} = this.state
+        const item = { proposal_file_no: this.state.proposal_file_no, draft_charge_date: this.state.draft_charge_date, submitted_by: this.state.designation, submitted_to: this.state.designation, subject_in_brief: this.state.subject_in_brief, draft_charge_attachment_desc: this.state.draft_charge_attachment_desc, draft_charge_case_attachment_file: this.state.draft_charge_case_attachment_file }
+
+        draftChargeList.push(item)
+
+        this.setState({
+            draftChargeList:draftChargeList
+        })
+
+    }
+
+    renderdraftChargeList() {
+        let {draftChargeList} = this.state
+        // console.log("stateInfo", this.state);
+        // const { draftChargeList } = [{ id: this.state., name: "Deepak", description: "This is Description" }]
+       
+        // let draftChargeList = [{ id: 123, name: "Deepak", description: "This is Description" }]
+        if (draftChargeList && draftChargeList.length > 0)
+            return (
+                <div className="col-md-12">
+                    <div className="search_bar">
+                        <font style={{ fontSize: 20 }}>List</font>
+                    </div>
+                <div className="col-md-12">
+                    <table className="table table-striped table-sm table-responsive mt30">
+                        <thead>
+                            <tr>
+                                <th scope="col">No.</th>
+                                <th scope="col">Proposal File Rc No</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Submitted By</th>
+                                <th scope="col">Submitted To</th>
+                                <th scope="col">Subject in Brief</th>
+                                <th scope="col">Attachment Description</th>
+                                <th scope="col">Attachment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {draftChargeList.map((item, index) => (
+                                <tr>
+                                    <th scope="row">{index}</th>
+                                    <td>{item.proposal_file_no}</td>
+                                    <td>{item.draft_charge_date}</td>
+                                    <td>{item.submitted_by}</td>
+                                    <td>{item.submitted_to}</td>
+                                    <td>{item.subject_in_brief}</td>
+                                    <td>{item.draft_charge_attachment_desc}</td>
+                                    <td><img height='20px' width='20px' src={item.draft_charge_case_attachment_file} /></td>
+                                    <td><a onClick={() => this.setState({ draftChargeList: draftChargeList.splice(index, 1) })} className='btn btn-sm btn-danger' >Delete</a></td>
+                                    {/* <a href="#" className="btn btn-sm btn-dark float-right mt10 btn-custom">Add to List</a> */}
+
+                                </tr>
+                            ))
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        )
+    }
+
+    onAdddraftArticleList= () => {
+        let {draftArticleList} = this.state
+        const item = { drafts_article_number: this.state.drafts_article_number, draft_misconduct_date: this.state.draft_misconduct_date, gist_draft_article: this.state.gist_draft_article, misconduct_type: this.state.misconduct_type, amount_involved: this.state.amount_involved, draft_article_attachment_desc: this.state.draft_article_attachment_desc, draft_article_case_attachment_file: this.state.draft_article_case_attachment_file }
+
+        draftArticleList.push(item)
+
+        this.setState({
+            draftArticleList : draftArticleList
+        })
+
+    }
+
+    renderdraftArticleList() {
+        let {draftArticleList} = this.state
+        // console.log("stateInfo", this.state);
+        // const { draftArticleList } = [{ id: this.state., name: "Deepak", description: "This is Description" }]
+       
+        // let draftArticleList = [{ id: 123, name: "Deepak", description: "This is Description" }]
+        if (draftArticleList && draftArticleList.length > 0)
+            return (
+                <div className="col-md-12">
+                    <div className="search_bar">
+                        <font style={{ fontSize: 20 }}>List</font>
+                    </div>
+                <div className="col-md-12">
+                    <table className="table table-striped table-sm table-responsive mt30">
+                        <thead>
+                            <tr>
+                                <th scope="col">No.</th>
+                                <th scope="col">Drafts Article No</th>
+                                <th scope="col">Date of Misconduct</th>
+                                <th scope="col">Gist of Draft Articles</th>
+                                <th scope="col">Misconduct Type</th>
+                                <th scope="col">Amount Involved</th>
+                                <th scope="col">Attachment Description</th>
+                                <th scope="col">Attachment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {draftArticleList.map((item, index) => (
+                                <tr>
+                                    <th scope="row">{index}</th>
+                                    <td>{item.drafts_article_number}</td>
+                                    <td>{item.draft_misconduct_date}</td>
+                                    <td>{item.gist_draft_article}</td>
+                                    <td>{item.misconduct_type}</td>
+                                    <td>{item.amount_involved}</td>
+                                    <td>{item.draft_article_attachment_desc}</td>
+                                    <td><img height='20px' width='20px' src={item.draft_article_case_attachment_file} /></td>
+                                    <td><a onClick={() => this.setState({ draftArticleList: draftArticleList.splice(index, 1) })} className='btn btn-sm btn-danger' >Delete</a></td>
+                                    {/* <a href="#" className="btn btn-sm btn-dark float-right mt10 btn-custom">Add to List</a> */}
+
+                                </tr>
+                            ))
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        )
+    }
+
+    onAddPreliminaryInquiryList= () => {
+        let {preliminaryInquiryList} = this.state
+        const item = { preliminary_charged_officer: this.state.preliminary_charged_officer, preliminary_report_date: this.state.preliminary_report_date, preliminary_office: this.state.preliminary_office, preliminary_designation: this.state.preliminary_designation, preliminary_follow_up_action: this.state.preliminary_follow_up_action, preliminary_report_conclusion: this.state.preliminary_report_conclusion, preliminary_attachment_desc: this.state.preliminary_attachment_desc, preliminary_attachment_file: this.state.preliminary_attachment_file }
+
+        preliminaryInquiryList.push(item)
+
+        this.setState({
+            preliminaryInquiryList : preliminaryInquiryList
+        })
+
+    }
+
+    renderPreliminaryInquiryList() {
+        let {preliminaryInquiryList} = this.state
+        // console.log("stateInfo", this.state);
+        // const { preliminaryInquiryList } = [{ id: this.state., name: "Deepak", description: "This is Description" }]
+       
+        // let preliminaryInquiryList = [{ id: 123, name: "Deepak", description: "This is Description" }]
+        if (preliminaryInquiryList && preliminaryInquiryList.length > 0)
+            return (
+                <div className="col-md-12">
+                    <div className="search_bar">
+                        <font style={{ fontSize: 20 }}>List</font>
+                    </div>
+                <div className="col-md-12">
+                    <table className="table table-striped table-sm table-responsive mt30">
+                        <thead>
+                            <tr>
+                                <th scope="col">No.</th>
+                                <th scope="col">Charged Officer</th>
+                                <th scope="col">Report Date</th>
+                                <th scope="col">Office</th>
+                                <th scope="col">Designation</th>
+                                <th scope="col">Follow-Up Action</th>
+                                <th scope="col">Report Conclusion</th>
+                                <th scope="col">Attachment Description</th>
+                                <th scope="col">Attachment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {preliminaryInquiryList.map((item, index) => (
+                                <tr>
+                                    <th scope="row">{index}</th>
+                                    <td>{item.preliminary_charged_officer}</td>
+                                    <td>{item.preliminary_report_date}</td>
+                                    <td>{item.preliminary_office}</td>
+                                    <td>{item.preliminary_designation}</td>
+                                    <td>{item.preliminary_follow_up_action}</td>
+                                    <td>{item.preliminary_report_conclusion}</td>
+                                    <td>{item.preliminary_attachment_desc}</td>
+                                    <td><img height='20px' width='20px' src={item.preliminary_attachment_file} /></td>
+                                    <td><a onClick={() => this.setState({ preliminaryInquiryList: preliminaryInquiryList.splice(index, 1) })} className='btn btn-sm btn-danger' >Delete</a></td>
+                                    {/* <a href="#" className="btn btn-sm btn-dark float-right mt10 btn-custom">Add to List</a> */}
+
+                                </tr>
+                            ))
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        )
     }
 
 
@@ -381,7 +576,7 @@ class NewChargeSheet extends Component {
                                                 <div className="row">
                                                     <div className="col-md-12">
                                                         <span className="title required">Attachment If Any </span>
-                                                        {/* <textarea name="attachment_desc" className="form-control"></textarea> */}
+                                                        <textarea name="case_identity_attachment_desc" id="case_identity_attachment_desc" className="form-control"></textarea>
                                                         <label className="custom-file-upload">
                                                             <input type="file"
                                                                 id="case_attachment" name="case_attachment" className="form-control" onChange={this.handleImageChange} />
@@ -450,18 +645,18 @@ class NewChargeSheet extends Component {
                                                 <div className="row">
                                                     <div className="col-md-12">
                                                         <span className="title required">Attachment If Any </span>
-                                                        <textarea name="attachment_desc1" className="form-control"></textarea>
+                                                        <textarea name="charge_officer_attachment_desc" id="charge_officer_attachment_desc" className="form-control"></textarea>
                                                         <label className="custom-file-upload">
                                                             <input type="file"
                                                                 id="charged_officer_case_attachment" name="charged_officer_case_attachment" className="form-control" onChange={this.handleImageChange} />
                                                         </label>
-                                                        {this.state.case_attachment_file != null && <img height='80px' width='80px' src={URL.createObjectURL(this.state.charged_officer_case_attachment_file)} />}
+                                                        {this.state.charged_officer_case_attachment_file != null && <img height='80px' width='80px' src={URL.createObjectURL(this.state.charged_officer_case_attachment_file)} />}
                                                     </div>
                                                 </div>
                                                 <div className="row">
                                                     <div className="col-md-12">
                                                         <a href="#" className="btn btn-sm btn-dark float-right mt10 ml10">Clear</a>
-                                                        <a onClick={this.onAddOfficerChargeList} className="btn btn-sm btn-dark float-right mt10">Add to List</a>
+                                                        <a onClick={this.onAddOfficerChargeList} className="btn btn-sm btn-dark float-right mt10 btn-custom">Add to List</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -477,7 +672,7 @@ class NewChargeSheet extends Component {
                                                             </AgGridReact>
                                                         </div>}
                                                     </div> */}
-                                                {this.renderRoleList()}
+                                                {this.renderchargeOfficerList()}
 
                                             </div>
 
@@ -502,7 +697,7 @@ class NewChargeSheet extends Component {
                                                     <div className="col-md-6">
                                                         <span className="title required">Date </span>
                                                         <input type="date"
-                                                            id="date" name="date" className="form-control" onChange={this.handleChange} required />
+                                                            id="draft_charge_date" name="draft_charge_date" className="form-control" onChange={this.handleChange} required />
                                                     </div>
                                                 </div>
                                                 <div className="row">
@@ -522,28 +717,29 @@ class NewChargeSheet extends Component {
                                                 <div className="row">
                                                     <div className="col-md-12">
                                                         <span className="title required">Subject in Brief </span>
-                                                        <textarea name="subject_in_brief" className="form-control"></textarea>
+                                                        <textarea name="subject_in_brief" id="subject_in_brief" className="form-control"></textarea>
                                                     </div>
                                                 </div>
                                                 <div className="row">
                                                     <div className="col-md-12">
                                                         <span className="title required">Attachment If Any </span>
-                                                        <textarea name="attachment_desc2" className="form-control"></textarea>
+                                                        <textarea name="draft_charge_attachment_desc" id="draft_charge_attachment_desc" className="form-control"></textarea>
                                                         <label className="custom-file-upload">
                                                             <input type="file"
-                                                                id="drafts_attachment" name="drafts_attachment" className="form-control" onChange={this.handleChange} />
+                                                                id="draft_charge_case_attachment" name="draft_charge_case_attachment" className="form-control" onChange={this.handleImageChange} />
                                                         </label>
+                                                        {this.state.draft_charge_case_attachment_file != null && <img height='80px' width='80px' src={URL.createObjectURL(this.state.draft_charge_case_attachment_file)} />}
                                                     </div>
                                                 </div>
                                                 <div className="row">
                                                     <div className="col-md-12">
                                                         <a href="#" className="btn btn-sm btn-dark float-right mt10 ml10">Clear</a>
-                                                        <a href="#" className="btn btn-sm btn-dark float-right mt10">Add to List</a>
+                                                        <a onClick={this.onAddDraftChargeList} className="btn btn-sm btn-dark float-right mt10 btn-custom">Add to List</a>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div className="row">
-                                                <div className="col-md-12">
+                                                {/* <div className="col-md-12">
                                                     <div>
                                                         {<div className="ag-theme-balham mt20" style={{ height: 200, width: '100%' }}>
                                                             <AgGridReact
@@ -555,7 +751,8 @@ class NewChargeSheet extends Component {
                                                             </AgGridReact>
                                                         </div>}
                                                     </div>
-                                                </div>
+                                                </div> */}
+                                                {this.renderdraftChargeList()}
                                             </div>
 
                                         </Card.Body>
@@ -579,13 +776,13 @@ class NewChargeSheet extends Component {
                                                     <div className="col-md-6">
                                                         <span className="title required">Date of Misconduct </span>
                                                         <input type="date"
-                                                            id="date_misconduct" name="date_misconduct" className="form-control" onChange={this.handleChange} required />
+                                                            id="draft_misconduct_date" name="draft_misconduct_date" className="form-control" onChange={this.handleChange} required />
                                                     </div>
                                                 </div>
                                                 <div className="row">
                                                     <div className="col-md-12">
                                                         <span className="title required">Gist of Draft Articles </span>
-                                                        <textarea name="gist_draft_article" className="form-control"></textarea>
+                                                        <textarea name="gist_draft_article" id="gist_draft_article" className="form-control"></textarea>
                                                     </div>
                                                 </div>
                                                 <div className="row">
@@ -604,30 +801,31 @@ class NewChargeSheet extends Component {
                                                 <div className="row">
                                                     <div className="col-md-12">
                                                         <span className="title required">Attachment If Any </span>
-                                                        <textarea name="attachment_desc2" className="form-control"></textarea>
+                                                        <textarea name="draft_article_attachment_desc" id="draft_article_attachment_desc" className="form-control"></textarea>
                                                         <label className="custom-file-upload">
                                                             <input type="file"
-                                                                id="drafts_attachment" name="drafts_attachment" className="form-control" onChange={this.handleChange} />
+                                                                id="draft_article_case_attachment" name="draft_article_case_attachment" className="form-control" onChange={this.handleImageChange} />
                                                         </label>
+                                                        {this.state.draft_article_case_attachment_file != null && <img height='80px' width='80px' src={URL.createObjectURL(this.state.draft_article_case_attachment_file)} />}
                                                     </div>
                                                 </div>
                                                 <div className="row">
                                                     <div className="col-md-12">
                                                         <a href="#" onClick={() => this.setState({ isAddVisibleEnquiry: true })} className="btn btn-info mr20 mb10">Add <br /> Preliminary Enquiry</a>
-                                                        <a href="#" onClick={() => this.setState({ isAddVisibleImputation: true })} className="btn btn-info mr20 mb10">Add <br /> Drafts Imputation</a>
+                                                        {/* <a href="#" onClick={() => this.setState({ isAddVisibleImputation: true })} className="btn btn-info mr20 mb10">Add <br /> Drafts Imputation</a>
                                                         <a href="#" onClick={() => this.setState({ isAddVisibleDocuments: true })} className="btn btn-info mr20 mb10">Add <br /> List of Documents</a>
-                                                        <a href="#" onClick={() => this.setState({ isAddVisibleWitness: true })} className="btn btn-info mr20 mb10">Add <br /> List of Witness</a>
+                                                        <a href="#" onClick={() => this.setState({ isAddVisibleWitness: true })} className="btn btn-info mr20 mb10">Add <br /> List of Witness</a> */}
                                                     </div>
                                                 </div>
                                                 <div className="row">
                                                     <div className="col-md-12">
                                                         <a href="#" className="btn btn-sm btn-dark float-right ml10">Clear</a>
-                                                        <a href="#" className="btn btn-sm btn-dark float-right">Add to List</a>
+                                                        <a onClick={this.onAdddraftArticleList} className="btn btn-sm btn-dark float-right btn-custom">Add to List</a>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div className="row">
-                                                <div className="col-md-12">
+                                                {/* <div className="col-md-12">
                                                     <div>
                                                         {<div className="ag-theme-balham mt20" style={{ height: 200, width: '100%' }}>
                                                             <AgGridReact
@@ -639,7 +837,8 @@ class NewChargeSheet extends Component {
                                                             </AgGridReact>
                                                         </div>}
                                                     </div>
-                                                </div>
+                                                </div> */}
+                                                {this.renderdraftArticleList()}
                                             </div>
 
                                         </Card.Body>
@@ -674,12 +873,12 @@ class NewChargeSheet extends Component {
                                 <div className="col-md-6">
                                     <span className="title required">Name of Charged Officer </span>
                                     <input type="text"
-                                        id="charged_officer" name="charged_officer" className="form-control" onChange={this.handleChange} required />
+                                        id="preliminary_charged_officer" name="preliminary_charged_officer" className="form-control" onChange={this.handleChange} required />
                                 </div>
                                 <div className="col-md-6">
                                     <span className="title required">Report Date </span>
                                     <input type="date"
-                                        id="report_date" name="report_date" className="form-control" onChange={this.handleChange} required />
+                                        id="preliminary_report_date" name="preliminary_report_date" className="form-control" onChange={this.handleChange} required />
                                 </div>
                             </div>
                             <div className="row">
@@ -699,34 +898,35 @@ class NewChargeSheet extends Component {
                             <div className="row">
                                 <div className="col-md-12">
                                     <span className="title required">Follow-Up Action if any </span>
-                                    <textarea name="follow_up_action" id="follow_up_action" className="form-control"></textarea>
+                                    <textarea name="preliminary_follow_up_action" id="preliminary_follow_up_action" className="form-control"></textarea>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col-md-12">
                                     <span className="title required">Report Conclusion Brief </span>
-                                    <textarea name="report_conclusion" id="report_conclusion" className="form-control"></textarea>
+                                    <textarea name="preliminary_report_conclusion" id="preliminary_report_conclusion" className="form-control"></textarea>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col-md-12 mb20">
                                     <span className="title required">Attachment If Any </span>
-                                    <textarea name="attachment_desc1" className="form-control"></textarea>
+                                    <textarea name="preliminary_attachment_desc" id="preliminary_attachment_desc" className="form-control"></textarea>
                                     <label className="custom-file-upload">
                                         <input type="file"
-                                            id="charged_officer_case_attachment" name="charged_officer_case_attachment" className="form-control" onChange={this.handleChange} />
+                                            id="preliminary_attachment" name="preliminary_attachment" className="form-control" onChange={this.handleImageChange} />
                                     </label>
+                                    {this.state.preliminary_attachment_file != null && <img height='80px' width='80px' src={URL.createObjectURL(this.state.preliminary_attachment_file)} />}
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col-md-12">
                                     <a href="#" className="btn btn-sm btn-dark float-right mt10 ml10">Clear</a>
-                                    <a href="#" className="btn btn-sm btn-dark float-right mt10">Add to List</a>
+                                    <a onClick={this.onAddPreliminaryInquiryList} className="btn btn-sm btn-dark float-right btn-custom mt10">Add to List</a>
                                 </div>
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col-md-12">
+                            {/* <div className="col-md-12">
                                 <div>
                                     {<div className="ag-theme-balham mt20" style={{ height: 200, width: '100%' }}>
                                         <AgGridReact
@@ -738,7 +938,8 @@ class NewChargeSheet extends Component {
                                         </AgGridReact>
                                     </div>}
                                 </div>
-                            </div>
+                            </div> */}
+                            {this.renderPreliminaryInquiryList()}
                         </div>
 
                         <Button variant="secondary" onClick={() => { this.setState({ isAddVisibleEnquiry: false }) }} className="mr10">

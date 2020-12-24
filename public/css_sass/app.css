@@ -468,6 +468,11 @@ h6 {
     float: left;
     width: 80%; }
 
+.btn-custom {
+  padding: 6px 10px !important;
+  color: #fff !important;
+  border-radius: 0px !important; }
+
 .loader {
   display: none;
   margin-top: -35px;
