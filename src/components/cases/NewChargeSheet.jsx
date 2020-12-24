@@ -23,6 +23,7 @@ class NewChargeSheet extends Component {
             isAddVisibleImputation: false,
             isAddVisibleDocuments: false,
             isAddVisibleWitness: false,
+            roleList :[]
             //     data: props.location.state.data
         }
 
@@ -240,31 +241,56 @@ class NewChargeSheet extends Component {
             )
     }
 
+    onAddOfficerChargeList= () => {
+        let {roleList} = this.state
+        const item = { charged_officer: this.state.charged_officer, place_imputation: this.state.office,           designation: this.state.designation, officer_treasury_code: this.state.officer_treasury_code, charged_officer_email: this.state.charged_officer_email, charged_officer_phone: this.state.charged_officer_phone, charged_officer_previous_charges: this.state.charged_officer_previous_charges, attachment: this.state.charged_officer_case_attachment_file }
+
+        roleList.push(item)
+
+        this.setState({
+            roleList:roleList
+        })
+
+    }
+
     renderRoleList() {
-        // const { roleList } = this.state
-        let roleList = [{ id: 123, name: "Deepak", description: "This is Description" }]
+        let {roleList} = this.state
+        // const { roleList } = [{ id: this.state., name: "Deepak", description: "This is Description" }]
+       
+        // let roleList = [{ id: 123, name: "Deepak", description: "This is Description" }]
         if (roleList && roleList.length > 0)
             return (
                 <div className="col-md-12">
                     <div className="search_bar">
-                        <font style={{ fontSize: 25 }}>List</font>
+                        <font style={{ fontSize: 20 }}>List</font>
                     </div>
                     <div className="col-md-12">
                         <table className="table table-striped mt30">
                             <thead>
                                 <tr>
                                     <th scope="col">Id</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Description</th>
-                                    <th scope="col">Action</th>
+                                    <th scope="col">Charged Officer</th>
+                                    <th scope="col">Working Place of Imputation</th>
+                                    <th scope="col">Designation at Imputation</th>
+                                    <th scope="col">Officer Treasury Code</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Phone Number</th>
+                                    <th scope="col">Previous Charges</th>
+                                    <th scope="col">Attachment</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {roleList.map((item, index) => (
                                     <tr>
-                                        <th scope="row">{item.id}</th>
-                                        <td>{item.name}</td>
-                                        <td>{item.description}</td>
+                                        <th scope="row">{index}</th>
+                                        <td>{item.charged_officer}</td>
+                                        <td>{item.place_imputation}</td>
+                                        <td>{item.designation}</td>
+                                        <td>{item.officer_treasury_code}</td>
+                                        <td>{item.charged_officer_email}</td>
+                                        <td>{item.charged_officer_phone}</td>
+                                        <td>{item.charged_officer_previous_charges}</td>
+                                        <td>{item.charged_officer_case_attachment_file}</td>
                                         <td><a onClick={() => this.setState({ roleList: roleList.splice(index, 1) })} className='btn btn-sm btn-danger' >Delete</a></td>
                                         {/* <a href="#" className="btn btn-sm btn-dark float-right mt10">Add to List</a> */}
 
@@ -407,18 +433,18 @@ class NewChargeSheet extends Component {
                                                     <div className="col-md-6">
                                                         <span className="title required">Email </span>
                                                         <input type="text"
-                                                            id="email" name="email" className="form-control" onChange={this.handleChange} required />
+                                                            id="charged_officer_email" name="charged_officer_email" className="form-control" onChange={this.handleChange} required />
                                                     </div>
                                                     <div className="col-md-6">
                                                         <span className="title required">Phone Number </span>
                                                         <input type="text"
-                                                            id="phone" name="phone" className="form-control" onChange={this.handleChange} required />
+                                                            id="charged_officer_phone" name="charged_officer_phone" className="form-control" onChange={this.handleChange} required />
                                                     </div>
                                                 </div>
                                                 <div className="row">
                                                     <div className="col-md-12">
                                                         <span className="title required">Previous Charges if Any </span>
-                                                        <textarea name="previous_charges" className="form-control"></textarea>
+                                                        <textarea name="charged_officer_previous_charges" id="charged_officer_previous_charges" className="form-control"></textarea>
                                                     </div>
                                                 </div>
                                                 <div className="row">
@@ -427,14 +453,15 @@ class NewChargeSheet extends Component {
                                                         <textarea name="attachment_desc1" className="form-control"></textarea>
                                                         <label className="custom-file-upload">
                                                             <input type="file"
-                                                                id="charged_officer_case_attachment" name="charged_officer_case_attachment" className="form-control" onChange={this.handleChange} />
+                                                                id="charged_officer_case_attachment" name="charged_officer_case_attachment" className="form-control" onChange={this.handleImageChange} />
                                                         </label>
+                                                        {this.state.case_attachment_file != null && <img height='80px' width='80px' src={URL.createObjectURL(this.state.charged_officer_case_attachment_file)} />}
                                                     </div>
                                                 </div>
                                                 <div className="row">
                                                     <div className="col-md-12">
                                                         <a href="#" className="btn btn-sm btn-dark float-right mt10 ml10">Clear</a>
-                                                        <a href="#" className="btn btn-sm btn-dark float-right mt10">Add to List</a>
+                                                        <a onClick={this.onAddOfficerChargeList} className="btn btn-sm btn-dark float-right mt10">Add to List</a>
                                                     </div>
                                                 </div>
                                             </div>
