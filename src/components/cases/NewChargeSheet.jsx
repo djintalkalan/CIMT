@@ -1,4 +1,3 @@
-import { AgGridReact } from 'ag-grid-react';
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import Accordion from 'react-bootstrap/Accordion';
@@ -23,10 +22,10 @@ class NewChargeSheet extends Component {
             isAddVisibleImputation: false,
             isAddVisibleDocuments: false,
             isAddVisibleWitness: false,
-            chargeOfficerList :[],
-            draftChargeList :[],
-            draftArticleList :[],
-            preliminaryInquiryList :[]
+            chargeOfficerList: [],
+            draftChargeList: [],
+            draftArticleList: [],
+            preliminaryInquiryList: []
             //     data: props.location.state.data
         }
 
@@ -108,7 +107,94 @@ class NewChargeSheet extends Component {
 
     handleSubmitNewChargeSheet = (e) => {
         e.preventDefault();
-        // console.log("stateInfo", this.state);
+        console.log("stateInfo", this.state);
+
+
+        let charged_officer = []
+
+        this.state.chargeOfficerList.forEach(item => {
+            let dat = {
+                first_name: item.charged_officer,
+            }
+            charged_officer.push(dat)
+
+        })
+
+        let draftArticle = []
+
+        this.state.draftArticleList.forEach(item => {
+
+            let preliminary_inquiry = []
+
+            item.preliminary_inquiry.forEach(item2 => {
+                let en = {
+                    "enquiry_officer": "data",
+                    "report_date": "2020-01-01T00:00:00.000Z",
+                    "office": 1,
+                    "designation": 5,
+                    "report_conclusion_breif": "Breif will goes here",
+                    "follow_up_action": "Anything to follow up will goes here"
+                }
+
+                preliminary_inquiry.push(en)
+            })
+            let dat = {
+                first_name: item.charged_officer,
+                preliminary_inquiry: preliminary_inquiry
+            }
+            draftArticle.push(dat)
+
+        })
+
+        alert(draftArticle)
+
+
+        let data = {
+            "case_identity": {
+                "file_no": 1,
+                "file_year": 2020,
+                "office": 1,
+                "nature_of_misconduct": 1,
+                "source_of_complaint": 1,
+                "name_of_complainant": "ABC",
+                "complainant_address": "Address is here"
+            },
+            "charged_officer": charged_officer,
+            "draft_chargesheet_proposal": {
+                "file_rc_no": 123,
+                "date": "2020-01-02T00:00:00.000Z",
+                "submitted_by": 1,
+                "submitted_to": 2,
+                "subject": "Hello"
+            },
+            "draft_article": [
+                {
+                    "article_no": 144,
+                    "date_of_misconduct": "2020-05-07T00:00:00.000Z",
+                    "gist_of_article": "prohibit the assembly of four or more people in an area",
+                    "misconduct_type": 1,
+                    "amount_involved_if_any": 154,
+                    "preliminary_inquiry": [
+                        {
+                            "enquiry_officer": "bcd",
+                            "report_date": "2020-01-01T00:00:00.000Z",
+                            "office": 1,
+                            "designation": 5,
+                            "report_conclusion_breif": "Breif will goes here",
+                            "follow_up_action": "Anything to follow up will goes here"
+                        },
+                        {
+                            "enquiry_officer": "def",
+                            "report_date": "2020-05-01T00:00:00.000Z",
+                            "office": 3,
+                            "designation": 2,
+                            "report_conclusion_breif": "Breif will goes here",
+                            "follow_up_action": "Anything to follow up will goes here"
+                        }
+                    ]
+                }
+            ]
+        }
 
         // let form_data = new FormData();
         // form_data.append('evidence_image', this.state.image, this.state.image.name);
@@ -244,23 +330,23 @@ class NewChargeSheet extends Component {
             )
     }
 
-    onAddOfficerChargeList= () => {
-        let {chargeOfficerList} = this.state
-        const item = { charged_officer: this.state.charged_officer, place_imputation: this.state.office,           designation: this.state.designation, officer_treasury_code: this.state.officer_treasury_code, charged_officer_email: this.state.charged_officer_email, charged_officer_phone: this.state.charged_officer_phone, charged_officer_previous_charges: this.state.charged_officer_previous_charges, attachment: this.state.charged_officer_case_attachment_file }
+    onAddOfficerChargeList = () => {
+        let { chargeOfficerList } = this.state
+        const item = { charged_officer: this.state.charged_officer, place_imputation: this.state.office, designation: this.state.designation, officer_treasury_code: this.state.officer_treasury_code, charged_officer_email: this.state.charged_officer_email, charged_officer_phone: this.state.charged_officer_phone, charged_officer_previous_charges: this.state.charged_officer_previous_charges, charged_officer_case_attachment_file: this.state.charged_officer_case_attachment_file }
 
         chargeOfficerList.push(item)
 
         this.setState({
-            chargeOfficerList:chargeOfficerList
+            chargeOfficerList: chargeOfficerList
         })
 
     }
 
     renderchargeOfficerList() {
-        let {chargeOfficerList} = this.state
-        // console.log("stateInfo", this.state);
+        let { chargeOfficerList } = this.state
+        console.log("chargeOfficerList", this.state.chargeOfficerList);
         // const { chargeOfficerList } = [{ id: this.state., name: "Deepak", description: "This is Description" }]
-       
+
         // let chargeOfficerList = [{ id: 123, name: "Deepak", description: "This is Description" }]
         if (chargeOfficerList && chargeOfficerList.length > 0)
             return (
@@ -285,8 +371,8 @@ class NewChargeSheet extends Component {
                             </thead>
                             <tbody>
                                 {chargeOfficerList.map((item, index) => (
-                                    <tr>
-                                        <th scope="row">{index}</th>
+                                    <tr key={index}>
+                                        <th scope="row">{index + 1}</th>
                                         <td>{item.charged_officer}</td>
                                         <td>{item.place_imputation}</td>
                                         <td>{item.designation}</td>
@@ -294,8 +380,12 @@ class NewChargeSheet extends Component {
                                         <td>{item.charged_officer_email}</td>
                                         <td>{item.charged_officer_phone}</td>
                                         <td>{item.charged_officer_previous_charges}</td>
-                                        <td><img height='20px' width='20px' src={item.charged_officer_case_attachment_file} /></td>
-                                        <td><a onClick={() => this.setState({ chargeOfficerList: chargeOfficerList.splice(index, 1) })} className='btn btn-sm btn-danger' >Delete</a></td>
+                                        <td><img height='20px' width='20px' src={item.charged_officer_case_attachment_file ? URL.createObjectURL(item.charged_officer_case_attachment_file) : null} /></td>
+                                        <td><a onClick={() => {
+                                            this.setState((prevState) => ({
+                                                chargeOfficerList: [...prevState.chargeOfficerList.slice(0, index), ...prevState.chargeOfficerList.slice(index + 1)]
+                                            }))
+                                        }} className='btn btn-sm btn-danger' >Delete</a></td>
                                         {/* <a href="#" className="btn btn-sm btn-dark float-right mt10 btn-custom">Add to List</a> */}
 
                                     </tr>
@@ -309,23 +399,23 @@ class NewChargeSheet extends Component {
             )
     }
 
-    onAddDraftChargeList= () => {
-        let {draftChargeList} = this.state
+    onAddDraftChargeList = () => {
+        let { draftChargeList } = this.state
         const item = { proposal_file_no: this.state.proposal_file_no, draft_charge_date: this.state.draft_charge_date, submitted_by: this.state.designation, submitted_to: this.state.designation, subject_in_brief: this.state.subject_in_brief, draft_charge_attachment_desc: this.state.draft_charge_attachment_desc, draft_charge_case_attachment_file: this.state.draft_charge_case_attachment_file }
 
         draftChargeList.push(item)
 
         this.setState({
-            draftChargeList:draftChargeList
+            draftChargeList: draftChargeList
         })
 
     }
 
     renderdraftChargeList() {
-        let {draftChargeList} = this.state
+        let { draftChargeList } = this.state
         // console.log("stateInfo", this.state);
         // const { draftChargeList } = [{ id: this.state., name: "Deepak", description: "This is Description" }]
-       
+
         // let draftChargeList = [{ id: 123, name: "Deepak", description: "This is Description" }]
         if (draftChargeList && draftChargeList.length > 0)
             return (
@@ -333,62 +423,68 @@ class NewChargeSheet extends Component {
                     <div className="search_bar">
                         <font style={{ fontSize: 20 }}>List</font>
                     </div>
-                <div className="col-md-12">
-                    <table className="table table-striped table-sm table-responsive mt30">
-                        <thead>
-                            <tr>
-                                <th scope="col">No.</th>
-                                <th scope="col">Proposal File Rc No</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Submitted By</th>
-                                <th scope="col">Submitted To</th>
-                                <th scope="col">Subject in Brief</th>
-                                <th scope="col">Attachment Description</th>
-                                <th scope="col">Attachment</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {draftChargeList.map((item, index) => (
+                    <div className="col-md-12">
+                        <table className="table table-striped table-sm table-responsive mt30">
+                            <thead>
                                 <tr>
-                                    <th scope="row">{index}</th>
-                                    <td>{item.proposal_file_no}</td>
-                                    <td>{item.draft_charge_date}</td>
-                                    <td>{item.submitted_by}</td>
-                                    <td>{item.submitted_to}</td>
-                                    <td>{item.subject_in_brief}</td>
-                                    <td>{item.draft_charge_attachment_desc}</td>
-                                    <td><img height='20px' width='20px' src={item.draft_charge_case_attachment_file} /></td>
-                                    <td><a onClick={() => this.setState({ draftChargeList: draftChargeList.splice(index, 1) })} className='btn btn-sm btn-danger' >Delete</a></td>
-                                    {/* <a href="#" className="btn btn-sm btn-dark float-right mt10 btn-custom">Add to List</a> */}
-
+                                    <th scope="col">No.</th>
+                                    <th scope="col">Proposal File Rc No</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Submitted By</th>
+                                    <th scope="col">Submitted To</th>
+                                    <th scope="col">Subject in Brief</th>
+                                    <th scope="col">Attachment Description</th>
+                                    <th scope="col">Attachment</th>
                                 </tr>
-                            ))
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {draftChargeList.map((item, index) => (
+                                    <tr>
+                                        <th scope="row">{index}</th>
+                                        <td>{item.proposal_file_no}</td>
+                                        <td>{item.draft_charge_date}</td>
+                                        <td>{item.submitted_by}</td>
+                                        <td>{item.submitted_to}</td>
+                                        <td>{item.subject_in_brief}</td>
+                                        <td>{item.draft_charge_attachment_desc}</td>
+                                        <td><img height='20px' width='20px' src={item.draft_charge_case_attachment_file} /></td>
+                                        <td><a onClick={() => this.setState({ draftChargeList: draftChargeList.splice(index, 1) })} className='btn btn-sm btn-danger' >Delete</a></td>
+                                        {/* <a href="#" className="btn btn-sm btn-dark float-right mt10 btn-custom">Add to List</a> */}
 
+                                    </tr>
+                                ))
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
                 </div>
-            </div>
-        )
+            )
     }
 
-    onAdddraftArticleList= () => {
-        let {draftArticleList} = this.state
-        const item = { drafts_article_number: this.state.drafts_article_number, draft_misconduct_date: this.state.draft_misconduct_date, gist_draft_article: this.state.gist_draft_article, misconduct_type: this.state.misconduct_type, amount_involved: this.state.amount_involved, draft_article_attachment_desc: this.state.draft_article_attachment_desc, draft_article_case_attachment_file: this.state.draft_article_case_attachment_file }
+    onAdddraftArticleList = () => {
+        let { draftArticleList } = this.state
+        const item = {
+            drafts_article_number: this.state.drafts_article_number, draft_misconduct_date: this.state.draft_misconduct_date, gist_draft_article: this.state.gist_draft_article, misconduct_type: this.state.misconduct_type, amount_involved: this.state.amount_involved,
+            draft_article_attachment_desc: this.state.draft_article_attachment_desc, draft_article_case_attachment_file: this.state.draft_article_case_attachment_file,
+            preliminary_inquiry: this.state.preliminaryInquiryList
+        }
 
         draftArticleList.push(item)
 
         this.setState({
-            draftArticleList : draftArticleList
+            draftArticleList: draftArticleList,
+            drafts_article_number: "",
+            preliminaryInquiryList: []
         })
 
     }
 
     renderdraftArticleList() {
-        let {draftArticleList} = this.state
+        let { draftArticleList } = this.state
         // console.log("stateInfo", this.state);
         // const { draftArticleList } = [{ id: this.state., name: "Deepak", description: "This is Description" }]
-       
+
         // let draftArticleList = [{ id: 123, name: "Deepak", description: "This is Description" }]
         if (draftArticleList && draftArticleList.length > 0)
             return (
@@ -396,62 +492,62 @@ class NewChargeSheet extends Component {
                     <div className="search_bar">
                         <font style={{ fontSize: 20 }}>List</font>
                     </div>
-                <div className="col-md-12">
-                    <table className="table table-striped table-sm table-responsive mt30">
-                        <thead>
-                            <tr>
-                                <th scope="col">No.</th>
-                                <th scope="col">Drafts Article No</th>
-                                <th scope="col">Date of Misconduct</th>
-                                <th scope="col">Gist of Draft Articles</th>
-                                <th scope="col">Misconduct Type</th>
-                                <th scope="col">Amount Involved</th>
-                                <th scope="col">Attachment Description</th>
-                                <th scope="col">Attachment</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {draftArticleList.map((item, index) => (
+                    <div className="col-md-12">
+                        <table className="table table-striped table-sm table-responsive mt30">
+                            <thead>
                                 <tr>
-                                    <th scope="row">{index}</th>
-                                    <td>{item.drafts_article_number}</td>
-                                    <td>{item.draft_misconduct_date}</td>
-                                    <td>{item.gist_draft_article}</td>
-                                    <td>{item.misconduct_type}</td>
-                                    <td>{item.amount_involved}</td>
-                                    <td>{item.draft_article_attachment_desc}</td>
-                                    <td><img height='20px' width='20px' src={item.draft_article_case_attachment_file} /></td>
-                                    <td><a onClick={() => this.setState({ draftArticleList: draftArticleList.splice(index, 1) })} className='btn btn-sm btn-danger' >Delete</a></td>
-                                    {/* <a href="#" className="btn btn-sm btn-dark float-right mt10 btn-custom">Add to List</a> */}
-
+                                    <th scope="col">No.</th>
+                                    <th scope="col">Drafts Article No</th>
+                                    <th scope="col">Date of Misconduct</th>
+                                    <th scope="col">Gist of Draft Articles</th>
+                                    <th scope="col">Misconduct Type</th>
+                                    <th scope="col">Amount Involved</th>
+                                    <th scope="col">Attachment Description</th>
+                                    <th scope="col">Attachment</th>
                                 </tr>
-                            ))
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {draftArticleList.map((item, index) => (
+                                    <tr>
+                                        <th scope="row">{index}</th>
+                                        <td>{item.drafts_article_number}</td>
+                                        <td>{item.draft_misconduct_date}</td>
+                                        <td>{item.gist_draft_article}</td>
+                                        <td>{item.misconduct_type}</td>
+                                        <td>{item.amount_involved}</td>
+                                        <td>{item.draft_article_attachment_desc}</td>
+                                        <td><img height='20px' width='20px' src={item.draft_article_case_attachment_file} /></td>
+                                        <td><a onClick={() => this.setState({ draftArticleList: draftArticleList.splice(index, 1) })} className='btn btn-sm btn-danger' >Delete</a></td>
+                                        {/* <a href="#" className="btn btn-sm btn-dark float-right mt10 btn-custom">Add to List</a> */}
 
+                                    </tr>
+                                ))
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
                 </div>
-            </div>
-        )
+            )
     }
 
-    onAddPreliminaryInquiryList= () => {
-        let {preliminaryInquiryList} = this.state
+    onAddPreliminaryInquiryList = () => {
+        let { preliminaryInquiryList } = this.state
         const item = { preliminary_charged_officer: this.state.preliminary_charged_officer, preliminary_report_date: this.state.preliminary_report_date, preliminary_office: this.state.preliminary_office, preliminary_designation: this.state.preliminary_designation, preliminary_follow_up_action: this.state.preliminary_follow_up_action, preliminary_report_conclusion: this.state.preliminary_report_conclusion, preliminary_attachment_desc: this.state.preliminary_attachment_desc, preliminary_attachment_file: this.state.preliminary_attachment_file }
 
         preliminaryInquiryList.push(item)
 
         this.setState({
-            preliminaryInquiryList : preliminaryInquiryList
+            preliminaryInquiryList: preliminaryInquiryList
         })
 
     }
 
     renderPreliminaryInquiryList() {
-        let {preliminaryInquiryList} = this.state
+        let { preliminaryInquiryList } = this.state
         // console.log("stateInfo", this.state);
         // const { preliminaryInquiryList } = [{ id: this.state., name: "Deepak", description: "This is Description" }]
-       
+
         // let preliminaryInquiryList = [{ id: 123, name: "Deepak", description: "This is Description" }]
         if (preliminaryInquiryList && preliminaryInquiryList.length > 0)
             return (
@@ -459,45 +555,45 @@ class NewChargeSheet extends Component {
                     <div className="search_bar">
                         <font style={{ fontSize: 20 }}>List</font>
                     </div>
-                <div className="col-md-12">
-                    <table className="table table-striped table-sm table-responsive mt30">
-                        <thead>
-                            <tr>
-                                <th scope="col">No.</th>
-                                <th scope="col">Charged Officer</th>
-                                <th scope="col">Report Date</th>
-                                <th scope="col">Office</th>
-                                <th scope="col">Designation</th>
-                                <th scope="col">Follow-Up Action</th>
-                                <th scope="col">Report Conclusion</th>
-                                <th scope="col">Attachment Description</th>
-                                <th scope="col">Attachment</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {preliminaryInquiryList.map((item, index) => (
+                    <div className="col-md-12">
+                        <table className="table table-striped table-sm table-responsive mt30">
+                            <thead>
                                 <tr>
-                                    <th scope="row">{index}</th>
-                                    <td>{item.preliminary_charged_officer}</td>
-                                    <td>{item.preliminary_report_date}</td>
-                                    <td>{item.preliminary_office}</td>
-                                    <td>{item.preliminary_designation}</td>
-                                    <td>{item.preliminary_follow_up_action}</td>
-                                    <td>{item.preliminary_report_conclusion}</td>
-                                    <td>{item.preliminary_attachment_desc}</td>
-                                    <td><img height='20px' width='20px' src={item.preliminary_attachment_file} /></td>
-                                    <td><a onClick={() => this.setState({ preliminaryInquiryList: preliminaryInquiryList.splice(index, 1) })} className='btn btn-sm btn-danger' >Delete</a></td>
-                                    {/* <a href="#" className="btn btn-sm btn-dark float-right mt10 btn-custom">Add to List</a> */}
-
+                                    <th scope="col">No.</th>
+                                    <th scope="col">Charged Officer</th>
+                                    <th scope="col">Report Date</th>
+                                    <th scope="col">Office</th>
+                                    <th scope="col">Designation</th>
+                                    <th scope="col">Follow-Up Action</th>
+                                    <th scope="col">Report Conclusion</th>
+                                    <th scope="col">Attachment Description</th>
+                                    <th scope="col">Attachment</th>
                                 </tr>
-                            ))
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {preliminaryInquiryList.map((item, index) => (
+                                    <tr>
+                                        <th scope="row">{index}</th>
+                                        <td>{item.preliminary_charged_officer}</td>
+                                        <td>{item.preliminary_report_date}</td>
+                                        <td>{item.preliminary_office}</td>
+                                        <td>{item.preliminary_designation}</td>
+                                        <td>{item.preliminary_follow_up_action}</td>
+                                        <td>{item.preliminary_report_conclusion}</td>
+                                        <td>{item.preliminary_attachment_desc}</td>
+                                        <td><img height='20px' width='20px' src={item.preliminary_attachment_file} /></td>
+                                        <td><a onClick={() => this.setState({ preliminaryInquiryList: preliminaryInquiryList.splice(index, 1) })} className='btn btn-sm btn-danger' >Delete</a></td>
+                                        {/* <a href="#" className="btn btn-sm btn-dark float-right mt10 btn-custom">Add to List</a> */}
 
+                                    </tr>
+                                ))
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
                 </div>
-            </div>
-        )
+            )
     }
 
 
@@ -581,7 +677,7 @@ class NewChargeSheet extends Component {
                                                             <input type="file"
                                                                 id="case_attachment" name="case_attachment" className="form-control" onChange={this.handleImageChange} />
                                                         </label>
-                                                        {this.state.case_attachment_file != null && <img height='80px' width='80px' src={URL.createObjectURL(this.state.case_attachment_file)} />}
+                                                        {this.state.case_attachment_file && <img height='80px' width='80px' src={URL.createObjectURL(this.state.case_attachment_file)} />}
                                                     </div>
                                                 </div>
                                             </div>
@@ -650,7 +746,7 @@ class NewChargeSheet extends Component {
                                                             <input type="file"
                                                                 id="charged_officer_case_attachment" name="charged_officer_case_attachment" className="form-control" onChange={this.handleImageChange} />
                                                         </label>
-                                                        {this.state.charged_officer_case_attachment_file != null && <img height='80px' width='80px' src={URL.createObjectURL(this.state.charged_officer_case_attachment_file)} />}
+                                                        {this.state.charged_officer_case_attachment_file && <img height='80px' width='80px' src={URL.createObjectURL(this.state.charged_officer_case_attachment_file)} />}
                                                     </div>
                                                 </div>
                                                 <div className="row">
@@ -728,7 +824,7 @@ class NewChargeSheet extends Component {
                                                             <input type="file"
                                                                 id="draft_charge_case_attachment" name="draft_charge_case_attachment" className="form-control" onChange={this.handleImageChange} />
                                                         </label>
-                                                        {this.state.draft_charge_case_attachment_file != null && <img height='80px' width='80px' src={URL.createObjectURL(this.state.draft_charge_case_attachment_file)} />}
+                                                        {this.state.draft_charge_case_attachment_file && <img height='80px' width='80px' src={URL.createObjectURL(this.state.draft_charge_case_attachment_file)} />}
                                                     </div>
                                                 </div>
                                                 <div className="row">
@@ -806,7 +902,7 @@ class NewChargeSheet extends Component {
                                                             <input type="file"
                                                                 id="draft_article_case_attachment" name="draft_article_case_attachment" className="form-control" onChange={this.handleImageChange} />
                                                         </label>
-                                                        {this.state.draft_article_case_attachment_file != null && <img height='80px' width='80px' src={URL.createObjectURL(this.state.draft_article_case_attachment_file)} />}
+                                                        {this.state.draft_article_case_attachment_file && <img height='80px' width='80px' src={URL.createObjectURL(this.state.draft_article_case_attachment_file)} />}
                                                     </div>
                                                 </div>
                                                 <div className="row">
@@ -915,7 +1011,7 @@ class NewChargeSheet extends Component {
                                         <input type="file"
                                             id="preliminary_attachment" name="preliminary_attachment" className="form-control" onChange={this.handleImageChange} />
                                     </label>
-                                    {this.state.preliminary_attachment_file != null && <img height='80px' width='80px' src={URL.createObjectURL(this.state.preliminary_attachment_file)} />}
+                                    {this.state.preliminary_attachment_file && <img height='80px' width='80px' src={URL.createObjectURL(this.state.preliminary_attachment_file)} />}
                                 </div>
                             </div>
                             <div className="row">
