@@ -115,8 +115,32 @@ class NewChargeSheet extends Component {
         this.state.chargeOfficerList.forEach(item => {
             let dat = {
                 first_name: item.charged_officer,
+                office: item.working_place,
+                designation: item.designation_inputation,
+                office_treasury_code: item.officer_treasury_code,
+                email: item.charged_officer_email,
+                phone: item.charged_officer_phone,
+                previous_charges: item.charged_officer_previous_charges,
+                attachment_desc: item.charge_officer_attachment_desc,
+                charged_officer_case_attachment: item.charged_officer_case_attachment,
             }
             charged_officer.push(dat)
+
+        })
+
+        let draft_charge_sheet = []
+
+        this.state.draftChargeList.forEach(item => {
+            let dat = {
+                file_rc_no: item.proposal_file_no,
+                date: item.draft_charge_date,
+                submitted_by: item.submitted_by,
+                submitted_to: item.submitted_to,
+                subject: item.subject_in_brief,
+                attachment_desc: item.draft_charge_attachment_desc,
+                attachment: item.draft_charge_case_attachment_file.name,
+            }
+            draft_charge_sheet.push(dat)
 
         })
 
@@ -128,72 +152,49 @@ class NewChargeSheet extends Component {
 
             item.preliminary_inquiry.forEach(item2 => {
                 let en = {
-                    "enquiry_officer": "data",
-                    "report_date": "2020-01-01T00:00:00.000Z",
-                    "office": 1,
-                    "designation": 5,
-                    "report_conclusion_breif": "Breif will goes here",
-                    "follow_up_action": "Anything to follow up will goes here"
+                    enquiry_officer: item.preliminary_charged_officer,
+                    report_date: item.preliminary_report_date,
+                    office: item.preliminary_office,
+                    designation: item.preliminary_designation,
+                    report_conclusion_breif: item.preliminary_follow_up_action,
+                    follow_up_action: item.preliminary_follow_up_action,
+                    attachment_desc: item.preliminary_attachment_desc,
+                    attachment: item.preliminary_attachment_file.name,
                 }
 
                 preliminary_inquiry.push(en)
             })
             let dat = {
-                first_name: item.charged_officer,
+                article_no: item.drafts_article_number,
+                date_of_misconduct: item.draft_misconduct_date,
+                gist_of_article: item.gist_draft_article,
+                misconduct_type: item.misconduct_type,
+                amount_involved_if_any: item.amount_involved,
+                attachment_desc: item.draft_article_attachment_desc,
+                attachment: item.draft_article_case_attachment_file.name,
                 preliminary_inquiry: preliminary_inquiry
             }
             draftArticle.push(dat)
 
         })
 
-        alert(draftArticle)
+        // alert(draftArticle)
 
 
         let data = {
             "case_identity": {
-                "file_no": 1,
-                "file_year": 2020,
-                "office": 1,
-                "nature_of_misconduct": 1,
-                "source_of_complaint": 1,
-                "name_of_complainant": "ABC",
-                "complainant_address": "Address is here"
+                "file_no": this.state.file_no,
+                "file_year": this.state.file_year,
+                "office": this.state.case_office,
+                "nature_of_misconduct": this.state.nature_complaint,
+                "source_of_complaint": this.state.source_complaint,
+                "name_of_complainant": this.state.nature_complaint,
+                "complainant_address": this.state.case_identity_attachment_desc,
+                "case_identity_attachment": this.state.case_attachment_file.name
             },
             "charged_officer": charged_officer,
-            "draft_chargesheet_proposal": {
-                "file_rc_no": 123,
-                "date": "2020-01-02T00:00:00.000Z",
-                "submitted_by": 1,
-                "submitted_to": 2,
-                "subject": "Hello"
-            },
-            "draft_article": [
-                {
-                    "article_no": 144,
-                    "date_of_misconduct": "2020-05-07T00:00:00.000Z",
-                    "gist_of_article": "prohibit the assembly of four or more people in an area",
-                    "misconduct_type": 1,
-                    "amount_involved_if_any": 154,
-                    "preliminary_inquiry": [
-                        {
-                            "enquiry_officer": "bcd",
-                            "report_date": "2020-01-01T00:00:00.000Z",
-                            "office": 1,
-                            "designation": 5,
-                            "report_conclusion_breif": "Breif will goes here",
-                            "follow_up_action": "Anything to follow up will goes here"
-                        },
-                        {
-                            "enquiry_officer": "def",
-                            "report_date": "2020-05-01T00:00:00.000Z",
-                            "office": 3,
-                            "designation": 2,
-                            "report_conclusion_breif": "Breif will goes here",
-                            "follow_up_action": "Anything to follow up will goes here"
-                        }
-                    ]
-                }
-            ]
+            "draft_chargesheet_proposal": draft_charge_sheet,
+            "draft_article": draftArticle
         }
 
         // let form_data = new FormData();
@@ -204,7 +205,7 @@ class NewChargeSheet extends Component {
         // for (var pair of form_data.entries()) {
         //     console.log(pair[0] + ': ' + pair[1]);
         // }
-        // console.log("Info", form_data);
+        console.log("NewChargeSheetData", data);
         // return
         // let url = 'https://cors-anywhere.herokuapp.com/https://cimt.herokuapp.com/NewChargeSheet/';
         // axios.post(url, form_data, {
@@ -332,13 +333,23 @@ class NewChargeSheet extends Component {
 
     onAddOfficerChargeList = () => {
         let { chargeOfficerList } = this.state
-        const item = { charged_officer: this.state.charged_officer, place_imputation: this.state.office, designation: this.state.designation, officer_treasury_code: this.state.officer_treasury_code, charged_officer_email: this.state.charged_officer_email, charged_officer_phone: this.state.charged_officer_phone, charged_officer_previous_charges: this.state.charged_officer_previous_charges, charged_officer_case_attachment_file: this.state.charged_officer_case_attachment_file }
+        const item = { charged_officer: this.state.charged_officer, working_place: this.state.working_place, designation_inputation: this.state.designation_inputation, officer_treasury_code: this.state.officer_treasury_code, charged_officer_email: this.state.charged_officer_email, charged_officer_phone: this.state.charged_officer_phone, charged_officer_previous_charges: this.state.charged_officer_previous_charges, charged_officer_case_attachment_file: this.state.charged_officer_case_attachment_file }
 
         chargeOfficerList.push(item)
 
         this.setState({
-            chargeOfficerList: chargeOfficerList
+            chargeOfficerList: chargeOfficerList,
         })
+        // this.state = {
+        //     charged_officer: null,
+        //     working_place: null,
+        //     designation_inputation: null,
+        //     officer_treasury_code: null,
+        //     charged_officer_email: null,
+        //     charged_officer_phone: null,
+        //     charged_officer_previous_charges: null,
+        //     charged_officer_case_attachment_file: null,
+        // }
 
     }
 
@@ -374,8 +385,8 @@ class NewChargeSheet extends Component {
                                     <tr key={index}>
                                         <th scope="row">{index + 1}</th>
                                         <td>{item.charged_officer}</td>
-                                        <td>{item.place_imputation}</td>
-                                        <td>{item.designation}</td>
+                                        <td>{item.working_place}</td>
+                                        <td>{item.designation_inputation}</td>
                                         <td>{item.officer_treasury_code}</td>
                                         <td>{item.charged_officer_email}</td>
                                         <td>{item.charged_officer_phone}</td>
@@ -401,7 +412,7 @@ class NewChargeSheet extends Component {
 
     onAddDraftChargeList = () => {
         let { draftChargeList } = this.state
-        const item = { proposal_file_no: this.state.proposal_file_no, draft_charge_date: this.state.draft_charge_date, submitted_by: this.state.designation, submitted_to: this.state.designation, subject_in_brief: this.state.subject_in_brief, draft_charge_attachment_desc: this.state.draft_charge_attachment_desc, draft_charge_case_attachment_file: this.state.draft_charge_case_attachment_file }
+        const item = { proposal_file_no: this.state.proposal_file_no, draft_charge_date: this.state.draft_charge_date, submitted_by: this.state.submitted_by, submitted_to: this.state.submitted_to, subject_in_brief: this.state.subject_in_brief, draft_charge_attachment_desc: this.state.draft_charge_attachment_desc, draft_charge_case_attachment_file: this.state.draft_charge_case_attachment_file }
 
         draftChargeList.push(item)
 
@@ -447,10 +458,12 @@ class NewChargeSheet extends Component {
                                         <td>{item.submitted_to}</td>
                                         <td>{item.subject_in_brief}</td>
                                         <td>{item.draft_charge_attachment_desc}</td>
-                                        <td><img height='20px' width='20px' src={item.draft_charge_case_attachment_file} /></td>
-                                        <td><a onClick={() => this.setState({ draftChargeList: draftChargeList.splice(index, 1) })} className='btn btn-sm btn-danger' >Delete</a></td>
-                                        {/* <a href="#" className="btn btn-sm btn-dark float-right mt10 btn-custom">Add to List</a> */}
-
+                                        <td><img height='20px' width='20px' src={item.draft_charge_case_attachment_file ? URL.createObjectURL(item.draft_charge_case_attachment_file) : null} /></td>
+                                        <td><a onClick={() => {
+                                            this.setState((prevState) => ({
+                                                draftChargeList: [...prevState.draftChargeList.slice(0, index), ...prevState.draftChargeList.slice(index + 1)]
+                                            }))
+                                        }} className='btn btn-sm btn-danger' >Delete</a></td>
                                     </tr>
                                 ))
                                 }
@@ -516,10 +529,12 @@ class NewChargeSheet extends Component {
                                         <td>{item.misconduct_type}</td>
                                         <td>{item.amount_involved}</td>
                                         <td>{item.draft_article_attachment_desc}</td>
-                                        <td><img height='20px' width='20px' src={item.draft_article_case_attachment_file} /></td>
-                                        <td><a onClick={() => this.setState({ draftArticleList: draftArticleList.splice(index, 1) })} className='btn btn-sm btn-danger' >Delete</a></td>
-                                        {/* <a href="#" className="btn btn-sm btn-dark float-right mt10 btn-custom">Add to List</a> */}
-
+                                        <td><img height='20px' width='20px' src={item.draft_article_case_attachment_file ? URL.createObjectURL(item.draft_article_case_attachment_file) : null} /></td>
+                                        <td><a onClick={() => {
+                                            this.setState((prevState) => ({
+                                                draftArticleList: [...prevState.draftArticleList.slice(0, index), ...prevState.draftArticleList.slice(index + 1)]
+                                            }))
+                                        }} className='btn btn-sm btn-danger' >Delete</a></td>
                                     </tr>
                                 ))
                                 }
@@ -581,10 +596,12 @@ class NewChargeSheet extends Component {
                                         <td>{item.preliminary_follow_up_action}</td>
                                         <td>{item.preliminary_report_conclusion}</td>
                                         <td>{item.preliminary_attachment_desc}</td>
-                                        <td><img height='20px' width='20px' src={item.preliminary_attachment_file} /></td>
-                                        <td><a onClick={() => this.setState({ preliminaryInquiryList: preliminaryInquiryList.splice(index, 1) })} className='btn btn-sm btn-danger' >Delete</a></td>
-                                        {/* <a href="#" className="btn btn-sm btn-dark float-right mt10 btn-custom">Add to List</a> */}
-
+                                        <td><img height='20px' width='20px' src={item.preliminary_attachment_file ? URL.createObjectURL(item.preliminary_attachment_file) : null} /></td>
+                                        <td><a onClick={() => {
+                                            this.setState((prevState) => ({
+                                                preliminaryInquiryList: [...prevState.preliminaryInquiryList.slice(0, index), ...prevState.preliminaryInquiryList.slice(index + 1)]
+                                            }))
+                                        }} className='btn btn-sm btn-danger' >Delete</a></td>
                                     </tr>
                                 ))
                                 }
@@ -632,29 +649,44 @@ class NewChargeSheet extends Component {
                                                     </div>
                                                     <div className="col-md-6">
                                                         <span className="title required">File Year </span>
-                                                        <input type="text"
+                                                        <input type="number"
                                                             id="file_year" name="file_year" className="form-control" onChange={this.handleChange} required />
                                                     </div>
                                                 </div>
                                                 <div className="row">
                                                     <div className="col-md-6">
                                                         <span className="title required">Office </span>
-                                                        {/* <input type="text"
-                                                        id="office" name="office" className="form-control" onChange={this.handleChange} required /> */}
-                                                        {this.renderOfficeList()}
+                                                        <select className="form-control" name="case_office" id="case_office"
+                                                            onChange={this.handleChange}>
+                                                            <option value="">Select Office</option>
+                                                            <option value="hisar">Hisar</option>
+                                                            <option value="sirsa">Sirsa</option>
+                                                            <option value="rohtak">Rohtak</option>
+                                                            <option value="jind">Jind</option>
+                                                        </select>
+                                                        {/* {this.renderOfficeList()} */}
                                                     </div>
                                                     <div className="col-md-6">
                                                         <span className="title required">Nature of Misconduct </span>
-                                                        {/* <input type="text"
-                                                        id="nature_misconduct" name="nature_misconduct" className="form-control" onChange={this.handleChange} required /> */}
+                                                        <select className="form-control" name="nature_misconduct" id="nature_misconduct"
+                                                            onChange={this.handleChange}>
+                                                            <option value="">Nature of Misconduct</option>
+                                                            <option value="demo">Demo</option>
+                                                            <option value="test">Test</option>
+                                                        </select>
                                                         {this.renderNatureMisconductList()}
                                                     </div>
                                                 </div>
                                                 <div className="row">
                                                     <div className="col-md-6">
                                                         <span className="title required">Source of Complaint </span>
-                                                        {/* <input type="text"
-                                                        id="source_complaint" name="source_complaint" className="form-control" onChange={this.handleChange} required /> */}
+                                                        <select className="form-control" name="source_complaint" id="source_complaint"
+                                                            onChange={this.handleChange}>
+                                                            <option value="">Select</option>
+                                                            <option value="phone">Phone</option>
+                                                            <option value="news">Newspaper</option>
+                                                            <option value="tv">TV</option>
+                                                        </select>
                                                         {this.renderSourceComplaintList()}
                                                     </div>
                                                     <div className="col-md-6">
@@ -666,13 +698,13 @@ class NewChargeSheet extends Component {
                                                 <div className="row">
                                                     <div className="col-md-12">
                                                         <span className="title required">Complaint Address </span>
-                                                        <textarea name="complaint_address" className="form-control"></textarea>
+                                                        <textarea name="complaint_address" className="form-control" onChange={this.handleChange}></textarea>
                                                     </div>
                                                 </div>
                                                 <div className="row">
                                                     <div className="col-md-12">
                                                         <span className="title required">Attachment If Any </span>
-                                                        <textarea name="case_identity_attachment_desc" id="case_identity_attachment_desc" className="form-control"></textarea>
+                                                        <textarea name="case_identity_attachment_desc" id="case_identity_attachment_desc" className="form-control" onChange={this.handleChange}></textarea>
                                                         <label className="custom-file-upload">
                                                             <input type="file"
                                                                 id="case_attachment" name="case_attachment" className="form-control" onChange={this.handleImageChange} />
@@ -702,17 +734,28 @@ class NewChargeSheet extends Component {
                                                     </div>
                                                     <div className="col-md-6">
                                                         <span className="title required">Working Place of Imputation </span>
-                                                        {/* <input type="text"
-                                                        id="place_working" name="place_working" className="form-control" onChange={this.handleChange} required /> */}
-                                                        {this.renderOfficeList()}
+                                                        <select className="form-control" name="working_place" id="working_place"
+                                                            onChange={this.handleChange}>
+                                                            <option value="">Select Office</option>
+                                                            <option value="hisar">Hisar</option>
+                                                            <option value="sirsa">Sirsa</option>
+                                                            <option value="rohtak">Rohtak</option>
+                                                            <option value="jind">Jind</option>
+                                                        </select>
+                                                        {/* {this.renderOfficeList()} */}
                                                     </div>
                                                 </div>
                                                 <div className="row">
                                                     <div className="col-md-6">
                                                         <span className="title required">Designation at Imputation </span>
-                                                        {/* <input type="text"
-                                                        id="designation" name="designation" className="form-control" onChange={this.handleChange} required /> */}
-                                                        {this.renderDesignationList()}
+                                                        <select className="form-control" name="designation_inputation"  id="designation_inputation"
+                                                            onChange={this.handleChange}>
+                                                            <option value="">Select Office</option>
+                                                            <option value="si">S.I.</option>
+                                                            <option value="sho">S.H.O.</option>
+                                                            <option value="dsp">D.S.P.</option>
+                                                        </select>
+                                                        {/* {this.renderDesignationList()} */}
                                                     </div>
                                                     <div className="col-md-6">
                                                         <span className="title required">Officer Treasury Code</span>
@@ -723,7 +766,7 @@ class NewChargeSheet extends Component {
                                                 <div className="row">
                                                     <div className="col-md-6">
                                                         <span className="title required">Email </span>
-                                                        <input type="text"
+                                                        <input type="email"
                                                             id="charged_officer_email" name="charged_officer_email" className="form-control" onChange={this.handleChange} required />
                                                     </div>
                                                     <div className="col-md-6">
@@ -735,13 +778,13 @@ class NewChargeSheet extends Component {
                                                 <div className="row">
                                                     <div className="col-md-12">
                                                         <span className="title required">Previous Charges if Any </span>
-                                                        <textarea name="charged_officer_previous_charges" id="charged_officer_previous_charges" className="form-control"></textarea>
+                                                        <textarea name="charged_officer_previous_charges" id="charged_officer_previous_charges" className="form-control" onChange={this.handleChange}></textarea>
                                                     </div>
                                                 </div>
                                                 <div className="row">
                                                     <div className="col-md-12">
                                                         <span className="title required">Attachment If Any </span>
-                                                        <textarea name="charge_officer_attachment_desc" id="charge_officer_attachment_desc" className="form-control"></textarea>
+                                                        <textarea name="charge_officer_attachment_desc" id="charge_officer_attachment_desc" className="form-control" onChange={this.handleChange}></textarea>
                                                         <label className="custom-file-upload">
                                                             <input type="file"
                                                                 id="charged_officer_case_attachment" name="charged_officer_case_attachment" className="form-control" onChange={this.handleImageChange} />
@@ -799,27 +842,37 @@ class NewChargeSheet extends Component {
                                                 <div className="row">
                                                     <div className="col-md-6">
                                                         <span className="title required">Submitted By </span>
-                                                        {/* <input type="text"
-                                                        id="submitted_by" name="submitted_by" className="form-control" onChange={this.handleChange} required /> */}
-                                                        {this.renderOfficeList()}
+                                                        <select className="form-control" name="submitted_by"  id="submitted_by"
+                                                            onChange={this.handleChange}>
+                                                            <option value="">Submitted By</option>
+                                                            <option value="si">S.I.</option>
+                                                            <option value="sho">S.H.O.</option>
+                                                            <option value="dsp">D.S.P.</option>
+                                                        </select>
+                                                        {/* {this.renderOfficeList()} */}
                                                     </div>
                                                     <div className="col-md-6">
                                                         <span className="title required">Submitted To</span>
-                                                        {/* <input type="text"
-                                                        id="submitted_to" name="submitted_to" className="form-control" onChange={this.handleChange} required /> */}
-                                                        {this.renderOfficeList()}
+                                                        <select className="form-control" name="submitted_to"  id="submitted_to"
+                                                            onChange={this.handleChange}>
+                                                            <option value="">Submitted To</option>
+                                                            <option value="si">S.I.</option>
+                                                            <option value="sho">S.H.O.</option>
+                                                            <option value="dsp">D.S.P.</option>
+                                                        </select>
+                                                        {/* {this.renderOfficeList()} */}
                                                     </div>
                                                 </div>
                                                 <div className="row">
                                                     <div className="col-md-12">
                                                         <span className="title required">Subject in Brief </span>
-                                                        <textarea name="subject_in_brief" id="subject_in_brief" className="form-control"></textarea>
+                                                        <textarea name="subject_in_brief" id="subject_in_brief" className="form-control" onChange={this.handleChange}></textarea>
                                                     </div>
                                                 </div>
                                                 <div className="row">
                                                     <div className="col-md-12">
                                                         <span className="title required">Attachment If Any </span>
-                                                        <textarea name="draft_charge_attachment_desc" id="draft_charge_attachment_desc" className="form-control"></textarea>
+                                                        <textarea name="draft_charge_attachment_desc" id="draft_charge_attachment_desc" className="form-control" onChange={this.handleChange}></textarea>
                                                         <label className="custom-file-upload">
                                                             <input type="file"
                                                                 id="draft_charge_case_attachment" name="draft_charge_case_attachment" className="form-control" onChange={this.handleImageChange} />
@@ -884,20 +937,26 @@ class NewChargeSheet extends Component {
                                                 <div className="row">
                                                     <div className="col-md-6">
                                                         <span className="title required">Misconduct Type </span>
-                                                        {/* <input type="text"
-                                                        id="misconduct_type" name="misconduct_type" className="form-control" onChange={this.handleChange} required /> */}
-                                                        {this.renderNatureMisconductList()}
+                                                        <select className="form-control" name="misconduct_type" id="misconduct_type"
+                                                            onChange={this.handleChange}>
+                                                            <option value="">Misconduct Type</option>
+                                                            <option value="theft">Theft</option>
+                                                            <option value="rape">Rape</option>
+                                                            <option value="murder">Murder</option>
+                                                            <option value="torture">Torture</option>
+                                                        </select>
+                                                        {/* {this.renderNatureMisconductList()} */}
                                                     </div>
                                                     <div className="col-md-6">
                                                         <span className="title required">Amount Involved if Any</span>
-                                                        <input type="text"
+                                                        <input type="number"
                                                             id="amount_involved" name="amount_involved" className="form-control" onChange={this.handleChange} required />
                                                     </div>
                                                 </div>
                                                 <div className="row">
                                                     <div className="col-md-12">
                                                         <span className="title required">Attachment If Any </span>
-                                                        <textarea name="draft_article_attachment_desc" id="draft_article_attachment_desc" className="form-control"></textarea>
+                                                        <textarea name="draft_article_attachment_desc" id="draft_article_attachment_desc" className="form-control" onChange={this.handleChange}></textarea>
                                                         <label className="custom-file-upload">
                                                             <input type="file"
                                                                 id="draft_article_case_attachment" name="draft_article_case_attachment" className="form-control" onChange={this.handleImageChange} />
@@ -980,15 +1039,26 @@ class NewChargeSheet extends Component {
                             <div className="row">
                                 <div className="col-md-6">
                                     <span className="title required">Office </span>
-                                    {/* <input type="text"
-                                        id="designation" name="designation" className="form-control" onChange={this.handleChange} required /> */}
-                                    {this.renderOfficeList()}
+                                    <select className="form-control" name="preliminary_office" id="preliminary_office"
+                                        onChange={this.handleChange}>
+                                        <option value="">Select Office</option>
+                                        <option value="hisar">Hisar</option>
+                                        <option value="sirsa">Sirsa</option>
+                                        <option value="rohtak">Rohtak</option>
+                                        <option value="jind">Jind</option>
+                                    </select>
+                                    {/* {this.renderOfficeList()} */}
                                 </div>
                                 <div className="col-md-6">
                                     <span className="title required">Designation</span>
-                                    {/* <input type="text"
-                                        id="designation" name="designation" className="form-control" onChange={this.handleChange} required /> */}
-                                    {this.renderDesignationList()}
+                                    <select className="form-control" name="preliminary_designation"  id="preliminary_designation"
+                                        onChange={this.handleChange}>
+                                        <option value="">Select Office</option>
+                                        <option value="si">S.I.</option>
+                                        <option value="sho">S.H.O.</option>
+                                        <option value="dsp">D.S.P.</option>
+                                    </select>
+                                    {/* {this.renderDesignationList()} */}
                                 </div>
                             </div>
                             <div className="row">

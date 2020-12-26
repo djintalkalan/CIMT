@@ -157,11 +157,10 @@ class UserProfile extends Component {
                                 <div className="col-md-12">
                                     <span class="title required">Profile Picture </span>
                                     <label className="custom-file-upload px20 mb30">
-                                        <input
-                                            value={this.state.image}
-                                            onChange={(e)=>this.setState({image:e.target.value})}
-                                            type="file" className="form-control" name="image" id="image" accept="image/png, image/jpeg, image/jpg" />
+                                        <input type="file"
+                                            id="image" name="image" className="form-control" accept="image/png, image/jpeg, image/jpg" onChange={this.handleImageChange} />
                                     </label>
+                                    {this.state.image && <img height='80px' width='80px' src={URL.createObjectURL(this.state.image)} />}
                                 </div>
                             </div>
 

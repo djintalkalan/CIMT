@@ -209,7 +209,8 @@ h6 {
   height: 100%;
   padding-left: 240px;
   padding-top: 20px;
-  background-color: #f4f6f8; }
+  background-color: #f4f6f8;
+  overflow: scroll; }
 
 /* Sidebar and Menu Bar ============*/
 .sidebarCt {
