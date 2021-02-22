@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { userDataAction, userTokenAction, isLoginAction } from "../../redux/actions"
 import { connect } from "react-redux";
 import { history } from '../../routes';
-import { getPosts } from '../../api/ApiService';
+import { getCaseReport } from '../../api/ApiService';
+import { getMonthlyCaseReport } from '../../api/ApiService';
+import { getDistrictReport } from '../../api/ApiService';
 import CanvasJSReact from '../../assets/canvasjs.react';
-import Fingerprint2 from 'fingerprintjs2'
+// import Fingerprint2 from 'fingerprintjs2'
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 import Header from '../custom/Header';
@@ -133,8 +135,10 @@ const stateReport = {
 class DashBoard extends Component {
     constructor(props) {
         super(props);
-        this.state={
-            //sideBarOpen:true
+        this.state = {
+            caseReportList: null,
+            monthlyCaseReportList: null,
+            districtReportList: null
         }
 
 
@@ -142,46 +146,66 @@ class DashBoard extends Component {
     }
 
     componentDidMount() {
-        // this.callPostsApi()
+        this.getCaseReportApi()
+        this.getMonthlyCaseReportApi()
+        this.getDistrictReportApi()
 
-        setTimeout(() => {
-            if (window.requestIdleCallback) {
-                requestIdleCallback(function () {
-                    Fingerprint2.get(function (components) {
-                      console.log(components) // an array of components: {key: ..., value: ...}
-                    })
-                })
-            } else {
-                setTimeout(function () {
-                    Fingerprint2.get(function (components) {
-                      console.log(components) // an array of components: {key: ..., value: ...}
-                    })  
-                }, 500)
-            }
-        }, 1000);
+        // setTimeout(() => {
+        //     if (window.requestIdleCallback) {
+        //         requestIdleCallback(function () {
+        //             Fingerprint2.get(function (components) {
+        //               console.log(components) // an array of components: {key: ..., value: ...}
+        //             })
+        //         })
+        //     } else {
+        //         setTimeout(function () {
+        //             Fingerprint2.get(function (components) {
+        //               console.log(components) // an array of components: {key: ..., value: ...}
+        //             })  
+        //         }, 500)
+        //     }
+        // }, 1000);
     }
 
-    callPostsApi = () => {
-        getPosts().then((res)=>{
-            if(res){
-                console.log("GET POST API RESULT",JSON.stringify(res))
-                alert("POSTS LODED FROM API SEE CONSOLE")
-            }
-            else{
-                alert("POSTS NOT LODED FROM API ")
-            }
-        }).catch(err => {
-            this.setState({
-                isLoading: false,
-            })
-            setTimeout(() => {
-                if (err) {
-                    // alert(JSON.stringify(err));
-                }
-            }, 100);
-            this.setStaticData()
-        });
-     }
+    // getCaseReportApi = () => {
+    //     getCaseReport().then((res)=>{
+    //         if(res){
+    //             console.log("GET POST API RESULT",JSON.stringify(res))
+    //             alert("POSTS LODED FROM API SEE CONSOLE")
+    //         }
+    //         else{
+    //             alert("POSTS NOT LODED FROM API ")
+    //         }
+    //     }).catch(err => {
+    //         this.setState({
+    //             isLoading: false,
+    //         })
+    //         setTimeout(() => {
+    //             if (err) {
+    //                 // alert(JSON.stringify(err));
+    //             }
+    //         }, 100);
+    //         this.setStaticData()
+    //     });
+    //  }
+    getCaseReportApi(){
+        getCaseReport().then(res=>{
+            console.log("CASE REPORT",JSON.stringify(res))
+            this.setState({caseReportList:res.data})
+        })
+    }
+    getMonthlyCaseReportApi(){
+        getMonthlyCaseReport().then(res=>{
+            console.log("MONTHLY CASE REPORT",JSON.stringify(res))
+            this.setState({monthlyCaseReportList:res.data})
+        })
+    }
+    getDistrictReportApi(){
+        getDistrictReport().then(res=>{
+            console.log("DISRTICT REPORT",JSON.stringify(res))
+            this.setState({districtReportList:res.data})
+        })
+    }
 
 
     logOut = (event) => {
@@ -202,7 +226,7 @@ class DashBoard extends Component {
 
    
     render() {
-        console.log("UserName", JSON.stringify(this.props.userdata))
+        console.log("UserName", this.setState.caseReportList)
         return (
             <div className="dashboardCt">
                 <div className="container-fluid">
@@ -211,7 +235,7 @@ class DashBoard extends Component {
                             <div className="col-md-4">
                                 <div className="threeBlockCss">
                                     <span className="title">Total Case: </span>
-                                    <span className="titleans">4550</span>
+                                    <span className="titleans">{this.state.total_cases}</span>
                                 </div>
                             </div>
                             <div className="col-md-4">
@@ -243,59 +267,10 @@ class DashBoard extends Component {
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col-md-6 mb50 px30 py30 mt30">
+                            <div className="col-md-12 mb80 mt30">
                                 <CanvasJSChart options = {stateReport} />
                             </div>
-                            <div className="col-md-6">
-                                <h4 className="mt50">User Status Table</h4>
-                                <table className="table table-striped mt30">
-                                <thead>
-                                    <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">City</th>
-                                    <th scope="col">Assigned Cases</th>
-                                    <th scope="col">Ongoing Cases</th>
-                                    <th scope="col">Complete Cases</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                    <th scope="row">1</th>
-                                    <td>Rakesh</td>
-                                    <td>Hisar</td>
-                                    <td>400</td>
-                                    <td>120</td>
-                                    <td>280</td>
-                                    </tr>
-                                    <tr>
-                                    <th scope="row">2</th>
-                                    <td>Tulsi</td>
-                                    <td>Hisar</td>
-                                    <td>200</td>
-                                    <td>80</td>
-                                    <td>120</td>
-                                    </tr>
-                                    <tr>
-                                    <th scope="row">3</th>
-                                    <td>Himanshu</td>
-                                    <td>Rohtak</td>
-                                    <td>300</td>
-                                    <td>20</td>
-                                    <td>100</td>
-                                    </tr>
-                                    <tr>
-                                    <th scope="row">4</th>
-                                    <td>Kailash</td>
-                                    <td>Bhiwani</td>
-                                    <td>130</td>
-                                    <td>40</td>
-                                    <td>80</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            </div>
-                             <div className="col-md-12 mb100">
+                            {/* <div className="col-md-12 mb100">
                                 <div className="text_wrapper pull-right">
                                     <h4>Account Logout</h4>
                                     {this.props.isLoginReducer && <div>
@@ -303,7 +278,7 @@ class DashBoard extends Component {
                                             Log Out</button>
                                     </div>}
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>

@@ -3,7 +3,8 @@ import { userDataAction, userTokenAction, isLoginAction } from "../../../redux/a
 import { connect } from "react-redux";
 import { history } from '../../../routes'
 import { loginApi } from '../../../api/ApiService';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
+import { showSuccessToast, showErrorToast, showInfoToast, showWarningToast, showSomethingWentWrong } from '../../../utils/Utils';
 
 // import logo from './logo.svg';
 // import './App.css';
@@ -71,18 +72,19 @@ class Login extends Component {
             const notify = () => toast("Wow so easy !");
             console.log("SIGN_IN_API_RES:" + JSON.stringify(res))
             // history.push('/users')
+            // return
             if (res && res.success) {
                 this.setState({
                     isLoading: false,
                 }, () => {
                     if (res.data) {
                         let dat = res.data;
-                        dat= dat.replace(/'/g,'"');
-                        localStorage.setItem('userData', dat);
-                        localStorage.setItem('userToken', JSON.stringify("MYSTATICTOKEN"));
+                        // dat= dat.replace(/'/g,'"');
+                        localStorage.setItem('userData', JSON.stringify(dat));
+                        localStorage.setItem('userToken', JSON.stringify(res.token));
                         localStorage.setItem('isLogin', JSON.stringify(true));
-                        this.props.userDataAction(JSON.parse(dat))
-                        this.props.userTokenAction("MYSTATICTOKEN")
+                        this.props.userDataAction(dat)
+                        this.props.userTokenAction(res.token)
                         this.props.isLoginAction(true)
                         history.push('/')
                     }
@@ -92,16 +94,17 @@ class Login extends Component {
                     isLoading: false,
                 })
                 if (res && res.error) {
-                    toast(res.error, {
-                        position: "top-right",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                    });
-                    alert(res.error)
+                    // toast(res.error, {
+                    //     position: "top-right",
+                    //     autoClose: 5000,
+                    //     hideProgressBar: false,
+                    //     closeOnClick: true,
+                    //     pauseOnHover: true,
+                    //     draggable: true,
+                    //     progress: undefined,
+                    // });
+                    // alert(res.error)
+                    showErrorToast(res.error)
 
                 }
                 // this.setStaticData()
@@ -124,9 +127,9 @@ class Login extends Component {
     setStaticData = () => {
 
         const userData = {
-            username:"Deepak Jaglan",
-            phone:"9588558818",
-            age:"21"
+            username: "Deepak Jaglan",
+            phone: "9588558818",
+            age: "21"
         }
 
         localStorage.setItem('userData', JSON.stringify(userData));

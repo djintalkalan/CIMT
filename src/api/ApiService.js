@@ -1,5 +1,5 @@
-import {ApiConstants} from "./ApiConstants";
-import {Constants} from '../utils/Constants'
+import { ApiConstants } from "./ApiConstants";
+import { Constants } from '../utils/Constants'
 
 
 async function callApi(urlString, header, body, methodType) {
@@ -31,10 +31,11 @@ async function callApi(urlString, header, body, methodType) {
         })
 }
 
-async function fetchApiData(urlString, body, methodType) {
+async function fetchApiData(urlString, body, methodType, isMultipart) {
     let header = {
         "Accept": "application/json",
-        "Content-Type": "application/json",
+        "Content-Type": isMultipart ? "multipart/formdata" : "application/json",
+        "Authorization": "Bearer " + JSON.parse(localStorage.getItem("userToken"))
     }
     return callApi(urlString, header, body, methodType)
 
@@ -54,6 +55,16 @@ export async function changePassApi(param) {
 
 export async function addUserApi(param) {
     return fetchApiData(ApiConstants.addUser, param, Constants.API_METHOD.post)
+}
+
+export async function getCaseReport() {
+    return fetchApiData(ApiConstants.getCaseReport, '', Constants.API_METHOD.get)
+}
+export async function getMonthlyCaseReport() {
+    return fetchApiData(ApiConstants.getMonthlyCaseReport, '', Constants.API_METHOD.get)
+}
+export async function getDistrictReport() {
+    return fetchApiData(ApiConstants.getDistrictReport, '', Constants.API_METHOD.get)
 }
 
 export async function getPosts() {
@@ -84,9 +95,9 @@ export async function addCaseApi(param) {
     return fetchApiData(ApiConstants.addCase, param, Constants.API_METHOD.post)
 }
 
-export async function getOfficeList() {
-    return fetchApiData(ApiConstants.getOffices, '', Constants.API_METHOD.get)
-}
+// export async function getOfficeList() {
+//     return fetchApiData(ApiConstants.getOffices, '', Constants.API_METHOD.get)
+// }
 
 export async function getNatureMisconductList() {
     return fetchApiData(ApiConstants.getNatureMisconduct, '', Constants.API_METHOD.get)
@@ -98,4 +109,44 @@ export async function getSourceComplaintList() {
 
 export async function getDesignationList() {
     return fetchApiData(ApiConstants.getDesignation, '', Constants.API_METHOD.get)
+}
+
+export async function addDesignationApi(param) {
+    return fetchApiData(ApiConstants.addDesignation, param, Constants.API_METHOD.post)
+}
+
+export async function deleteDesignationApi(param) {
+    return fetchApiData(ApiConstants.addDesignation + param, null, Constants.API_METHOD.delete)
+}
+
+export async function getOfficesList() {
+    return fetchApiData(ApiConstants.getOffices, '', Constants.API_METHOD.get)
+}
+
+export async function addOfficesApi(param) {
+    return fetchApiData(ApiConstants.addOffices, param, Constants.API_METHOD.post)
+}
+
+// export async function updateOfficesApi(param) {
+//     return fetchApiData(ApiConstants.addOffices + param, null, Constants.API_METHOD.put)
+// }
+
+export async function deleteOfficesApi(param) {
+    return fetchApiData(ApiConstants.addOffices + param, null, Constants.API_METHOD.delete)
+}
+
+export async function getDistrictList() {
+    return fetchApiData(ApiConstants.getDistrict, '', Constants.API_METHOD.get)
+}
+
+export async function addDistrictApi(param) {
+    return fetchApiData(ApiConstants.addDistrict, param, Constants.API_METHOD.post)
+}
+
+export async function deleteDistrictApi(param) {
+    return fetchApiData(ApiConstants.addDistrict + param, null, Constants.API_METHOD.delete)
+}
+
+export async function uploadImageApi(param) {
+    return fetchApiData(ApiConstants.addDistrict, param, Constants.API_METHOD.post,true)
 }

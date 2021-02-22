@@ -243,7 +243,7 @@ h6 {
       background-color: #f58383;
       text-decoration: none; }
     .sidebarCt .box-circle a.active {
-      background-color: #f58383;
+      background-color: #f58383 !important;
       text-decoration: none; }
   .sidebarCt .box-circle.menu-item-has-children .sub-menu {
     display: none; }
@@ -473,6 +473,32 @@ h6 {
   padding: 6px 10px !important;
   color: #fff !important;
   border-radius: 0px !important; }
+
+.helpdeskCt .gjutitle {
+  font-size: 22px;
+  color: red; }
+.helpdeskCt .pduiictitle {
+  font-size: 18px; }
+.helpdeskCt .innovation_team {
+  max-width: 400px;
+  margin: 20px auto;
+  background-color: #f4f4e9;
+  border: 1px solid #000000;
+  border-radius: 4px;
+  -webkit-box-shadow: 3px 3px 5px 6px #ccc;
+  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow: 3px 3px 5px 6px #ccc;
+  /* Firefox 3.5 - 3.6 */
+  box-shadow: 3px 3px 5px 6px #ccc; }
+  .helpdeskCt .innovation_team .team_member {
+    padding: 15px 20px;
+    border: 1px solid #000000;
+    font-family: 'Roboto', sans-serif; }
+    .helpdeskCt .innovation_team .team_member .name {
+      font-size: 16px; }
+    .helpdeskCt .innovation_team .team_member .designation {
+      font-size: 14px;
+      color: #b4bbc3; }
 
 .loader {
   display: none;

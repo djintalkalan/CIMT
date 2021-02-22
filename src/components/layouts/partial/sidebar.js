@@ -7,8 +7,9 @@ class Sidebar extends Component {
         super(props);
         this.state = {
             type: 0,
-            userSubmenuVisible1: false,
-            userSubmenuVisible2: false
+            // userSubmenuVisible1: false,
+            // userSubmenuVisible2: false
+            openedMenu: 0
 
         }
     }
@@ -19,7 +20,7 @@ class Sidebar extends Component {
         return (
             <div className="page-sidebar">
                 <div className="img-wrapper">
-                <img src={logo} />
+                    <img src={logo} />
                 </div>
 
                 <div className="sidebar-list position-relative">
@@ -31,21 +32,21 @@ class Sidebar extends Component {
                     </div>
 
                     <div className="box-circle menu-item-has-children">
-                        <Link onClick={() => { this.setState({ userSubmenuVisible1: !this.state.userSubmenuVisible1 }) }} >
+                        <Link onClick={() => { this.setState({ openedMenu: this.state.openedMenu == 1 ? 0 : 1 }) }} >
                             <span>Add Details</span>
                         </Link>
                     </div>
 
                     {/** HERE SUBMENU UNDER USERS START its visiblity handled by custom onclick event that we added (userSubmenuVisible1) */}
 
-                    {this.state.userSubmenuVisible1 &&
+                    {this.state.openedMenu == 1 &&
                         <div className="sub-menu">
                             {/** WE DEFINE CUSTOM submenu of users here */}
                             <div className="box-circle ">
                                 <Link to={'/cases'} className={"" + (this.state.path == '/cases' ? "active" : " ")}>
                                     <span>&#8692; Cases</span>
                                 </Link>
-                            </div> 
+                            </div>
 
                             <div className={"box-circle"}>
                                 <Link to={'/newchargesheet'} className={"" + (this.state.path == '/newchargesheet' ? "active" : " ")} >
@@ -95,14 +96,14 @@ class Sidebar extends Component {
 
 
                     <div className="box-circle menu-item-has-children">
-                        <Link onClick={() => { this.setState({ userSubmenuVisible2: !this.state.userSubmenuVisible2 }) }} >
+                        <Link onClick={() => { this.setState({ openedMenu: this.state.openedMenu == 2 ? 0 : 2 }) }} >
                             <span>Admin</span>
                         </Link>
                     </div>
 
                     {/** HERE SUBMENU UNDER USERS START its visiblity handled by custom onclick event that we added (userSubmenuVisible2) */}
 
-                    {this.state.userSubmenuVisible2 &&
+                    {this.state.openedMenu == 2 &&
                         <div className="sub-menu">
                             {/** WE DEFINE CUSTOM submenu of users here */}
                             <div className={"box-circle"}>
@@ -111,22 +112,22 @@ class Sidebar extends Component {
                                 </Link>
                             </div>
                             <div className={"box-circle"}>
-                                <Link to={'/#'} >
+                                <Link to={'/designations'} className={"" + (this.state.path == '/designations' ? "active" : " ")} >
                                     <span>&#8692; Designation</span>
                                 </Link>
                             </div>
                             <div className={"box-circle"}>
-                                <Link to={'/#'} >
+                                <Link to={'/offices'} className={"" + (this.state.path == '/offices' ? "active" : " ")} >
                                     <span>&#8692; Office</span>
                                 </Link>
                             </div>
-                            <div className={"box-circle"}>
+                            {/* <div className={"box-circle"}>
                                 <Link to={'/#'} >
                                     <span>&#8692; Office Location</span>
                                 </Link>
-                            </div>
+                            </div> */}
                             <div className={"box-circle"}>
-                                <Link to={'/#'} >
+                                <Link to={'/district'} className={"" + (this.state.path == '/district' ? "active" : " ")} >
                                     <span>&#8692; District</span>
                                 </Link>
                             </div>
@@ -135,7 +136,7 @@ class Sidebar extends Component {
                                     <span>&#8692; Division</span>
                                 </Link>
                             </div>
-                            <div className={"box-circle"}>
+                            {/* <div className={"box-circle"}>
                                 <Link to={'/#'} >
                                     <span>&#8692; Module Type</span>
                                 </Link>
@@ -144,13 +145,13 @@ class Sidebar extends Component {
                                 <Link to={'/#'} >
                                     <span>&#8692; Pincode Areas</span>
                                 </Link>
-                            </div>
+                            </div> */}
 
                         </div>
                     }
 
                     <div className="box-circle ">
-                        <Link to={'/'} className={"" + (this.state.path == '/' ? "active" : " ")}>
+                        <Link to={'/helpdesk'} className={"" + (this.state.path == '/' ? "active" : " ")}>
                             <i className="fa fa-tachometer" aria-hidden="true"></i>
                             <span>Help Desk</span>
                         </Link>

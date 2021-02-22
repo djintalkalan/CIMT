@@ -9,6 +9,11 @@ import NewChargeSheet from "../cases/NewChargeSheet"
 import ChargeSheet from "../cases/ChargeSheet"
 import DrawingChargeSheet from "../cases/DrawingChargeSheet"
 
+import Designations from "../designations"
+import Offices from "../offices"
+import District from "../district"
+
+import Helpdesk from "../helpdesk"
 
 import UserProfile from "../users/UserProfile"
 import ChangePassword from "../auth/changePassword"
@@ -37,6 +42,14 @@ const filterScreen = (path) => {
             return <ChargeSheet />
         case '/drawingchargesheet':
             return <DrawingChargeSheet />
+        case '/designations':
+            return <Designations />
+        case '/offices':
+            return <Offices />
+        case '/district':
+            return <District />
+        case '/helpdesk':
+            return <Helpdesk />
     }
 }
 

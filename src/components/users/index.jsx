@@ -15,6 +15,9 @@ import { getUserList } from '../../api/ApiService';
 import { addUserApi} from '../../api/ApiService';
 import { getRoleList } from '../../api/ApiService';
 import { addRoleApi} from '../../api/ApiService';
+import { getOfficesList } from '../../api/ApiService';
+import { toast } from 'react-toastify';
+import { showSuccessToast, showErrorToast, showInfoToast, showWarningToast, showSomethingWentWrong } from '../../utils/Utils';
 
 class Users extends Component {
     constructor(props) {
@@ -68,43 +71,30 @@ class Users extends Component {
         }
     }
 
-    handleUsernameChange = (event) => {
-        this.setState({ username: event.target.value })
-    }
-
-    handleFirstnameChange = (event) => {
-        this.setState({ firstname: event.target.value })
-
-    }
-
-    handleLastnameChange = (event) => {
-        this.setState({ lastname: event.target.value })
-
-    }
-
-    handleEmailChange = (event) => {
-        this.setState({ email: event.target.value })
-
-    }
+    handleChange = (e) => {
+        this.setState({
+            [e.target.id]: e.target.value
+        })
+    };
 
     handleSubmit = (event) => {
+        event.preventDefault();
 
-        const { firstname, lastname, username, email } = this.state
+        const { firstname, lastname, username, email, designation, phone, work_place } = this.state
 
-        if (!username) {
-            alert("Please Enter Username/Mobile");
-            return
+        if ((!firstname) || (!lastname) || (!username) || (!email) || (!designation) || (!phone) || (!work_place)) {
+            showWarningToast("Please Enter All Fields!");
+      return
         }
-        // if (!password) {
-        //     alert("Password can not be empty");
-        //     return
-        // }
-        // let this is login response from server
         const params = {
             first_name: this.state.firstname,
             last_name: this.state.lastname,
             username: this.state.username,
             email: this.state.email,
+            // treasury_code: this.state.treasury_code,
+            designation: this.state.designation,
+            phone: this.state.phone,
+            office: this.state.work_place
         }
 
         this.callAddUserApi(params)
@@ -118,25 +108,39 @@ class Users extends Component {
         addUserApi(params).then(res => {
             console.log("ADD USER STATUS",JSON.stringify(res))
             this.setState({addUserStatus:res.comment})
-            history.push('/users')
+            if (res.success) {
+                showSuccessToast("Added Successfully")
+                this.setState({
+                    firstname: "",
+                    lastname: "",
+                    username: "",
+                    email: "",
+                    designation: "",
+                    phone: "",
+                    work_place: "",
+                    isAddVisible: false,
+                    id: ""
+                })
+                this.callUserListApi()
+            }
+            else {
+                showSomethingWentWrong()
+            }
+        }).catch(e => {
+            console.log(e);
+            showSomethingWentWrong()
         });
-
-
-    }
-
-    handleRolenameChange = (event) => {
-        this.setState({ rolename: event.target.value })
-
-    }
-
-    handleRoledescChange = (event) => {
-        this.setState({ roledesc: event.target.value })
-
     }
 
     handleSubmitRole = (event) => {
+        event.preventDefault();
 
         const { rolename, roledesc } = this.state
+
+        if ((!rolename) || (!roledesc)) {
+            showWarningToast("Please Enter All Fields!");
+            return
+        }
 
         // let this is login response from server
         const params = {
@@ -145,8 +149,6 @@ class Users extends Component {
         }
 
         this.callAddRoleApi(params)
-
-        event.preventDefault();
     }
 
     callAddRoleApi = (params) => {
@@ -155,15 +157,29 @@ class Users extends Component {
         addRoleApi(params).then(res => {
             console.log("ADD ROLE STATUS",JSON.stringify(res))
             this.setState({addUserStatus:res.comment})
-            history.push('/users')
+            if (res.success) {
+                showSuccessToast("Added Successfully")
+                this.setState({
+                    rolename: "",
+                    roledesc: "",
+                    isAddVisible: false,
+                    id: ""
+                })
+                this.callRoleListApi()
+            }
+            else {
+                showSomethingWentWrong()
+            }
+        }).catch(e => {
+            console.log(e);
+            showSomethingWentWrong()
         });
-
-
     }
 
     componentDidMount() {
          this.callUserListApi()
          this.callRoleListApi()
+         this.callOfficesListApi()
         // let userListFromServer = [{
         //     firstName: "Mark",
         //     lastName: "Otto",
@@ -195,6 +211,30 @@ class Users extends Component {
         })
     }
 
+    callOfficesListApi(){
+        getOfficesList().then(res=>{
+            console.log("Offices",JSON.stringify(res))
+            this.setState({officesList:res.data})
+        })
+    }
+
+    renderOfficesList() {
+        const { officesList } = this.state;
+        if (officesList && officesList.length > 0)
+            return (
+                <select className="form-control" name="work_place" value={this.state.work_place}
+                    onChange={this.handleChange}
+                    id="work_place">
+                    <option value="">Please Select Office</option>
+                    {officesList.map((item, index) => {
+                        return (
+                            <option value={item.id}>{item.office_name}</option>
+                        )
+                    })}
+                </select>
+            )
+    }
+
 
 
     renderUserModal() {
@@ -210,29 +250,54 @@ class Users extends Component {
                             <span>First Name</span>
                             <input
                                 value={this.state.firstname}
-                                onChange={this.handleFirstnameChange}
-                                type="text" className="form-control" name="firstname" placeholder="First Name" />
+                                onChange={this.handleChange}
+                                type="text" className="form-control" name="firstname" id="firstname" placeholder="First Name" />
                         </div>
                         <div className="form-group">
                             <span>Last Name</span>
                             <input
                                 value={this.state.lastname}
-                                onChange={this.handleLastnameChange}
-                                type="text" className="form-control" name="lastname" placeholder="Last Name" />
+                                onChange={this.handleChange}
+                                type="text" className="form-control" name="lastname" id="lastname" placeholder="Last Name" />
                         </div>
                         <div className="form-group">
                             <span>Username</span>
                             <input
                                 value={this.state.username}
-                                onChange={this.handleUsernameChange}
-                                type="text" className="form-control" name="username" placeholder="Phone/Email" />
+                                onChange={this.handleChange}
+                                type="text" className="form-control" name="username" id="username" placeholder="Phone/Email" />
                         </div>
                         <div className="form-group">
                             <span>Email</span>
                             <input
                                 value={this.state.email}
-                                onChange={this.handleEmailChange}
-                                type="email" className="form-control" name="email" placeholder="Email" />
+                                onChange={this.handleChange}
+                                type="email" className="form-control" name="email" id="email" placeholder="Email" />
+                        </div>
+                        <div className="form-group">
+                            <span>Treasury Code</span>
+                            <input
+                                value={this.state.treasury_code}
+                                onChange={this.handleChange}
+                                type="text" className="form-control" name="treasury_code" id="treasury_code" placeholder="Treasury Code" />
+                        </div>
+                        <div className="form-group">
+                            <span>Designation</span>
+                            <input
+                                value={this.state.designation}
+                                onChange={this.handleChange}
+                                type="text" className="form-control" name="designation" id="designation" placeholder="Designation" />
+                        </div>
+                        <div className="form-group">
+                            <span>Phone</span>
+                            <input
+                                value={this.state.phone}
+                                onChange={this.handleChange}
+                                type="number" className="form-control" name="phone" id="phone" placeholder="Phone" />
+                        </div>
+                        <div className="form-group">
+                            <span>Work Place</span>
+                            {this.renderOfficesList()}
                         </div>
                         {/* <div className="form-group">
                             <span>Password</span>
@@ -251,9 +316,7 @@ class Users extends Component {
                         <Button variant="secondary" onClick={() => { this.setState({ isAddVisible: false }) }} className="mr10">
                         Close
                          </Button>
-                        <Button type="submit" variant="primary" onClick={() => { this.setState({ isAddVisible: false }) }}>
-                        Save Changes
-                         </Button>
+                        <Button type="submit" variant="primary">Save Changes</Button>
                     </form>
                 </Modal.Body>
             </Modal>
@@ -273,21 +336,21 @@ class Users extends Component {
                             <span>Role Name</span>
                             <input
                                 value={this.state.rolename}
-                                onChange={this.handleRolenameChange}
-                                type="text" className="form-control" name="rolename" placeholder="Role Name" />
+                                onChange={this.handleChange}
+                                type="text" className="form-control" id="rolename" name="rolename" placeholder="Role Name" />
                         </div>
                         <div className="form-group">
                             <span>Role Description</span>
                             <input
                                 value={this.state.roledesc}
-                                onChange={this.handleRoledescChange}
-                                type="text" className="form-control" name="roledesc" placeholder="Role Desc" />
+                                onChange={this.handleChange}
+                                type="text" className="form-control" id="roledesc" name="roledesc" placeholder="Role Desc" />
                         </div>
                         
                         <Button variant="secondary" onClick={() => { this.setState({ isAddVisible1: false }) }} className="mr10">
                         Close
                          </Button>
-                        <Button type="submit" variant="primary" onClick={() => { this.setState({ isAddVisible1: false }) }}>
+                        <Button type="submit" variant="primary">
                         Save Changes
                          </Button>
                     </form>

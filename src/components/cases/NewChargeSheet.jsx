@@ -4,9 +4,11 @@ import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import Modal from 'react-bootstrap/Modal';
 import { connect } from "react-redux";
-import { getDesignationList, getNatureMisconductList, getOfficeList, getRoleList, getSourceComplaintList } from '../../api/ApiService';
+import { getDesignationList, getNatureMisconductList, getOfficesList, getRoleList, getSourceComplaintList } from '../../api/ApiService';
 // import axios from 'axios';
 import { isLoginAction, userDataAction, userTokenAction } from "../../redux/actions";
+import { showWarningToast } from '../../utils/Utils';
+import { faMonument } from '@fortawesome/free-solid-svg-icons';
 
 
 //Open console and perform an action on page
@@ -109,6 +111,12 @@ class NewChargeSheet extends Component {
         e.preventDefault();
         console.log("stateInfo", this.state);
 
+        const { file_no, file_year, case_office, nature_misconduct, source_complaint, nature_complaint } = this.state
+
+        if ((!file_no) || (!file_year) || (!case_office) || (!nature_misconduct) || (!source_complaint) || (!nature_complaint)) {
+            showWarningToast("Please fill necessary fields")
+            return
+        }
 
         let charged_officer = []
 
@@ -179,14 +187,13 @@ class NewChargeSheet extends Component {
         })
 
         // alert(draftArticle)
-
-
+        
         let data = {
             "case_identity": {
                 "file_no": this.state.file_no,
                 "file_year": this.state.file_year,
                 "office": this.state.case_office,
-                "nature_of_misconduct": this.state.nature_complaint,
+                "nature_of_misconduct": this.state.nature_misconduct,
                 "source_of_complaint": this.state.source_complaint,
                 "name_of_complainant": this.state.nature_complaint,
                 "complainant_address": this.state.case_identity_attachment_desc,
@@ -206,7 +213,7 @@ class NewChargeSheet extends Component {
         //     console.log(pair[0] + ': ' + pair[1]);
         // }
         console.log("NewChargeSheetData", data);
-        // return
+        return
         // let url = 'https://cors-anywhere.herokuapp.com/https://cimt.herokuapp.com/NewChargeSheet/';
         // axios.post(url, form_data, {
         //     headers: {
@@ -222,6 +229,7 @@ class NewChargeSheet extends Component {
     componentDidMount() {
         this.callRoleListApi()
         this.callOfficeListApi()
+        this.callDesignationListApi()
         this.callNatureMisconductListApi()
 
         // axios.get(`https://cors-anywhere.herokuapp.com/https://cimt.herokuapp.com/GetAllEvidence/1`)
@@ -240,7 +248,7 @@ class NewChargeSheet extends Component {
 
 
     callOfficeListApi() {
-        getOfficeList().then(res => {
+        getOfficesList().then(res => {
             console.log("Offices", JSON.stringify(res))
             this.setState({ officeList: res.data })
         })
@@ -256,6 +264,29 @@ class NewChargeSheet extends Component {
                     {officeList.map((item, index) => {
                         return (
                             <option value={item.id}>{item.office_name}</option>
+                        )
+                    })}
+                </select>
+            )
+    }
+
+    callDesignationListApi(){
+        getDesignationList().then(res=>{
+            console.log("DESIGNATIONS",JSON.stringify(res))
+            this.setState({designationList:res.data})
+        })
+    }
+
+    renderDesignationList() {
+        const { designationList } = this.state;
+        if (designationList && designationList.length > 0)
+            return (
+                <select className="form-control" name="designation" id="designation"
+                    onChange={this.handleUserChange}>
+                    <option value="">Select Designation</option>
+                    {designationList.map((item, index) => {
+                        return (
+                            <option value={item.id}>{item.designation}</option>
                         )
                     })}
                 </select>
@@ -308,37 +339,52 @@ class NewChargeSheet extends Component {
             )
     }
 
-    callDesignationListApi() {
-        getDesignationList().then(res => {
-            console.log("Designation:", JSON.stringify(res))
-            this.setState({ designationList: res.data })
-        })
-    }
+    // callDesignationListApi() {
+    //     getDesignationList().then(res => {
+    //         console.log("Designation:", JSON.stringify(res))
+    //         this.setState({ designationList: res.data })
+    //     })
+    // }
 
-    renderDesignationList() {
-        const { designationList } = this.state;
-        if (designationList && designationList.length > 0)
-            return (
-                <select className="form-control" name="designation" id="designation"
-                    onChange={this.handleUserChange}>
-                    <option value="">Select Misconduct</option>
-                    {designationList.map((item, index) => {
-                        return (
-                            <option value={item.id}>{item.type}</option>
-                        )
-                    })}
-                </select>
-            )
-    }
+    // renderDesignationList() {
+    //     const { designationList } = this.state;
+    //     if (designationList && designationList.length > 0)
+    //         return (
+    //             <select className="form-control" name="designation" id="designation"
+    //                 onChange={this.handleUserChange}>
+    //                 <option value="">Select Misconduct</option>
+    //                 {designationList.map((item, index) => {
+    //                     return (
+    //                         <option value={item.id}>{item.type}</option>
+    //                     )
+    //                 })}
+    //             </select>
+    //         )
+    // }
 
     onAddOfficerChargeList = () => {
-        let { chargeOfficerList } = this.state
-        const item = { charged_officer: this.state.charged_officer, working_place: this.state.working_place, designation_inputation: this.state.designation_inputation, officer_treasury_code: this.state.officer_treasury_code, charged_officer_email: this.state.charged_officer_email, charged_officer_phone: this.state.charged_officer_phone, charged_officer_previous_charges: this.state.charged_officer_previous_charges, charged_officer_case_attachment_file: this.state.charged_officer_case_attachment_file }
+
+        let { chargeOfficerList, working_place } = this.state
+        const { charged_officer, designation_inputation, officer_treasury_code, charged_officer_email, charged_officer_phone, charged_officer_previous_charges, charged_officer_case_attachment_file } = this.state
+
+        if (!charged_officer) {
+            showWarningToast("Name is required")
+            return
+        }
+        const item = { charged_officer, working_place, designation_inputation, officer_treasury_code, charged_officer_email, charged_officer_phone, charged_officer_previous_charges, charged_officer_case_attachment_file }
 
         chargeOfficerList.push(item)
 
         this.setState({
             chargeOfficerList: chargeOfficerList,
+            charged_officer: "",
+            working_place: "",
+            designation_inputation: "",
+            officer_treasury_code: "",
+            charged_officer_email: "",
+            charged_officer_phone: "",
+            charged_officer_previous_charges: "",
+            charged_officer_case_attachment_file: "",
         })
         // this.state = {
         //     charged_officer: null,
@@ -613,6 +659,25 @@ class NewChargeSheet extends Component {
             )
     }
 
+    uploadOnServer(e) {
+        console.log(e.target.files)
+
+        // // e.target.files[0]
+        // let formData = new FormData()
+        // formData.append(
+        //     "myFile",
+        //     e.target.files[0],
+        //     "IMG" + moment() + e.target.files[0].name
+        // );
+
+        // uploadApi(formdata).then(res=>{
+
+        // this.setState({
+        //     [e.target.id + "_file"]: res.data.url
+        // })
+        // })
+    }
+
 
     render() {
         console.log("UserName", JSON.stringify(this.props.userdata))
@@ -656,25 +721,25 @@ class NewChargeSheet extends Component {
                                                 <div className="row">
                                                     <div className="col-md-6">
                                                         <span className="title required">Office </span>
-                                                        <select className="form-control" name="case_office" id="case_office"
+                                                        {/* <select className="form-control" name="case_office" id="case_office"
                                                             onChange={this.handleChange}>
                                                             <option value="">Select Office</option>
                                                             <option value="hisar">Hisar</option>
                                                             <option value="sirsa">Sirsa</option>
                                                             <option value="rohtak">Rohtak</option>
                                                             <option value="jind">Jind</option>
-                                                        </select>
-                                                        {/* {this.renderOfficeList()} */}
+                                                        </select> */}
+                                                        {this.renderOfficeList()}
                                                     </div>
                                                     <div className="col-md-6">
                                                         <span className="title required">Nature of Misconduct </span>
                                                         <select className="form-control" name="nature_misconduct" id="nature_misconduct"
                                                             onChange={this.handleChange}>
-                                                            <option value="">Nature of Misconduct</option>
+                                                            <option value="">Misconduct</option>
                                                             <option value="demo">Demo</option>
                                                             <option value="test">Test</option>
                                                         </select>
-                                                        {this.renderNatureMisconductList()}
+                                                        {/* {this.renderNatureMisconductList()} */}
                                                     </div>
                                                 </div>
                                                 <div className="row">
@@ -687,7 +752,7 @@ class NewChargeSheet extends Component {
                                                             <option value="news">Newspaper</option>
                                                             <option value="tv">TV</option>
                                                         </select>
-                                                        {this.renderSourceComplaintList()}
+                                                        {/* {this.renderSourceComplaintList()} */}
                                                     </div>
                                                     <div className="col-md-6">
                                                         <span className="title required">Nature of complaint </span>
@@ -730,32 +795,32 @@ class NewChargeSheet extends Component {
                                                     <div className="col-md-6">
                                                         <span className="title required">Name of Charged Officer </span>
                                                         <input type="text"
-                                                            id="charged_officer" name="charged_officer" className="form-control" onChange={this.handleChange} required />
+                                                            id="charged_officer" value={this.state.charged_officer} name="charged_officer" className="form-control" onChange={this.handleChange} required />
                                                     </div>
                                                     <div className="col-md-6">
                                                         <span className="title required">Working Place of Imputation </span>
-                                                        <select className="form-control" name="working_place" id="working_place"
+                                                        {/* <select className="form-control" name="working_place" id="working_place"
                                                             onChange={this.handleChange}>
                                                             <option value="">Select Office</option>
                                                             <option value="hisar">Hisar</option>
                                                             <option value="sirsa">Sirsa</option>
                                                             <option value="rohtak">Rohtak</option>
                                                             <option value="jind">Jind</option>
-                                                        </select>
-                                                        {/* {this.renderOfficeList()} */}
+                                                        </select> */}
+                                                        {this.renderOfficeList()}
                                                     </div>
                                                 </div>
                                                 <div className="row">
                                                     <div className="col-md-6">
                                                         <span className="title required">Designation at Imputation </span>
-                                                        <select className="form-control" name="designation_inputation"  id="designation_inputation"
+                                                        {/* <select className="form-control" name="designation_inputation" id="designation_inputation"
                                                             onChange={this.handleChange}>
                                                             <option value="">Select Office</option>
                                                             <option value="si">S.I.</option>
                                                             <option value="sho">S.H.O.</option>
                                                             <option value="dsp">D.S.P.</option>
-                                                        </select>
-                                                        {/* {this.renderDesignationList()} */}
+                                                        </select> */}
+                                                        {this.renderDesignationList()}
                                                     </div>
                                                     <div className="col-md-6">
                                                         <span className="title required">Officer Treasury Code</span>
@@ -842,25 +907,25 @@ class NewChargeSheet extends Component {
                                                 <div className="row">
                                                     <div className="col-md-6">
                                                         <span className="title required">Submitted By </span>
-                                                        <select className="form-control" name="submitted_by"  id="submitted_by"
+                                                        {/* <select className="form-control" name="submitted_by" id="submitted_by"
                                                             onChange={this.handleChange}>
                                                             <option value="">Submitted By</option>
                                                             <option value="si">S.I.</option>
                                                             <option value="sho">S.H.O.</option>
                                                             <option value="dsp">D.S.P.</option>
-                                                        </select>
-                                                        {/* {this.renderOfficeList()} */}
+                                                        </select> */}
+                                                        {this.renderDesignationList()}
                                                     </div>
                                                     <div className="col-md-6">
                                                         <span className="title required">Submitted To</span>
-                                                        <select className="form-control" name="submitted_to"  id="submitted_to"
+                                                        {/* <select className="form-control" name="submitted_to" id="submitted_to"
                                                             onChange={this.handleChange}>
                                                             <option value="">Submitted To</option>
                                                             <option value="si">S.I.</option>
                                                             <option value="sho">S.H.O.</option>
                                                             <option value="dsp">D.S.P.</option>
-                                                        </select>
-                                                        {/* {this.renderOfficeList()} */}
+                                                        </select> */}
+                                                        {this.renderDesignationList()}
                                                     </div>
                                                 </div>
                                                 <div className="row">
@@ -876,8 +941,10 @@ class NewChargeSheet extends Component {
                                                         <label className="custom-file-upload">
                                                             <input type="file"
                                                                 id="draft_charge_case_attachment" name="draft_charge_case_attachment" className="form-control" onChange={this.handleImageChange} />
+                                                            {/* id="draft_charge_case_attachment" name="draft_charge_case_attachment" className="form-control" onChange={this.uploadOnServer} /> */}
                                                         </label>
                                                         {this.state.draft_charge_case_attachment_file && <img height='80px' width='80px' src={URL.createObjectURL(this.state.draft_charge_case_attachment_file)} />}
+                                                        {/* {this.state.draft_charge_case_attachment_file && <img height='80px' width='80px' src={this.state.draft_charge_case_attachment_file} />} */}
                                                     </div>
                                                 </div>
                                                 <div className="row">
@@ -1004,7 +1071,7 @@ class NewChargeSheet extends Component {
                         </div>
                         <div className="text-right mt20">
                             <Button className="btn btn-success mr10">Clear</Button>
-                            <Button className="btn btn-success mr10">Save Draft</Button>
+                            {/* <Button className="btn btn-success mr10">Save Draft</Button> */}
                             <Button type="submit" className="btn btn-success">Submit</Button>
                         </div>
                     </form>
@@ -1039,26 +1106,26 @@ class NewChargeSheet extends Component {
                             <div className="row">
                                 <div className="col-md-6">
                                     <span className="title required">Office </span>
-                                    <select className="form-control" name="preliminary_office" id="preliminary_office"
+                                    {/* <select className="form-control" name="preliminary_office" id="preliminary_office"
                                         onChange={this.handleChange}>
                                         <option value="">Select Office</option>
                                         <option value="hisar">Hisar</option>
                                         <option value="sirsa">Sirsa</option>
                                         <option value="rohtak">Rohtak</option>
                                         <option value="jind">Jind</option>
-                                    </select>
-                                    {/* {this.renderOfficeList()} */}
+                                    </select> */}
+                                    {this.renderOfficeList()}
                                 </div>
                                 <div className="col-md-6">
                                     <span className="title required">Designation</span>
-                                    <select className="form-control" name="preliminary_designation"  id="preliminary_designation"
+                                    {/* <select className="form-control" name="preliminary_designation" id="preliminary_designation"
                                         onChange={this.handleChange}>
                                         <option value="">Select Office</option>
                                         <option value="si">S.I.</option>
                                         <option value="sho">S.H.O.</option>
                                         <option value="dsp">D.S.P.</option>
-                                    </select>
-                                    {/* {this.renderDesignationList()} */}
+                                    </select> */}
+                                    {this.renderDesignationList()}
                                 </div>
                             </div>
                             <div className="row">

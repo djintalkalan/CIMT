@@ -16,6 +16,7 @@ import 'ag-grid-community/dist/styles/ag-theme-balham.css';
 import DashboardLayout from './components/layouts/DashboardLayout';
 import 'react-toastify/dist/ReactToastify.css';
 import Home from './components/Home';
+import { ToastContainer } from 'react-toastify';
 // import logo from './logo.svg';
 // import './App.css';
 
@@ -46,8 +47,19 @@ class App extends Component {
           <PrivateRoute path="/newchargesheet" component={Home} />
           <PrivateRoute path="/chargesheet" component={Home} />
           <PrivateRoute path="/drawingchargesheet" component={Home} />
+
+          <PrivateRoute path="/designations" component={Home} />
+          <PrivateRoute path="/offices" component={Home} />
+          <PrivateRoute path="/district" component={Home} />
+          <PrivateRoute path="/helpdesk" component={Home} />
           <Redirect from="*" to="/" />
         </Switch>
+
+        <ToastContainer
+         
+        />
+        {/* Same as */}
+        <ToastContainer />
 
 
       </Router>

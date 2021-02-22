@@ -33,21 +33,21 @@ class UserProfile extends Component {
         console.log("stateInfo", this.state);
 
         let form_data = new FormData();
-        form_data.append('profilepic', this.state.image);
-        form_data.append('firstname', this.state.firstname);
-        form_data.append('lastname', this.state.lastname);
+        form_data.append('profile_pic', this.state.image);
+        form_data.append('first_name', this.state.firstname);
+        form_data.append('last_name', this.state.lastname);
         form_data.append('email', this.state.email);
-        form_data.append('treasury_code', this.state.treasury_code);
+        // form_data.append('treasury_code', this.state.treasury_code);
         form_data.append('designation', this.state.designation);
-        form_data.append('phone', this.state.phone);
-        form_data.append('workplace', this.state.workplace);
+        form_data.append('phone_no', this.state.phone);
+        form_data.append('office', this.state.workplace);
         for (var pair of form_data.entries()) {
             console.log(pair[0] + ': ' + pair[1]);
         }
         console.log("Info", form_data);
 
-        let url = 'https://cors-anywhere.herokuapp.com/https://cimt.herokuapp.com/AddEvidence/';
-        axios.post(url, form_data, {
+        let url = 'http://127.0.0.1:8000/updateUser/';
+        axios.patch(url, form_data, {
             headers: {
                 'content-type': 'multipart/form-data'
             }
@@ -60,13 +60,13 @@ class UserProfile extends Component {
 
     componentDidMount() {
 
-        const { username, firstname, lastname, email, treasury_code, designation, phone, workplace } = this.props.userDataReducer
+        const { username, firstname, lastname, email, designation, phone, workplace } = this.props.userDataReducer
         this.setState({
             username,
             email,
             firstname:firstname,
             lastname:lastname,
-            treasury_code:treasury_code,
+            // treasury_code:treasury_code,
             designation:designation,
             phone:phone,
             workplace:workplace,

@@ -3,7 +3,8 @@ export const Constants = {
         get: 'GET',
         post: 'POST',
         delete: 'DELETE',
-        put: 'PUT'
+        put: 'PUT',
+        patch: 'PATCH'
       },
     
 }

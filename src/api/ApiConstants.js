@@ -7,24 +7,38 @@ const localUrl ="http://127.0.0.1:8000"
 export const ApiConstants = {
     getPhotos:baseUrl+"/photos",
     getPosts:baseUrl+"/posts",
-    loginUser1:baseUrl2+"/customer/login.php",
+    loginUser1:localUrl+"/customer/login.php",
 
-    loginUser:baseUrl_heroku+"/ValidateUser/",
-    passwordReset: baseUrl_heroku+"/passwordReset/",
-    changePass: baseUrl_heroku+"/changePassword/",
+    loginUser:localUrl+"/validateUser/",
+    passwordReset: localUrl+"/passwordReset/",
+    changePass: localUrl+"/changePassword/",
 
-    getUserList:baseUrl_heroku+"/GetAllUser/",
-    addUser:baseUrl_heroku+"/Adduser/",
+    getCaseReport:localUrl+"/getCaseReport/",
+    getMonthlyCaseReport:localUrl+"/getMonthlyCaseReport/",
+    getDistrictReport:localUrl+"/getDistrictReport/",
+    // addDistrict:localUrl+"/district/",
 
-    getRoleList:baseUrl_heroku+"/GetAllRoles/",
-    addRole:baseUrl_heroku+"/AddRole/",
+    getUserList:localUrl+"/getAllUser/",
+    addUser:localUrl+"/addUser/",
 
-    getCaseList:baseUrl_heroku+"/GetAllCase/",
-    addCase:baseUrl_heroku+"/AddCase/",
+    getRoleList:localUrl+"/getAllRoles/",
+    addRole:localUrl+"/addRole/",
 
-    getOffices:localUrl+"/offices/",
+    getCaseList:localUrl+"/GetAllCase/",
+    addCase:localUrl+"/AddCase/",
+
     getNatureMisconduct:localUrl+"/natureMisconduct/",
     getSourceComplaint:localUrl+"/sourceComplaint/",
+
     getDesignation:localUrl+"/Designations/",
+    addDesignation:localUrl+"/Designations/",
+
+    getOffices:localUrl+"/offices/",
+    addOffices:localUrl+"/offices/",
+
+    getDistrict:localUrl+"/Districts/",
+    addDistrict:localUrl+"/Districts/",
+
 }
+
 
