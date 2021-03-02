@@ -13,6 +13,7 @@ import Modal from 'react-bootstrap/Modal';
 import { Button } from 'react-bootstrap';
 import { getDesignationList } from '../../api/ApiService';
 import { addDesignationApi} from '../../api/ApiService';
+import { updateDesignationApi} from '../../api/ApiService';
 import { deleteDesignationApi} from '../../api/ApiService';
 import { toast } from 'react-toastify';
 import { showSuccessToast, showErrorToast, showInfoToast, showWarningToast, showSomethingWentWrong } from '../../utils/Utils'
@@ -117,8 +118,36 @@ class Designations extends Component {
             // desc: this.state.desc,
         }
 
-        this.calladdDesignationApi(params)
+        // this.calladdDesignationApi(params)
+        if (this.state.id) {
+            this.callUdateDesignationsApi(this.state.id, params)
+        } else {
+            this.calladdDesignationApi(params)
+        }
 
+    }
+
+    callUdateDesignationsApi = (id, params) => {
+        console.log("UPDATE_Designations_API_PARAMS:" + JSON.stringify(params))
+
+        updateDesignationApi(id, params).then(res => {
+        console.log("UPDATE Designations STATUS", JSON.stringify(res))
+            if (res.success) {
+                showSuccessToast("Updated Successfully")
+                this.setState({
+                    designation: "",
+                    isAddVisible: false,
+                    id: ""
+                })
+                this.callDesignationListApi()
+            }
+            else {
+                showSomethingWentWrong()
+            }
+        }).catch(e => {
+            console.log(e);
+            showSomethingWentWrong()
+        });
     }
 
     calladdDesignationApi = (params) => {

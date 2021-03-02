@@ -108,45 +108,57 @@ export async function getSourceComplaintList() {
 }
 
 export async function getDesignationList() {
-    return fetchApiData(ApiConstants.getDesignation, '', Constants.API_METHOD.get)
+    return fetchApiData(ApiConstants.addUpdateDelDesignation, '', Constants.API_METHOD.get)
 }
 
 export async function addDesignationApi(param) {
-    return fetchApiData(ApiConstants.addDesignation, param, Constants.API_METHOD.post)
+    return fetchApiData(ApiConstants.addUpdateDelDesignation, param, Constants.API_METHOD.post)
+}
+
+export async function updateDesignationApi(id, param) {
+    return fetchApiData(ApiConstants.addUpdateDelDesignation + id, param, Constants.API_METHOD.put)
 }
 
 export async function deleteDesignationApi(param) {
-    return fetchApiData(ApiConstants.addDesignation + param, null, Constants.API_METHOD.delete)
+    return fetchApiData(ApiConstants.addUpdateDelDesignation + param, null, Constants.API_METHOD.delete)
 }
 
 export async function getOfficesList() {
-    return fetchApiData(ApiConstants.getOffices, '', Constants.API_METHOD.get)
+    return fetchApiData(ApiConstants.addUpdateDelOffices, '', Constants.API_METHOD.get)
 }
 
 export async function addOfficesApi(param) {
-    return fetchApiData(ApiConstants.addOffices, param, Constants.API_METHOD.post)
+    return fetchApiData(ApiConstants.addUpdateDelOffices, param, Constants.API_METHOD.post)
 }
 
-// export async function updateOfficesApi(param) {
-//     return fetchApiData(ApiConstants.addOffices + param, null, Constants.API_METHOD.put)
-// }
+export async function updateOfficesApi(id, param) {
+    return fetchApiData(ApiConstants.addUpdateDelOffices + id, param, Constants.API_METHOD.put)
+}
 
 export async function deleteOfficesApi(param) {
-    return fetchApiData(ApiConstants.addOffices + param, null, Constants.API_METHOD.delete)
+    return fetchApiData(ApiConstants.addUpdateDelOffices + param, null, Constants.API_METHOD.delete)
 }
 
 export async function getDistrictList() {
-    return fetchApiData(ApiConstants.getDistrict, '', Constants.API_METHOD.get)
+    return fetchApiData(ApiConstants.addUpdateDelDistrict, '', Constants.API_METHOD.get)
 }
 
 export async function addDistrictApi(param) {
-    return fetchApiData(ApiConstants.addDistrict, param, Constants.API_METHOD.post)
+    return fetchApiData(ApiConstants.addUpdateDelDistrict, param, Constants.API_METHOD.post)
+}
+
+export async function updateDistrictApi(id, param) {
+    return fetchApiData(ApiConstants.addUpdateDelOffices + id, param, Constants.API_METHOD.put)
 }
 
 export async function deleteDistrictApi(param) {
-    return fetchApiData(ApiConstants.addDistrict + param, null, Constants.API_METHOD.delete)
+    return fetchApiData(ApiConstants.addUpdateDelDistrict + param, null, Constants.API_METHOD.delete)
 }
 
 export async function uploadImageApi(param) {
     return fetchApiData(ApiConstants.addDistrict, param, Constants.API_METHOD.post,true)
+}
+
+export async function updateUserApi(id, param) {
+    return fetchApiData(ApiConstants.updateUser + id, param, Constants.API_METHOD.post,true)
 }

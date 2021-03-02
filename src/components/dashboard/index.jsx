@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import { userDataAction, userTokenAction, isLoginAction } from "../../redux/actions"
 import { connect } from "react-redux";
 import { history } from '../../routes';
-import { getCaseReport } from '../../api/ApiService';
-import { getMonthlyCaseReport } from '../../api/ApiService';
-import { getDistrictReport } from '../../api/ApiService';
+import { getCaseReport, getMonthlyCaseReport, getDistrictReport } from '../../api/ApiService';
 import CanvasJSReact from '../../assets/canvasjs.react';
 // import Fingerprint2 from 'fingerprintjs2'
 var CanvasJS = CanvasJSReact.CanvasJS;

@@ -1,6 +1,6 @@
 
 const baseUrl ="https://jsonplaceholder.typicode.com"
-const baseUrl_heroku ="https://cors-anywhere.herokuapp.com/https://cimt.herokuapp.com"
+const baseUrl_heroku ="https://cimt.herokuapp.com"
 const baseUrl2 ="https://kartforu.com/deepak/shally_maid_api/api"
 const localUrl ="http://127.0.0.1:8000"
 
@@ -12,6 +12,7 @@ export const ApiConstants = {
     loginUser:localUrl+"/validateUser/",
     passwordReset: localUrl+"/passwordReset/",
     changePass: localUrl+"/changePassword/",
+    updateUser: localUrl+"/updateUser/",
 
     getCaseReport:localUrl+"/getCaseReport/",
     getMonthlyCaseReport:localUrl+"/getMonthlyCaseReport/",
@@ -24,20 +25,20 @@ export const ApiConstants = {
     getRoleList:localUrl+"/getAllRoles/",
     addRole:localUrl+"/addRole/",
 
-    getCaseList:localUrl+"/GetAllCase/",
-    addCase:localUrl+"/AddCase/",
+    getCaseList:baseUrl_heroku+"/GetAllCase/",
+    addCase:baseUrl_heroku+"/AddCase/",
 
     getNatureMisconduct:localUrl+"/natureMisconduct/",
     getSourceComplaint:localUrl+"/sourceComplaint/",
 
-    getDesignation:localUrl+"/Designations/",
-    addDesignation:localUrl+"/Designations/",
+    addUpdateDelDesignation:localUrl+"/Designations/",
+    // addDesignation:localUrl+"/Designations/",
 
-    getOffices:localUrl+"/offices/",
-    addOffices:localUrl+"/offices/",
+    addUpdateDelOffices:localUrl+"/offices/",
+    // getOffices:localUrl+"/offices/",
 
-    getDistrict:localUrl+"/Districts/",
-    addDistrict:localUrl+"/Districts/",
+    addUpdateDelDistrict:localUrl+"/Districts/",
+    // addDistrict:localUrl+"/Districts/",
 
 }
 

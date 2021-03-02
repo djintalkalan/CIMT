@@ -13,6 +13,7 @@ import Modal from 'react-bootstrap/Modal';
 import { Button } from 'react-bootstrap';
 import { getDistrictList } from '../../api/ApiService';
 import { addDistrictApi} from '../../api/ApiService';
+import { updateDistrictApi} from '../../api/ApiService';
 import { deleteDistrictApi} from '../../api/ApiService';
 import { toast } from 'react-toastify';
 import { showSuccessToast, showErrorToast, showInfoToast, showWarningToast, showSomethingWentWrong } from '../../utils/Utils'
@@ -112,17 +113,41 @@ class District extends Component {
             showWarningToast("Please enter District");
             return
         }
-        // if (!password) {
-        //     alert("Password can not be empty");
-        //     return
-        // }
-        // let this is login response from server
+        
         const params = {
             district: this.state.district,
             // desc: this.state.desc,
         }
 
-        this.calladdDistrictApi(params)
+        // this.calladdDistrictApi(params)
+        if (this.state.id) {
+            this.callUdateDistrictApi(this.state.id, params)
+        } else {
+            this.calladdDistrictApi(params)
+        }
+    }
+
+    callUdateDistrictApi = (id, params) => {
+        console.log("UPDATE_DISTRICT_API_PARAMS:" + JSON.stringify(params))
+
+        updateDistrictApi(id, params).then(res => {
+        console.log("UPDATE DISTRICT STATUS", JSON.stringify(res))
+            if (res.success) {
+                showSuccessToast("Updated Successfully")
+                this.setState({
+                    district: "",
+                    isAddVisible: false,
+                    id: ""
+                })
+                this.callDistrictListApi()
+            }
+            else {
+                showSomethingWentWrong()
+            }
+        }).catch(e => {
+            console.log(e);
+            showSomethingWentWrong()
+        });
     }
 
     calladdDistrictApi = (params) => {

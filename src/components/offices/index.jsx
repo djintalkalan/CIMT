@@ -13,7 +13,7 @@ import Modal from 'react-bootstrap/Modal';
 import { Button } from 'react-bootstrap';
 import { getOfficesList, deleteOfficesApi } from '../../api/ApiService';
 import { addOfficesApi } from '../../api/ApiService';
-// import { updateOfficesApi } from '../../api/ApiService';
+import { updateOfficesApi } from '../../api/ApiService';
 import { getDistrictList } from '../../api/ApiService';
 import { toast } from 'react-toastify';
 import { showSuccessToast, showErrorToast, showInfoToast, showWarningToast, showSomethingWentWrong } from '../../utils/Utils'
@@ -129,42 +129,43 @@ class Offices extends Component {
             office_name: this.state.office_name,
             office_address: this.state.office_address,
             district: this.state.district,
-            id: this.state.id || null
+            // id: this.state.id || null
         }
 
-        this.calladdOfficesApi(params)
+        // this.calladdOfficesApi(params)
 
-        // if (this.state.id) {
-            // this.callUdateOfficesApi(params)
-        // } else {
-        // }
+        if (this.state.id) {
+            this.callUdateOfficesApi(this.state.id, params)
+        } else {
+            this.calladdOfficesApi(params)
+        }
 
     }
 
-    // callUdateOfficesApi = (params) => {
-    //     console.log("UPDATE_OFFICES_API_PARAMS:" + JSON.stringify(params))
+    callUdateOfficesApi = (id, params) => {
+        console.log("UPDATE_OFFICES_API_PARAMS:" + JSON.stringify(params))
 
-    //     updateOfficesApi(params).then(res => {
-    //     console.log("UPDATE OFFICES STATUS", JSON.stringify(res))
-    //         if (res.success) {
-    //             showSuccessToast("Updated Successfully")
-    //             this.setState({
-    //                 office_name: "",
-    //                 office_address: "",
-    //                 district: "",
-    //                 isAddVisible: false,
-    //                 id: ""
-    //             })
-    //             this.callOfficesListApi()
-    //         }
-    //         else {
-    //             showSomethingWentWrong()
-    //         }
-    //     }).catch(e => {
-    //         console.log(e);
-    //         showSomethingWentWrong()
-    //     });
-    // }
+        updateOfficesApi(id, params).then(res => {
+        console.log("UPDATE OFFICES STATUS", JSON.stringify(res))
+            if (res.success) {
+                showSuccessToast("Updated Successfully")
+                this.setState({
+                    office_name: "",
+                    office_address: "",
+                    district: "",
+                    isAddVisible: false,
+                    id: ""
+                })
+                this.callOfficesListApi()
+            }
+            else {
+                showSomethingWentWrong()
+            }
+        }).catch(e => {
+            console.log(e);
+            showSomethingWentWrong()
+        });
+    }
 
     calladdOfficesApi = (params) => {
         console.log("ADD_OFFICES_API_PARAMS:" + JSON.stringify(params))

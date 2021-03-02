@@ -3,6 +3,7 @@ import axios from 'axios';
 import { userDataAction, userTokenAction, isLoginAction } from "../../redux/actions"
 import { connect } from "react-redux";
 import { Button } from 'react-bootstrap';
+import { updateUserApi } from '../../api/ApiService';
 
 
 class UserProfile extends Component {
@@ -45,17 +46,17 @@ class UserProfile extends Component {
             console.log(pair[0] + ': ' + pair[1]);
         }
         console.log("Info", form_data);
+        // console.log(JSON.parse(localStorage.getItem("userData")));
 
-        let url = 'http://127.0.0.1:8000/updateUser/';
-        axios.patch(url, form_data, {
-            headers: {
-                'content-type': 'multipart/form-data'
-            }
+        // let url = 'http://127.0.0.1:8000/updateUser/';
+        // axios.patch(url, form_data, {})
+        updateUserApi(this.state.id, form_data).then(res=>{
+
+            console.log("SIGN_IN_API_RES:" + JSON.stringify(res))
+        }).then(res => {
+            console.log(res.data);
         })
-            .then(res => {
-                console.log(res.data);
-            })
-            .catch(err => console.log(err))
+        .catch(err => console.log(err))
     };
 
     componentDidMount() {

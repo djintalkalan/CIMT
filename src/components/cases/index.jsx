@@ -132,20 +132,20 @@ class Cases extends Component {
 
         addCaseApi(params).then(res => {
             console.log("ADD CASE STATUS", JSON.stringify(res))
-            this.setState({ addCaseStatus: res.addcase }, () => {
-                let caseList = this.state.caseList;
-                caseList.push({
-                    "case_no": parseInt(params.case_no),
-                    "created_date": "",
-                    "fir_no": parseInt(params.fir_no),
-                    "name": params.name,
-                    "address": params.address,
-                    "user_id": params.user
-                })
-                console.log("CASE_LIST:", caseList)
-                this.setState({ caseList })
-                this.agGrid.setRowData(caseList);
-            })
+            // this.setState({ addCaseStatus: res.addcase }, () => {
+            //     let caseList = this.state.caseList;
+            //     caseList.push({
+            //         "case_no": parseInt(params.case_no),
+            //         "created_date": "",
+            //         "fir_no": parseInt(params.fir_no),
+            //         "name": params.name,
+            //         "address": params.address,
+            //         "user_id": params.user
+            //     })
+            //     console.log("CASE_LIST:", caseList)
+            //     this.setState({ caseList })
+            //     this.agGrid.setRowData(caseList);
+            // })
 
             // history.push('/cases')
         });
@@ -240,15 +240,15 @@ class Cases extends Component {
             )
     }
 
-    onGridReady(params) {
-        const rowData = this.state.caseList;
+    // onGridReady(params) {
+    //     const rowData = this.state.caseList;
 
-        this.agGrid = params.api;
+    //     this.agGrid = params.api;
 
-        if (rowData.length > 0 && this.agGrid) {
-            this.agGrid.setRowData(rowData);
-        }
-    }
+    //     if (rowData.length > 0 && this.agGrid) {
+    //         this.agGrid.setRowData(rowData);
+    //     }
+    // }
 
     render() {
         console.log("caseList", JSON.stringify(this.state.caseList))
@@ -266,13 +266,20 @@ class Cases extends Component {
                         <div className="row">
                             <div className="col-md-12">
                                 {this.state.userList && <div className="ag-theme-balham" style={{ height: 500, width: '100%' }}>
-                                    <AgGridReact
+                                    {/* <AgGridReact
                                         animateRows={true}
                                         rowSelection="multiple"
                                         gridOptions={this.gridOptionsCase}
                                         deltaRowDataMode={true}
                                         onGridReady={(params) => this.onGridReady(params)}
                                         getRowNodeId={data => data.fir_no}>
+                                    </AgGridReact> */}
+                                    <AgGridReact
+                                        animateRows={true}
+                                        rowSelection="multiple"
+                                        //columnDefs={this.state.columnDefs}
+                                        gridOptions={this.gridOptionsCase}
+                                        rowData={this.state.caseList}>
                                     </AgGridReact>
                                 </div>}
                             </div>
