@@ -51,6 +51,9 @@ class App extends Component {
           <PrivateRoute path="/designations" component={Home} />
           <PrivateRoute path="/offices" component={Home} />
           <PrivateRoute path="/district" component={Home} />
+          <PrivateRoute path="/misconduct" component={Home} />
+          <PrivateRoute path="/articles" component={Home} />
+
           <PrivateRoute path="/helpdesk" component={Home} />
           <Redirect from="*" to="/" />
         </Switch>

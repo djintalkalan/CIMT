@@ -224,7 +224,7 @@ class DashBoard extends Component {
 
    
     render() {
-        console.log("UserName", this.setState.caseReportList)
+        console.log("UserName", this.state.total_case)
         return (
             <div className="dashboardCt">
                 <div className="container-fluid">

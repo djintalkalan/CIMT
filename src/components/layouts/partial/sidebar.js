@@ -132,10 +132,20 @@ class Sidebar extends Component {
                                 </Link>
                             </div>
                             <div className={"box-circle"}>
+                                <Link to={'/articles'} className={"" + (this.state.path == '/articles' ? "active" : " ")} >
+                                    <span>&#8692; Articles</span>
+                                </Link>
+                            </div>
+                            <div className={"box-circle"}>
+                                <Link to={'/misconduct'} className={"" + (this.state.path == '/misconduct' ? "active" : " ")} >
+                                    <span>&#8692; Misconduct Type</span>
+                                </Link>
+                            </div>
+                            {/* <div className={"box-circle"}>
                                 <Link to={'/#'} >
                                     <span>&#8692; Division</span>
                                 </Link>
-                            </div>
+                            </div> */}
                             {/* <div className={"box-circle"}>
                                 <Link to={'/#'} >
                                     <span>&#8692; Module Type</span>
@@ -151,7 +161,7 @@ class Sidebar extends Component {
                     }
 
                     <div className="box-circle ">
-                        <Link to={'/helpdesk'} className={"" + (this.state.path == '/' ? "active" : " ")}>
+                        <Link to={'/helpdesk'} className={"" + (this.state.path == '/helpdesk' ? "active" : " ")}>
                             <i className="fa fa-tachometer" aria-hidden="true"></i>
                             <span>Help Desk</span>
                         </Link>

@@ -148,11 +148,43 @@ export async function addDistrictApi(param) {
 }
 
 export async function updateDistrictApi(id, param) {
-    return fetchApiData(ApiConstants.addUpdateDelOffices + id, param, Constants.API_METHOD.put)
+    return fetchApiData(ApiConstants.addUpdateDelDistrict + id, param, Constants.API_METHOD.put)
 }
 
 export async function deleteDistrictApi(param) {
     return fetchApiData(ApiConstants.addUpdateDelDistrict + param, null, Constants.API_METHOD.delete)
+}
+
+export async function getMisconductList() {
+    return fetchApiData(ApiConstants.addUpdateDelMisconduct, '', Constants.API_METHOD.get)
+}
+
+export async function addMisconductApi(param) {
+    return fetchApiData(ApiConstants.addUpdateDelMisconduct, param, Constants.API_METHOD.post)
+}
+
+export async function updateMisconductApi(id, param) {
+    return fetchApiData(ApiConstants.addUpdateDelMisconduct + id, param, Constants.API_METHOD.put)
+}
+
+export async function deleteMisconductApi(param) {
+    return fetchApiData(ApiConstants.addUpdateDelMisconduct + param, null, Constants.API_METHOD.delete)
+}
+
+export async function getArticlesList() {
+    return fetchApiData(ApiConstants.addUpdateDelArticles, '', Constants.API_METHOD.get)
+}
+
+export async function addArticlesApi(param) {
+    return fetchApiData(ApiConstants.addUpdateDelArticles, param, Constants.API_METHOD.post)
+}
+
+export async function updateArticlesApi(id, param) {
+    return fetchApiData(ApiConstants.addUpdateDelArticles + id, param, Constants.API_METHOD.put)
+}
+
+export async function deleteArticlesApi(param) {
+    return fetchApiData(ApiConstants.addUpdateDelArticles + param, null, Constants.API_METHOD.delete)
 }
 
 export async function uploadImageApi(param) {
@@ -160,5 +192,5 @@ export async function uploadImageApi(param) {
 }
 
 export async function updateUserApi(id, param) {
-    return fetchApiData(ApiConstants.updateUser + id, param, Constants.API_METHOD.post,true)
+    return fetchApiData(ApiConstants.updateUser + id, param, Constants.API_METHOD.put,true)
 }

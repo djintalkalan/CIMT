@@ -20,10 +20,10 @@ class NewChargeSheet extends Component {
         // console.log("HISTORY:-", props.location.state.data)
         this.state = {
             userList: null,
-            isAddVisibleEnquiry: false,
-            isAddVisibleImputation: false,
-            isAddVisibleDocuments: false,
-            isAddVisibleWitness: false,
+            isAddVisiblePreliminaryEnquiry: false,
+            // isAddVisibleImputation: false,
+            // isAddVisibleDocuments: false,
+            // isAddVisibleWitness: false,
             chargeOfficerList: [],
             draftChargeList: [],
             draftArticleList: [],
@@ -31,65 +31,20 @@ class NewChargeSheet extends Component {
             //     data: props.location.state.data
         }
 
-        this.gridOptionsVisibleEnquiry = {
-            defaultColDef: {
-                sortable: true,
-                filter: true
-            },
-            columnDefs: [
-                { headerName: "ID", field: "id", sortable: true, filter: true },
-                { headerName: "Name", field: "name", sortable: true, filter: true },
-                { headerName: "Description", field: "description", sortable: true, filter: true }],
-            rowData: null,
-            floatingFilter: true,
-            pagination: true,
-            paginationPageSize: 10
-        }
-
-        this.gridOptionsVisibleImputation = {
-            defaultColDef: {
-                sortable: true,
-                filter: true
-            },
-            columnDefs: [
-                { headerName: "ID", field: "id", sortable: true, filter: true },
-                { headerName: "Name", field: "name", sortable: true, filter: true },
-                { headerName: "Description", field: "description", sortable: true, filter: true }],
-            rowData: null,
-            floatingFilter: true,
-            pagination: true,
-            paginationPageSize: 10
-        }
-
-        this.gridOptionsVisibleDocuments = {
-            defaultColDef: {
-                sortable: true,
-                filter: true
-            },
-            columnDefs: [
-                { headerName: "ID", field: "id", sortable: true, filter: true },
-                { headerName: "Name", field: "name", sortable: true, filter: true },
-                { headerName: "Description", field: "description", sortable: true, filter: true }],
-            rowData: null,
-            floatingFilter: true,
-            pagination: true,
-            paginationPageSize: 10
-        }
-
-        this.gridOptionsVisibleWitness = {
-            defaultColDef: {
-                sortable: true,
-                filter: true
-            },
-            columnDefs: [
-                { headerName: "ID", field: "id", sortable: true, filter: true },
-                { headerName: "Name", field: "name", sortable: true, filter: true },
-                { headerName: "Description", field: "description", sortable: true, filter: true }],
-            rowData: null,
-            floatingFilter: true,
-            pagination: true,
-            paginationPageSize: 10
-        }
+        // this.gridOptionsVisibleEnquiry = {
+        //     defaultColDef: {
+        //         sortable: true,
+        //         filter: true
+        //     },
+        //     columnDefs: [
+        //         { headerName: "ID", field: "id", sortable: true, filter: true },
+        //         { headerName: "Name", field: "name", sortable: true, filter: true },
+        //         { headerName: "Description", field: "description", sortable: true, filter: true }],
+        //     rowData: null,
+        //     floatingFilter: true,
+        //     pagination: true,
+        //     paginationPageSize: 10
+        // }
 
     }
 
@@ -109,19 +64,19 @@ class NewChargeSheet extends Component {
 
     handleSubmitNewChargeSheet = (e) => {
         e.preventDefault();
-        console.log("stateInfo", this.state);
+        // console.log("stateInfo", this.state);
 
         const { file_no, file_year, case_office, nature_misconduct, source_complaint, nature_complaint } = this.state
 
-        if ((!file_no) || (!file_year) || (!case_office) || (!nature_misconduct) || (!source_complaint) || (!nature_complaint)) {
-            showWarningToast("Please fill necessary fields")
-            return
-        }
+        // if ((!file_no) || (!file_year) || (!case_office) || (!nature_misconduct) || (!source_complaint) || (!nature_complaint)) {
+        //     showWarningToast("Please fill necessary fields")
+        //     return
+        // }
 
         let charged_officer = []
 
         this.state.chargeOfficerList.forEach(item => {
-            let dat = {
+            let dat_charge_officer = {
                 first_name: item.charged_officer,
                 office: item.working_place,
                 designation: item.designation_imputation,
@@ -130,25 +85,25 @@ class NewChargeSheet extends Component {
                 phone: item.charged_officer_phone,
                 previous_charges: item.charged_officer_previous_charges,
                 attachment_desc: item.charge_officer_attachment_desc,
-                charged_officer_case_attachment: item.charged_officer_case_attachment,
+                charged_officer_attachment: item.charged_officer_case_attachment,
             }
-            charged_officer.push(dat)
+            charged_officer.push(dat_charge_officer)
 
         })
 
         let draft_charge_sheet = []
 
         this.state.draftChargeList.forEach(item => {
-            let dat = {
+            let dat_draft_charge = {
                 file_rc_no: item.proposal_file_no,
                 date: item.draft_charge_date,
                 submitted_by: item.submitted_by,
                 submitted_to: item.submitted_to,
                 subject: item.subject_in_brief,
                 attachment_desc: item.draft_charge_attachment_desc,
-                attachment: item.draft_charge_case_attachment_file.name,
+                // attachment: item.draft_charge_case_attachment_file.name,
             }
-            draft_charge_sheet.push(dat)
+            draft_charge_sheet.push(dat_draft_charge)
 
         })
 
@@ -159,30 +114,30 @@ class NewChargeSheet extends Component {
             let preliminary_inquiry = []
 
             item.preliminary_inquiry.forEach(item2 => {
-                let en = {
+                let dat_prelimi_enq = {
                     enquiry_officer: item.preliminary_charged_officer,
                     report_date: item.preliminary_report_date,
                     office: item.preliminary_office,
                     designation: item.preliminary_designation,
-                    report_conclusion_breif: item.preliminary_follow_up_action,
+                    report_conclusion_breif: item.preliminary_report_conclusion,
                     follow_up_action: item.preliminary_follow_up_action,
                     attachment_desc: item.preliminary_attachment_desc,
-                    attachment: item.preliminary_attachment_file.name,
+                    // preliminary_enquiry_attachment: item.preliminary_attachment_file.name,
                 }
 
-                preliminary_inquiry.push(en)
+                preliminary_inquiry.push(dat_prelimi_enq)
             })
-            let dat = {
-                article_no: item.drafts_article_number,
+            let dat_draft_article = {
+                draft_article_no: item.drafts_article_number,
                 date_of_misconduct: item.draft_misconduct_date,
                 gist_of_article: item.gist_draft_article,
                 misconduct_type: item.misconduct_type,
                 amount_involved_if_any: item.amount_involved,
                 attachment_desc: item.draft_article_attachment_desc,
-                attachment: item.draft_article_case_attachment_file.name,
-                preliminary_inquiry: preliminary_inquiry
+                // draft_article_attachment: item.draft_article_case_attachment_file.name,
+                preliminary_enquiries: preliminary_inquiry
             }
-            draftArticle.push(dat)
+            draftArticle.push(dat_draft_article)
 
         })
 
@@ -190,14 +145,14 @@ class NewChargeSheet extends Component {
         
         let data = {
             "case_identity": {
-                "file_no": this.state.file_no,
+                "file_number": this.state.file_no,
                 "file_year": this.state.file_year,
                 "office": this.state.case_office,
                 "nature_of_misconduct": this.state.nature_misconduct,
                 "source_of_complaint": this.state.source_complaint,
                 "name_of_complainant": this.state.nature_complaint,
                 "complainant_address": this.state.case_identity_attachment_desc,
-                "case_identity_attachment": this.state.case_attachment_file.name
+                // "case_identity_attachment": this.state.case_attachment_file.name
             },
             "charged_officer": charged_officer,
             "draft_chargesheet_proposal": draft_charge_sheet,
@@ -364,7 +319,7 @@ class NewChargeSheet extends Component {
 
     onClearOfficerChargeList = () => {
         console.log("Charged Officer:", this.state)
-        // return
+        return
         this.setState({
             charged_officer: "",
             working_place: "",
@@ -375,6 +330,7 @@ class NewChargeSheet extends Component {
             charged_officer_previous_charges: "",
             charged_officer_case_attachment_file: "",
         })
+        return
     }
 
     onAddOfficerChargeList = () => {
@@ -724,10 +680,10 @@ class NewChargeSheet extends Component {
 
                         <div className="inner customAccordion">
 
-                            {this.renderVisibleEnquiry()}
-                            {this.renderVisibleImputation()}
-                            {this.renderVisibleDocuments()}
-                            {this.renderVisibleWitness()}
+                            {this.renderVisiblePreliminaryEnquiry()}
+                            {/* {this.renderVisibleImputation()} */}
+                            {/* {this.renderVisibleDocuments()} */}
+                            {/* {this.renderVisibleWitness()} */}
 
                             <h5>Add New Case</h5>
 
@@ -749,22 +705,22 @@ class NewChargeSheet extends Component {
                                                     </div>
                                                     <div className="col-md-6">
                                                         <span className="title required">File Year </span>
-                                                        <input type="number"
+                                                        <input type="date"
                                                             id="file_year" name="file_year" className="form-control" onChange={this.handleChange} required />
                                                     </div>
                                                 </div>
                                                 <div className="row">
                                                     <div className="col-md-6">
                                                         <span className="title required">Office </span>
-                                                        {/* <select className="form-control" name="case_office" id="case_office"
+                                                        <select className="form-control" name="case_office" id="case_office"
                                                             onChange={this.handleChange}>
                                                             <option value="">Select Office</option>
                                                             <option value="hisar">Hisar</option>
                                                             <option value="sirsa">Sirsa</option>
                                                             <option value="rohtak">Rohtak</option>
                                                             <option value="jind">Jind</option>
-                                                        </select> */}
-                                                        {this.renderOfficeList()}
+                                                        </select>
+                                                        {/* {this.renderOfficeList()} */}
                                                     </div>
                                                     <div className="col-md-6">
                                                         <span className="title required">Nature of Misconduct </span>
@@ -803,7 +759,7 @@ class NewChargeSheet extends Component {
                                                 </div>
                                                 <div className="row">
                                                     <div className="col-md-12">
-                                                        <span className="title required">Attachment If Any </span>
+                                                        <span className="title">Attachment If Any </span>
                                                         <textarea name="case_identity_attachment_desc" id="case_identity_attachment_desc" className="form-control" onChange={this.handleChange}></textarea>
                                                         <label className="custom-file-upload">
                                                             <input type="file"
@@ -894,7 +850,7 @@ class NewChargeSheet extends Component {
                                                 </div>
                                                 <div className="row">
                                                     <div className="col-md-12">
-                                                        <a onClick={this.onClearOfficerChargeList} href="#" className="btn btn-sm btn-dark float-right mt10 ml10">Clear</a>
+                                                        <a onClick={this.onClearOfficerChargeList} className="btn btn-sm btn-dark float-right mt10 ml10 btn-custom">Clear</a>
                                                         <a onClick={this.onAddOfficerChargeList} className="btn btn-sm btn-dark float-right mt10 btn-custom">Add to List</a>
                                                     </div>
                                                 </div>
@@ -942,25 +898,25 @@ class NewChargeSheet extends Component {
                                                 <div className="row">
                                                     <div className="col-md-6">
                                                         <span className="title required">Submitted By </span>
-                                                        {/* <select className="form-control" name="submitted_by" id="submitted_by"
+                                                        <select className="form-control" name="submitted_by" id="submitted_by"
                                                             onChange={this.handleChange}>
                                                             <option value="">Submitted By</option>
                                                             <option value="si">S.I.</option>
                                                             <option value="sho">S.H.O.</option>
                                                             <option value="dsp">D.S.P.</option>
-                                                        </select> */}
-                                                        {this.renderDesignationList()}
+                                                        </select>
+                                                        {/* {this.renderDesignationList()} */}
                                                     </div>
                                                     <div className="col-md-6">
                                                         <span className="title required">Submitted To</span>
-                                                        {/* <select className="form-control" name="submitted_to" id="submitted_to"
+                                                        <select className="form-control" name="submitted_to" id="submitted_to"
                                                             onChange={this.handleChange}>
                                                             <option value="">Submitted To</option>
                                                             <option value="si">S.I.</option>
                                                             <option value="sho">S.H.O.</option>
                                                             <option value="dsp">D.S.P.</option>
-                                                        </select> */}
-                                                        {this.renderDesignationList()}
+                                                        </select>
+                                                        {/* {this.renderDesignationList()} */}
                                                     </div>
                                                 </div>
                                                 <div className="row">
@@ -1068,7 +1024,7 @@ class NewChargeSheet extends Component {
                                                 </div>
                                                 <div className="row">
                                                     <div className="col-md-12">
-                                                        <a href="#" onClick={() => this.setState({ isAddVisibleEnquiry: true })} className="btn btn-info mr20 mb10">Add <br /> Preliminary Enquiry</a>
+                                                        <a href="#" onClick={() => this.setState({ isAddVisiblePreliminaryEnquiry: true })} className="btn btn-info mr20 mb10">Add <br /> Preliminary Enquiry</a>
                                                         {/* <a href="#" onClick={() => this.setState({ isAddVisibleImputation: true })} className="btn btn-info mr20 mb10">Add <br /> Drafts Imputation</a>
                                                         <a href="#" onClick={() => this.setState({ isAddVisibleDocuments: true })} className="btn btn-info mr20 mb10">Add <br /> List of Documents</a>
                                                         <a href="#" onClick={() => this.setState({ isAddVisibleWitness: true })} className="btn btn-info mr20 mb10">Add <br /> List of Witness</a> */}
@@ -1116,9 +1072,9 @@ class NewChargeSheet extends Component {
         );
     }
 
-    renderVisibleEnquiry() {
+    renderVisiblePreliminaryEnquiry() {
         return (
-            <Modal show={this.state.isAddVisibleEnquiry} onHide={() => { this.setState({ isAddVisibleEnquiry: false }) }} dialogClassName="modal-90w custom" aria-labelledby="example-custom-modal-styling-title">
+            <Modal show={this.state.isAddVisiblePreliminaryEnquiry} onHide={() => { this.setState({ isAddVisiblePreliminaryEnquiry: false }) }} dialogClassName="modal-90w custom" aria-labelledby="example-custom-modal-styling-title">
                 <Modal.Header closeButton >
                     <Modal.Title>Preliminary Enquiry</Modal.Title>
                 </Modal.Header>
@@ -1141,44 +1097,44 @@ class NewChargeSheet extends Component {
                             <div className="row">
                                 <div className="col-md-6">
                                     <span className="title required">Office </span>
-                                    {/* <select className="form-control" name="preliminary_office" id="preliminary_office"
+                                    <select className="form-control" name="preliminary_office" id="preliminary_office"
                                         onChange={this.handleChange}>
                                         <option value="">Select Office</option>
                                         <option value="hisar">Hisar</option>
                                         <option value="sirsa">Sirsa</option>
                                         <option value="rohtak">Rohtak</option>
                                         <option value="jind">Jind</option>
-                                    </select> */}
-                                    {this.renderOfficeList()}
+                                    </select>
+                                    {/* {this.renderOfficeList()} */}
                                 </div>
                                 <div className="col-md-6">
                                     <span className="title required">Designation</span>
-                                    {/* <select className="form-control" name="preliminary_designation" id="preliminary_designation"
+                                    <select className="form-control" name="preliminary_designation" id="preliminary_designation"
                                         onChange={this.handleChange}>
                                         <option value="">Select Office</option>
                                         <option value="si">S.I.</option>
                                         <option value="sho">S.H.O.</option>
                                         <option value="dsp">D.S.P.</option>
-                                    </select> */}
-                                    {this.renderDesignationList()}
+                                    </select>
+                                    {/* {this.renderDesignationList()} */}
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col-md-12">
                                     <span className="title required">Follow-Up Action if any </span>
-                                    <textarea name="preliminary_follow_up_action" id="preliminary_follow_up_action" className="form-control"></textarea>
+                                    <textarea name="preliminary_follow_up_action" id="preliminary_follow_up_action" className="form-control" onChange={this.handleChange}></textarea>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col-md-12">
                                     <span className="title required">Report Conclusion Brief </span>
-                                    <textarea name="preliminary_report_conclusion" id="preliminary_report_conclusion" className="form-control"></textarea>
+                                    <textarea name="preliminary_report_conclusion" id="preliminary_report_conclusion" className="form-control" onChange={this.handleChange}></textarea>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col-md-12 mb20">
                                     <span className="title required">Attachment If Any </span>
-                                    <textarea name="preliminary_attachment_desc" id="preliminary_attachment_desc" className="form-control"></textarea>
+                                    <textarea name="preliminary_attachment_desc" id="preliminary_attachment_desc" className="form-control" onChange={this.handleChange}></textarea>
                                     <label className="custom-file-upload">
                                         <input type="file"
                                             id="preliminary_attachment" name="preliminary_attachment" className="form-control" onChange={this.handleImageChange} />
@@ -1210,10 +1166,10 @@ class NewChargeSheet extends Component {
                             {this.renderPreliminaryInquiryList()}
                         </div>
 
-                        <Button variant="secondary" onClick={() => { this.setState({ isAddVisibleEnquiry: false }) }} className="mr10">
+                        <Button variant="secondary" onClick={() => { this.setState({ isAddVisiblePreliminaryEnquiry: false }) }} className="mr10">
                             Close
                          </Button>
-                        <Button type="submit" variant="primary" onClick={() => { this.setState({ isAddVisibleEnquiry: false }) }}>
+                        <Button type="submit" variant="primary" onClick={() => { this.setState({ isAddVisiblePreliminaryEnquiry: false }) }}>
                             Save Changes
                          </Button>
                     </form>
@@ -1222,113 +1178,113 @@ class NewChargeSheet extends Component {
         )
     }
 
-    renderVisibleImputation() {
-        return (
-            <Modal show={this.state.isAddVisibleImputation} onHide={() => { this.setState({ isAddVisibleImputation: false }) }}>
-                <Modal.Header closeButton >
-                    <Modal.Title>Add User</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <form
-                        onSubmit={this.handleSubmitRole} >
-                        <div className="form-group">
-                            <span>Role Name</span>
-                            <input
-                                value={this.state.rolename}
-                                onChange={this.handleRolenameChange}
-                                type="text" className="form-control" name="rolename" placeholder="Role Name" />
-                        </div>
-                        <div className="form-group">
-                            <span>Role Description</span>
-                            <input
-                                value={this.state.roledesc}
-                                onChange={this.handleRoledescChange}
-                                type="text" className="form-control" name="roledesc" placeholder="Role Desc" />
-                        </div>
+    // renderVisibleImputation() {
+    //     return (
+    //         <Modal show={this.state.isAddVisibleImputation} onHide={() => { this.setState({ isAddVisibleImputation: false }) }}>
+    //             <Modal.Header closeButton >
+    //                 <Modal.Title>Add User</Modal.Title>
+    //             </Modal.Header>
+    //             <Modal.Body>
+    //                 <form
+    //                     onSubmit={this.handleSubmitRole} >
+    //                     <div className="form-group">
+    //                         <span>Role Name</span>
+    //                         <input
+    //                             value={this.state.rolename}
+    //                             onChange={this.handleRolenameChange}
+    //                             type="text" className="form-control" name="rolename" placeholder="Role Name" />
+    //                     </div>
+    //                     <div className="form-group">
+    //                         <span>Role Description</span>
+    //                         <input
+    //                             value={this.state.roledesc}
+    //                             onChange={this.handleRoledescChange}
+    //                             type="text" className="form-control" name="roledesc" placeholder="Role Desc" />
+    //                     </div>
 
-                        <Button variant="secondary" onClick={() => { this.setState({ isAddVisibleImputation: false }) }} className="mr10">
-                            Close
-                         </Button>
-                        <Button type="submit" variant="primary" onClick={() => { this.setState({ isAddVisibleImputation: false }) }}>
-                            Save Changes
-                         </Button>
-                    </form>
-                </Modal.Body>
-            </Modal>
-        )
-    }
+    //                     <Button variant="secondary" onClick={() => { this.setState({ isAddVisibleImputation: false }) }} className="mr10">
+    //                         Close
+    //                      </Button>
+    //                     <Button type="submit" variant="primary" onClick={() => { this.setState({ isAddVisibleImputation: false }) }}>
+    //                         Save Changes
+    //                      </Button>
+    //                 </form>
+    //             </Modal.Body>
+    //         </Modal>
+    //     )
+    // }
 
-    renderVisibleDocuments() {
-        return (
-            <Modal show={this.state.isAddVisibleDocuments} onHide={() => { this.setState({ isAddVisibleDocuments: false }) }}>
-                <Modal.Header closeButton >
-                    <Modal.Title>Add User</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <form
-                        onSubmit={this.handleSubmitRole} >
-                        <div className="form-group">
-                            <span>Role Name</span>
-                            <input
-                                value={this.state.rolename}
-                                onChange={this.handleRolenameChange}
-                                type="text" className="form-control" name="rolename" placeholder="Role Name" />
-                        </div>
-                        <div className="form-group">
-                            <span>Role Description</span>
-                            <input
-                                value={this.state.roledesc}
-                                onChange={this.handleRoledescChange}
-                                type="text" className="form-control" name="roledesc" placeholder="Role Desc" />
-                        </div>
+    // renderVisibleDocuments() {
+    //     return (
+    //         <Modal show={this.state.isAddVisibleDocuments} onHide={() => { this.setState({ isAddVisibleDocuments: false }) }}>
+    //             <Modal.Header closeButton >
+    //                 <Modal.Title>Add User</Modal.Title>
+    //             </Modal.Header>
+    //             <Modal.Body>
+    //                 <form
+    //                     onSubmit={this.handleSubmitRole} >
+    //                     <div className="form-group">
+    //                         <span>Role Name</span>
+    //                         <input
+    //                             value={this.state.rolename}
+    //                             onChange={this.handleRolenameChange}
+    //                             type="text" className="form-control" name="rolename" placeholder="Role Name" />
+    //                     </div>
+    //                     <div className="form-group">
+    //                         <span>Role Description</span>
+    //                         <input
+    //                             value={this.state.roledesc}
+    //                             onChange={this.handleRoledescChange}
+    //                             type="text" className="form-control" name="roledesc" placeholder="Role Desc" />
+    //                     </div>
 
-                        <Button variant="secondary" onClick={() => { this.setState({ isAddVisibleDocuments: false }) }} className="mr10">
-                            Close
-                         </Button>
-                        <Button type="submit" variant="primary" onClick={() => { this.setState({ isAddVisibleDocuments: false }) }}>
-                            Save Changes
-                         </Button>
-                    </form>
-                </Modal.Body>
-            </Modal>
-        )
-    }
+    //                     <Button variant="secondary" onClick={() => { this.setState({ isAddVisibleDocuments: false }) }} className="mr10">
+    //                         Close
+    //                      </Button>
+    //                     <Button type="submit" variant="primary" onClick={() => { this.setState({ isAddVisibleDocuments: false }) }}>
+    //                         Save Changes
+    //                      </Button>
+    //                 </form>
+    //             </Modal.Body>
+    //         </Modal>
+    //     )
+    // }
 
-    renderVisibleWitness() {
-        return (
-            <Modal show={this.state.isAddVisibleWitness} onHide={() => { this.setState({ isAddVisibleWitness: false }) }}>
-                <Modal.Header closeButton >
-                    <Modal.Title>Add User</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <form
-                        onSubmit={this.handleSubmitRole} >
-                        <div className="form-group">
-                            <span>Role Name</span>
-                            <input
-                                value={this.state.rolename}
-                                onChange={this.handleRolenameChange}
-                                type="text" className="form-control" name="rolename" placeholder="Role Name" />
-                        </div>
-                        <div className="form-group">
-                            <span>Role Description</span>
-                            <input
-                                value={this.state.roledesc}
-                                onChange={this.handleRoledescChange}
-                                type="text" className="form-control" name="roledesc" placeholder="Role Desc" />
-                        </div>
+    // renderVisibleWitness() {
+    //     return (
+    //         <Modal show={this.state.isAddVisibleWitness} onHide={() => { this.setState({ isAddVisibleWitness: false }) }}>
+    //             <Modal.Header closeButton >
+    //                 <Modal.Title>Add User</Modal.Title>
+    //             </Modal.Header>
+    //             <Modal.Body>
+    //                 <form
+    //                     onSubmit={this.handleSubmitRole} >
+    //                     <div className="form-group">
+    //                         <span>Role Name</span>
+    //                         <input
+    //                             value={this.state.rolename}
+    //                             onChange={this.handleRolenameChange}
+    //                             type="text" className="form-control" name="rolename" placeholder="Role Name" />
+    //                     </div>
+    //                     <div className="form-group">
+    //                         <span>Role Description</span>
+    //                         <input
+    //                             value={this.state.roledesc}
+    //                             onChange={this.handleRoledescChange}
+    //                             type="text" className="form-control" name="roledesc" placeholder="Role Desc" />
+    //                     </div>
 
-                        <Button variant="secondary" onClick={() => { this.setState({ isAddVisibleWitness: false }) }} className="mr10">
-                            Close
-                         </Button>
-                        <Button type="submit" variant="primary" onClick={() => { this.setState({ isAddVisibleWitness: false }) }}>
-                            Save Changes
-                         </Button>
-                    </form>
-                </Modal.Body>
-            </Modal>
-        )
-    }
+    //                     <Button variant="secondary" onClick={() => { this.setState({ isAddVisibleWitness: false }) }} className="mr10">
+    //                         Close
+    //                      </Button>
+    //                     <Button type="submit" variant="primary" onClick={() => { this.setState({ isAddVisibleWitness: false }) }}>
+    //                         Save Changes
+    //                      </Button>
+    //                 </form>
+    //             </Modal.Body>
+    //         </Modal>
+    //     )
+    // }
 
 }
 

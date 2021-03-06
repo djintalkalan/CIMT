@@ -12,6 +12,8 @@ import DrawingChargeSheet from "../cases/DrawingChargeSheet"
 import Designations from "../designations"
 import Offices from "../offices"
 import District from "../district"
+import Misconduct from "../misconduct"
+import Articles from "../articles"
 
 import Helpdesk from "../helpdesk"
 
@@ -48,6 +50,10 @@ const filterScreen = (path) => {
             return <Offices />
         case '/district':
             return <District />
+        case '/articles':
+            return <Articles />
+        case '/misconduct':
+            return <Misconduct />
         case '/helpdesk':
             return <Helpdesk />
     }

@@ -40,6 +40,11 @@ export const ApiConstants = {
     addUpdateDelDistrict:localUrl+"/Districts/",
     // addDistrict:localUrl+"/Districts/",
 
+    addUpdateDelMisconduct:localUrl+"/Districts/",
+
+    addUpdateDelArticles:localUrl+"/Districts/",
+
+
 }
 
 
