@@ -34,7 +34,7 @@ async function callApi(urlString, header, body, methodType) {
 async function fetchApiData(urlString, body, methodType, isMultipart) {
     let header = {
         "Accept": "application/json",
-        "Content-Type": isMultipart ? "multipart/formdata" : "application/json",
+        "Content-Type": isMultipart ? "multipart/form-data" : "application/json",
         "Authorization": "Bearer " + JSON.parse(localStorage.getItem("userToken"))
     }
     return callApi(urlString, header, body, methodType)
@@ -188,7 +188,7 @@ export async function deleteArticlesApi(param) {
 }
 
 export async function uploadImageApi(param) {
-    return fetchApiData(ApiConstants.addDistrict, param, Constants.API_METHOD.post,true)
+    return fetchApiData(ApiConstants.uploadImageOnServer, param, Constants.API_METHOD.post,true)
 }
 
 export async function updateUserApi(id, param) {

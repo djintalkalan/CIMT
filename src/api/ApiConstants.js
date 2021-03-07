@@ -44,6 +44,8 @@ export const ApiConstants = {
 
     addUpdateDelArticles:localUrl+"/Districts/",
 
+    uploadImageOnServer:localUrl+"/uploadAttachment/",
+
 
 }
 

@@ -77,12 +77,12 @@ class NewChargeSheet extends Component {
 
         this.state.chargeOfficerList.forEach(item => {
             let dat_charge_officer = {
-                first_name: item.charged_officer,
-                office: item.working_place,
-                designation: item.designation_imputation,
+                // first_name: item.charged_officer,
+                // office: item.working_place,
+                // designation: item.designation_imputation,
                 office_treasury_code: item.officer_treasury_code,
-                email: item.charged_officer_email,
-                phone: item.charged_officer_phone,
+                // email: item.charged_officer_email,
+                // phone: item.charged_officer_phone,
                 previous_charges: item.charged_officer_previous_charges,
                 attachment_desc: item.charge_officer_attachment_desc,
                 charged_officer_attachment: item.charged_officer_case_attachment,
@@ -321,12 +321,12 @@ class NewChargeSheet extends Component {
         console.log("Charged Officer:", this.state)
         return
         this.setState({
-            charged_officer: "",
-            working_place: "",
-            designation_imputation: "",
+            // charged_officer: "",
+            // working_place: "",
+            // designation_imputation: "",
             officer_treasury_code: "",
-            charged_officer_email: "",
-            charged_officer_phone: "",
+            // charged_officer_email: "",
+            // charged_officer_phone: "",
             charged_officer_previous_charges: "",
             charged_officer_case_attachment_file: "",
         })
@@ -336,7 +336,8 @@ class NewChargeSheet extends Component {
     onAddOfficerChargeList = () => {
 
         let { chargeOfficerList } = this.state
-        const { charged_officer, working_place, designation_imputation, officer_treasury_code, charged_officer_email, charged_officer_phone, charged_officer_previous_charges, charged_officer_case_attachment_file } = this.state
+        // const { charged_officer, working_place, designation_imputation, charged_officer_email, charged_officer_phone } = this.state
+        const { officer_treasury_code, charged_officer_previous_charges, charged_officer_case_attachment_file } = this.state
 
         // if (!charged_officer) {
         //     showWarningToast("Please Insert Charge Officer Name")
@@ -350,10 +351,10 @@ class NewChargeSheet extends Component {
         //     showWarningToast("Please Insert Designation at Imputation")
         //     return
         // }
-        // if (!officer_treasury_code) {
-        //     showWarningToast("Please Insert Officer Treasury Code")
-        //     return
-        // }
+        if (!officer_treasury_code) {
+            showWarningToast("Please Insert Officer Treasury Code")
+            return
+        }
         // if (!charged_officer_email) {
         //     showWarningToast("Please Insert Email")
         //     return
@@ -362,18 +363,18 @@ class NewChargeSheet extends Component {
         //     showWarningToast("Please Insert Phone Number")
         //     return
         // }
-        const item = { charged_officer, working_place, designation_imputation, officer_treasury_code, charged_officer_email, charged_officer_phone, charged_officer_previous_charges, charged_officer_case_attachment_file }
+        const item = { officer_treasury_code, charged_officer_previous_charges, charged_officer_case_attachment_file }
 
         chargeOfficerList.push(item)
 
         this.setState({
             chargeOfficerList: chargeOfficerList,
-            charged_officer: "",
-            working_place: "",
-            designation_imputation: "",
+            // charged_officer: "",
+            // working_place: "",
+            // designation_imputation: "",
             officer_treasury_code: "",
-            charged_officer_email: "",
-            charged_officer_phone: "",
+            // charged_officer_email: "",
+            // charged_officer_phone: "",
             charged_officer_previous_charges: "",
             charged_officer_case_attachment_file: "",
         })
@@ -407,12 +408,12 @@ class NewChargeSheet extends Component {
                             <thead>
                                 <tr>
                                     <th scope="col">No.</th>
-                                    <th scope="col">Charged Officer</th>
-                                    <th scope="col">Working Place of Imputation</th>
-                                    <th scope="col">Designation at Imputation</th>
+                                    {/* <th scope="col">Charged Officer</th> */}
+                                    {/* <th scope="col">Working Place of Imputation</th> */}
+                                    {/* <th scope="col">Designation at Imputation</th> */}
                                     <th scope="col">Officer Treasury Code</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Phone Number</th>
+                                    {/* <th scope="col">Email</th> */}
+                                    {/* <th scope="col">Phone Number</th> */}
                                     <th scope="col">Previous Charges</th>
                                     <th scope="col">Attachment</th>
                                 </tr>
@@ -421,12 +422,12 @@ class NewChargeSheet extends Component {
                                 {chargeOfficerList.map((item, index) => (
                                     <tr key={index}>
                                         <th scope="row">{index + 1}</th>
-                                        <td>{item.charged_officer}</td>
-                                        <td>{item.working_place}</td>
-                                        <td>{item.designation_imputation}</td>
+                                        {/* <td>{item.charged_officer}</td> */}
+                                        {/* <td>{item.working_place}</td> */}
+                                        {/* <td>{item.designation_imputation}</td> */}
                                         <td>{item.officer_treasury_code}</td>
-                                        <td>{item.charged_officer_email}</td>
-                                        <td>{item.charged_officer_phone}</td>
+                                        {/* <td>{item.charged_officer_email}</td> */}
+                                        {/* <td>{item.charged_officer_phone}</td> */}
                                         <td>{item.charged_officer_previous_charges}</td>
                                         <td><img height='20px' width='20px' src={item.charged_officer_case_attachment_file ? URL.createObjectURL(item.charged_officer_case_attachment_file) : null} /></td>
                                         <td><a onClick={() => {
@@ -650,24 +651,27 @@ class NewChargeSheet extends Component {
             )
     }
 
-    // uploadOnServer(e) {
-    //     console.log(e.target.files)
+    uploadOnServer(e) {
+        console.log(e.target.files)
 
-    //     // e.target.files[0]
-    //     let formData = new FormData()
-    //     formData.append(
-    //         "myFile",
-    //         e.target.files[0],
-    //         "IMG" + moment() + e.target.files[0].name
-    //     );
+        // e.target.files[0]
+        let formData = new FormData()
+        formData.append(
+            "myFile",
+            e.target.files[0],
+            "IMG" + e.target.files[0].name
+        );
 
-    //     uploadImageApi(formdata).then(res=>{
+        console.log("Upload Image Data", formData)
 
-    //     this.setState({
-    //         [e.target.id + "_file"]: res.data.url
-    //     })
-    //     })
-    // }
+        uploadImageApi(formData).then(res=>{
+            console.log("Upload Image Response" + res)
+            return
+        this.setState({
+            [e.target.id + "_file"]: res.data.url
+        })
+        })
+    }
 
 
     render() {
@@ -763,9 +767,11 @@ class NewChargeSheet extends Component {
                                                         <textarea name="case_identity_attachment_desc" id="case_identity_attachment_desc" className="form-control" onChange={this.handleChange}></textarea>
                                                         <label className="custom-file-upload">
                                                             <input type="file"
-                                                                id="case_attachment" name="case_attachment" className="form-control" onChange={this.handleImageChange} />
+                                                                // id="case_attachment" name="case_attachment" className="form-control" onChange={this.handleImageChange} />
+                                                            id="case_attachment" name="case_attachment" className="form-control" onChange={this.uploadOnServer} />
                                                         </label>
-                                                        {this.state.case_attachment_file && <img height='80px' width='80px' src={URL.createObjectURL(this.state.case_attachment_file)} />}
+                                                        {/* {this.state.case_attachment_file && <img height='80px' width='80px' src={URL.createObjectURL(this.state.case_attachment_file)} />} */}
+                                                        {this.state.case_attachment_file && <img height='80px' width='80px' src={this.state.case_attachment_file} />}
                                                     </div>
                                                 </div>
                                             </div>
@@ -782,7 +788,7 @@ class NewChargeSheet extends Component {
                                     <Accordion.Collapse eventKey="1">
                                         <Card.Body>
                                             <div className="inner">
-                                                <div className="row">
+                                                {/* <div className="row">
                                                     <div className="col-md-6">
                                                         <span className="title required">Name of Charged Officer </span>
                                                         <input type="text"
@@ -798,12 +804,17 @@ class NewChargeSheet extends Component {
                                                             <option value="rohtak">Rohtak</option>
                                                             <option value="jind">Jind</option>
                                                         </select>
-                                                        {/* {this.renderOfficeList()} */}
+                                                        {this.renderOfficeList()}
                                                     </div>
-                                                </div>
+                                                </div> */}
                                                 <div className="row">
+                                                    <div className="col-md-12">
+                                                        <span className="title required">Officer Treasury Code</span>
+                                                        <input type="text"
+                                                            id="officer_treasury_code" name="officer_treasury_code" className="form-control" onChange={this.handleChange} required />
+                                                    </div>
                                                     <div className="col-md-6">
-                                                        <span className="title required">Designation at Imputation </span>
+                                                        {/* <span className="title required">Designation at Imputation </span>
                                                         <select className="form-control" name="designation_imputation" id="designation_imputation"
                                                             onChange={this.handleChange}>
                                                             <option value="">Select Office</option>
@@ -811,15 +822,10 @@ class NewChargeSheet extends Component {
                                                             <option value="sho">S.H.O.</option>
                                                             <option value="dsp">D.S.P.</option>
                                                         </select>
-                                                        {/* {this.renderDesignationList()} */}
-                                                    </div>
-                                                    <div className="col-md-6">
-                                                        <span className="title required">Officer Treasury Code</span>
-                                                        <input type="text"
-                                                            id="officer_treasury_code" name="officer_treasury_code" className="form-control" onChange={this.handleChange} required />
+                                                        {this.renderDesignationList()} */}
                                                     </div>
                                                 </div>
-                                                <div className="row">
+                                                {/* <div className="row">
                                                     <div className="col-md-6">
                                                         <span className="title required">Email </span>
                                                         <input type="email"
@@ -830,7 +836,7 @@ class NewChargeSheet extends Component {
                                                         <input type="text"
                                                             id="charged_officer_phone" name="charged_officer_phone" className="form-control" onChange={this.handleChange} required />
                                                     </div>
-                                                </div>
+                                                </div> */}
                                                 <div className="row">
                                                     <div className="col-md-12">
                                                         <span className="title">Previous Charges if Any </span>
