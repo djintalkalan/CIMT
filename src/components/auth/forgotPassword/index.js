@@ -3,7 +3,7 @@ import { userDataAction, userTokenAction, isLoginAction } from "../../../redux/a
 import { connect } from "react-redux";
 import { history } from '../../../routes'
 import { passwordResetApi } from '../../../api/ApiService';
-import { ToastContainer, toast } from 'react-toastify';
+import { showSuccessToast, showErrorToast, showInfoToast, showWarningToast, showSomethingWentWrong } from '../../../utils/Utils';
 // import logo from './logo.svg';
 // import './App.css';
 
@@ -31,34 +31,27 @@ class ForgotPassword extends Component {
 
 
     handleSubmit = (event) => {
+        event.preventDefault();
         const params = {
             email: this.state.email,
         }
 
         this.callPassResetApi(params)
-
-        event.preventDefault();
     }
 
     callPassResetApi = (params) => {
         console.log("SIGN_IN_API_PARAMS:" + JSON.stringify(params))
 
         passwordResetApi(params).then(res => {
-            const notify = () => toast("Wow so easy !");
             console.log("SIGN_IN_API_RES:" + JSON.stringify(res))
-            // history.push('/users')
-
-        }).catch(err => {
-            this.setState({
-                isLoading: false,
-            })
-            setTimeout(() => {
-                if (err) {
-                    alert(JSON.stringify(err));
-                }
-            }, 100);
-            // this.setStaticData()
-        });
+            if (res.success) {
+                showSuccessToast("E-mail sent to Registered Mail.")
+            }
+            else {
+                showErrorToast(res.error)
+            }
+        })
+        .catch(err => console.log(err))
 
     }
 

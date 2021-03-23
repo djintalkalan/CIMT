@@ -47,12 +47,14 @@ class App extends Component {
           <PrivateRoute path="/newchargesheet" component={Home} />
           <PrivateRoute path="/chargesheet" component={Home} />
           <PrivateRoute path="/drawingchargesheet" component={Home} />
+          <PrivateRoute path="/faceDetection" component={Home} />
 
           <PrivateRoute path="/designations" component={Home} />
           <PrivateRoute path="/offices" component={Home} />
           <PrivateRoute path="/district" component={Home} />
           <PrivateRoute path="/misconduct" component={Home} />
           <PrivateRoute path="/articles" component={Home} />
+          <PrivateRoute path="/sourcecomplaint" component={Home} />
 
           <PrivateRoute path="/helpdesk" component={Home} />
           <Redirect from="*" to="/" />

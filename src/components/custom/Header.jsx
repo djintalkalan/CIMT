@@ -5,7 +5,10 @@ import SideNav, { Toggle } from '@trendmicro/react-sidenav';
 import { withRouter } from 'react-router-dom';
 import logo from '../../../public/images/profile.jpg';
 import { history } from '../../routes';
-// import Dropdown from 'react-bootstrap/Dropdown';
+import { localUrl } from '../../api/ApiConstants';
+import { logoutApi} from '../../api/ApiService';
+import { showSuccessToast, showErrorToast, showInfoToast, showWarningToast, showSomethingWentWrong } from '../../utils/Utils'
+import { connect } from "react-redux";
 
 
 
@@ -39,9 +42,27 @@ class Header extends Component {
         });
     }
 
+    logout() {
+        logoutApi().then((res) => {
+            console.log("Response of Logout", res)
+            if (res.success) {
+                showSuccessToast(res.data)
+                localStorage.clear();
+                history.push('/login')
+            }
+            else {
+                showErrorToast("Something went wrong")
+            }
 
+        }).catch((err) => {
+            console.log("Error is", err)
+            // showErrorToast("Something went wrong")
+        })
+    }
 
     render() {
+        let user_data = this.props.userDataReducer
+        // console.log("User Data", {user_data.profile_pic})
         return (
             <header>
                 <div className="inner">
@@ -49,19 +70,8 @@ class Header extends Component {
                     <div className="siteUrl">
                         <a >CIMT</a>
                     </div>
-                    {/* <Dropdown>
-                        <Dropdown.Toggle variant="success" id="dropdown-basic">
-                            Dropdown Button
-                        </Dropdown.Toggle>
-
-                        <Dropdown.Menu>
-                            <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                            <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown> */}
-                    <a src="#" className="logoutCt" onClick={this.showMenu}>
-                        <img src={logo} />
+                    <a src="#" className="logoutCt" onClick={this.showMenu} style={{backgroundImage:`url(${user_data.profile_pic ? localUrl + user_data.profile_pic : logo})`}} >
+                        {/* <img src={user_data.profile_pic ? localUrl + user_data.profile_pic : logo} /> */}
                     </a>
          
                     {
@@ -69,7 +79,7 @@ class Header extends Component {
                         ? (
                         <div className="menuCt">
                             <button onClick={()=> {history.push('/userprofile')}}> User Profile </button>
-                            <button onClick={()=> {localStorage.clear();history.push('/login')}}> Logout </button>
+                            <button onClick={()=> this.logout()}> Logout </button>
                             <button onClick={()=> {history.push('/changepass')}}> Change Password </button>
                         </div>
                         )
@@ -78,29 +88,19 @@ class Header extends Component {
                         )
                     }
 
-                    {/* <a src="#" className="logoutCt">
-                        <span className="logout"><FontAwesomeIcon onClick={(event)=>{
-                           
-
-
-                                //  clearing user's details from local storage
-                                localStorage.removeItem('userData');
-                                localStorage.removeItem('userToken');
-                                localStorage.setItem('isLogin', JSON.stringify(false));
-                                // clearing user's data in redux store
-                        
-                                this.props.userDataAction(null)
-                                this.props.userTokenAction(null)
-                                this.props.isLoginAction(false)
-                                history.push('/login')
-                                event.preventDefault();
-                        
-                        }} className="sign-out" icon={faSignOutAlt} color={'white'} /></span>
-                    </a> */}
                 </div>
             </header>
         );
     }
 }
 
-export default withRouter(Header);
+const mapStateToProps = state => {
+    // console.log("Redux State:", JSON.stringify(state))
+    return {
+        userDataReducer: state.userDataReducer,
+        isLoginReducer: state.isLoginReducer,
+        userTokenReducer: state.userTokenReducer
+    };
+};
+
+export default withRouter(connect(mapStateToProps, null)(Header));

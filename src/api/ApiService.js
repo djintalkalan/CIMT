@@ -1,33 +1,53 @@
 import { ApiConstants } from "./ApiConstants";
 import { Constants } from '../utils/Constants'
+import axios from 'axios'
 
 
-async function callApi(urlString, header, body, methodType) {
+async function callApi(urlString, header, body, methodType, isMultipart) {
     console.log("----------- Api request is----------- ");
     console.log("url string " + urlString);
     console.log("header " + JSON.stringify(header));
     console.log("body " + JSON.stringify(body));
     console.log("methodType " + methodType)
 
-    return fetch(urlString, {
-        method: methodType,
-        headers: header,
-        body: methodType == "POST" ? JSON.stringify(body) : null
+    if (isMultipart) {
+        for (var key of body.entries()) {
+            console.log("Key is : ", key[0], ', Value is: ', key[1]);
+        }
+    }
+
+    return axios({
+        method: methodType, //you can set what request you want to be
+        url: urlString,
+        data: isMultipart ? body : (methodType != "GET" && body) ? JSON.stringify(body) : null,
+        headers: header
     })
-        .then(response => {
-            console.log("-----------Response is----------- ")
-            console.log(response)
-            if (response.status == 200) {
-                return response.json()
-            } else {
-                throw new Error(" status code " + response.status)
+        .then((res) => {
+            console.log("-----------AXIOS  Api Response is----------- ");
+            console.log("url string " + urlString);
+            console.log("header " + JSON.stringify(header));
+            console.log("methodType " + methodType)
+            console.log(JSON.stringify("res.data", res.data));
+            if (JSON.stringify(res.data).startsWith("<") || JSON.stringify(res.data).startsWith("\"<")) {
+                setTimeout(() => {
+                    console.log("Error", "A webpage is returned instead of a response")
+                }, 500);
             }
+            else
+                return res.data
         })
-        .then((responseJson) => {
-            return responseJson
-        })
-        .catch((error) => {
-            throw error
+        .catch((e) => {
+            console.log("-----------AXIOS  Api catch is-----------")
+            console.log(e)
+            console.log("catch Error" + JSON.stringify(e))
+            if (e.response && e.response.data) {
+                console.log("catch response", JSON.stringify(e.response.data))
+                if (JSON.stringify(e.response.data).startsWith("<") || JSON.stringify(e.response.data).startsWith("\"<")) {
+                    setTimeout(() => {
+                        console.log("Error", "A webpage is returned instead of a response")
+                    }, 500);
+                }
+            }
         })
 }
 
@@ -35,9 +55,11 @@ async function fetchApiData(urlString, body, methodType, isMultipart) {
     let header = {
         "Accept": "application/json",
         "Content-Type": isMultipart ? "multipart/form-data" : "application/json",
-        "Authorization": "Bearer " + JSON.parse(localStorage.getItem("userToken"))
     }
-    return callApi(urlString, header, body, methodType)
+    if(JSON.parse(localStorage.getItem("userToken"))){
+        header['Authorization'] = "token " + JSON.parse(localStorage.getItem("userToken"))
+    }
+    return callApi(urlString, header, body, methodType, isMultipart)
 
 }
 
@@ -50,7 +72,7 @@ export async function passwordResetApi(param) {
 }
 
 export async function changePassApi(param) {
-    return fetchApiData(ApiConstants.changePass, param, Constants.API_METHOD.post)
+    return fetchApiData(ApiConstants.changePass, param, Constants.API_METHOD.patch)
 }
 
 export async function addUserApi(param) {
@@ -99,12 +121,28 @@ export async function addCaseApi(param) {
 //     return fetchApiData(ApiConstants.getOffices, '', Constants.API_METHOD.get)
 // }
 
-export async function getNatureMisconductList() {
-    return fetchApiData(ApiConstants.getNatureMisconduct, '', Constants.API_METHOD.get)
-}
+// export async function getNatureMisconductList() {
+//     return fetchApiData(ApiConstants.getNatureMisconduct, '', Constants.API_METHOD.get)
+// }
+
+// export async function getSourceComplaintList() {
+//     return fetchApiData(ApiConstants.getSourceComplaint, '', Constants.API_METHOD.get)
+// }
 
 export async function getSourceComplaintList() {
-    return fetchApiData(ApiConstants.getSourceComplaint, '', Constants.API_METHOD.get)
+    return fetchApiData(ApiConstants.addUpdateDelSourceComplaint, '', Constants.API_METHOD.get)
+}
+
+export async function addSourceComplaintApi(param) {
+    return fetchApiData(ApiConstants.addUpdateDelSourceComplaint, param, Constants.API_METHOD.post)
+}
+
+export async function updateSourceComplaintApi(id, param) {
+    return fetchApiData(ApiConstants.addUpdateDelSourceComplaint + id, param, Constants.API_METHOD.put)
+}
+
+export async function deleteSourceComplaintApi(param) {
+    return fetchApiData(ApiConstants.addUpdateDelSourceComplaint + param, null, Constants.API_METHOD.delete)
 }
 
 export async function getDesignationList() {
@@ -188,9 +226,41 @@ export async function deleteArticlesApi(param) {
 }
 
 export async function uploadImageApi(param) {
-    return fetchApiData(ApiConstants.uploadImageOnServer, param, Constants.API_METHOD.post,true)
+    return fetchApiData(ApiConstants.uploadImageOnServer, param, Constants.API_METHOD.post, true)
 }
 
 export async function updateUserApi(id, param) {
-    return fetchApiData(ApiConstants.updateUser + id, param, Constants.API_METHOD.put,true)
+    return fetchApiData(ApiConstants.updateUser + id + "/", param, Constants.API_METHOD.patch, true)
+}
+
+export async function addChargeSheetApi(param) {
+    return fetchApiData(ApiConstants.addChargeSheet, param, Constants.API_METHOD.post)
+}
+
+export async function getAllChargedOfficerApi(param) {
+    return fetchApiData(ApiConstants.getAllChargedOfficer, param, Constants.API_METHOD.post)
+}
+
+export async function addEvidenceApi(param) {
+    return fetchApiData(ApiConstants.addEvidence, param, Constants.API_METHOD.post, true)
+}
+
+export async function getCaseByIdApi(param) {
+    return fetchApiData(ApiConstants.getCaseById + param, '', Constants.API_METHOD.get)
+}
+
+export async function getEvidenceListApi(params) {
+    return fetchApiData(ApiConstants.getEvidenceList + params, '', Constants.API_METHOD.get)
+}
+
+export async function faceDetectionApi(param) {
+    return fetchApiData(ApiConstants.faceDetection, '', Constants.API_METHOD.get)
+}
+
+export async function getChargedOfficerByIdApi(param) {
+    return fetchApiData(ApiConstants.getChargedOfficerById, param, Constants.API_METHOD.post)
+}
+
+export async function logoutApi() {
+    return fetchApiData(ApiConstants.logout, "", Constants.API_METHOD.post)
 }

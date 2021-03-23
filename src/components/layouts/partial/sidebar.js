@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import logo from '../../../../public/images/profile.jpg';
+import { localUrl } from '../../../api/ApiConstants';
+import { connect } from "react-redux";
 
 class Sidebar extends Component {
     constructor(props) {
@@ -15,12 +17,15 @@ class Sidebar extends Component {
     }
 
     render() {
+        let user_data = JSON.parse(localStorage.getItem("userData"))
         console.log("pathnameeee----->", window.location.pathname);
         this.state.path = window.location.pathname
         return (
             <div className="page-sidebar">
                 <div className="img-wrapper">
-                    <img src={logo} />
+                    {/* <img src={user_data.profile_pic ? localUrl + user_data.profile_pic : logo} /> */}
+                    <div className="image" style={{backgroundImage:`url(${user_data.profile_pic ? localUrl + user_data.profile_pic : logo})`}}></div>
+                    <div className="name-designation mb5">{user_data.first_name ? user_data.first_name : ""} {user_data.designation && user_data.designation.designation ? " / " + user_data.designation.designation : ""}</div>
                 </div>
 
                 <div className="sidebar-list position-relative">
@@ -65,28 +70,8 @@ class Sidebar extends Component {
                                 </Link>
                             </div>
                             <div className={"box-circle"}>
-                                <Link to={'/chargesheet'} className={"" + (this.state.path == '/chargesheet' ? "active" : " ")} >
-                                    <span>&#8692; Issue of Charge Memo</span>
-                                </Link>
-                            </div>
-                            <div className={"box-circle"}>
-                                <Link to={'/chargesheet'} className={"" + (this.state.path == '/chargesheet' ? "active" : " ")} >
-                                    <span>&#8692; Follow up on Charge Memo</span>
-                                </Link>
-                            </div>
-                            <div className={"box-circle"}>
-                                <Link to={'/chargesheet'} className={"" + (this.state.path == '/chargesheet' ? "active" : " ")} >
-                                    <span>&#8692; Add Explanation Details</span>
-                                </Link>
-                            </div>
-                            <div className={"box-circle"}>
-                                <Link to={'/chargesheet'} className={"" + (this.state.path == '/chargesheet' ? "active" : " ")} >
-                                    <span>&#8692; Inquiry Officer Action Update</span>
-                                </Link>
-                            </div>
-                            <div className={"box-circle"}>
-                                <Link to={'/chargesheet'} className={"" + (this.state.path == '/chargesheet' ? "active" : " ")} >
-                                    <span>&#8692; Follow up on Inquiry Report</span>
+                                <Link to={'/faceDetection'} className={"" + (this.state.path == '/faceDetection' ? "active" : " ")} >
+                                    <span>&#8692; Face Detection</span>
                                 </Link>
                             </div>
 
@@ -121,11 +106,6 @@ class Sidebar extends Component {
                                     <span>&#8692; Office</span>
                                 </Link>
                             </div>
-                            {/* <div className={"box-circle"}>
-                                <Link to={'/#'} >
-                                    <span>&#8692; Office Location</span>
-                                </Link>
-                            </div> */}
                             <div className={"box-circle"}>
                                 <Link to={'/district'} className={"" + (this.state.path == '/district' ? "active" : " ")} >
                                     <span>&#8692; District</span>
@@ -141,11 +121,11 @@ class Sidebar extends Component {
                                     <span>&#8692; Misconduct Type</span>
                                 </Link>
                             </div>
-                            {/* <div className={"box-circle"}>
-                                <Link to={'/#'} >
-                                    <span>&#8692; Division</span>
+                            <div className={"box-circle"}>
+                                <Link to={'/sourcecomplaint'} className={"" + (this.state.path == '/sourcecomplaint' ? "active" : " ")} >
+                                    <span>&#8692; Source Complaint</span>
                                 </Link>
-                            </div> */}
+                            </div>
                             {/* <div className={"box-circle"}>
                                 <Link to={'/#'} >
                                     <span>&#8692; Module Type</span>
@@ -173,4 +153,13 @@ class Sidebar extends Component {
     }
 }
 
-export default Sidebar;
+const mapStateToProps = state => {
+    // console.log("Redux State:", JSON.stringify(state))
+    return {
+        userDataReducer: state.userDataReducer,
+        isLoginReducer: state.isLoginReducer,
+        userTokenReducer: state.userTokenReducer
+    };
+};
+
+export default withRouter(connect(mapStateToProps, null)(Sidebar));

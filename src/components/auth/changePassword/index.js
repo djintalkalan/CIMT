@@ -3,7 +3,7 @@ import { userDataAction, userTokenAction, isLoginAction } from "../../../redux/a
 import { connect } from "react-redux";
 import { history } from '../../../routes'
 import { changePassApi } from '../../../api/ApiService';
-import { ToastContainer, toast } from 'react-toastify';
+import { showSuccessToast, showErrorToast, showInfoToast, showWarningToast, showSomethingWentWrong } from '../../../utils/Utils';
 // import logo from './logo.svg';
 // import './App.css';
 
@@ -15,26 +15,24 @@ class ChangePassword extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            oldpass: "",
-            newpass: "",
-            confirmpass: "",
+            old_password: "",
+            new_password: "",
+            confirm_pass: "",
         }
         // this.handleSubmit = this.handleSubmit.bind(this);
     }
 
 
-
-
     handleSubmit = (event) => {
         const params = {
-            oldpass: this.state.oldpass,
-            newpass: this.state.newpass,
+            old_password: this.state.old_password,
+            new_password: this.state.new_password,
         }
 
-        const { newpass, confirmpass } = this.state;
+        const { new_password, confirm_pass } = this.state;
         // perform all neccassary validations
-        if (newpass !== confirmpass) {
-            alert("Passwords don't match");
+        if (new_password !== confirm_pass) {
+            showErrorToast("Please Insert Confirm Password Same As Password!")
         } else {
             this.callChangePassApi(params)
         }
@@ -46,8 +44,14 @@ class ChangePassword extends Component {
         console.log("SIGN_IN_API_PARAMS:" + JSON.stringify(params))
 
         changePassApi(params).then(res => {
-            const notify = () => toast("Wow so easy !");
+            // const notify = () => toast("Wow so easy !");
             console.log("SIGN_IN_API_RES:" + JSON.stringify(res))
+            if (res.success) {
+                showSuccessToast("Change Password Successfully")
+            }
+            else {
+                showErrorToast(res.error)
+            }
             // history.push('/users')
 
         }).catch(err => {
@@ -66,7 +70,7 @@ class ChangePassword extends Component {
 
 
     render() {
-        console.log("email", this.state.email)
+        console.log("State", this.state)
         return (
             <div className="dashboardCt pt20">
                 <div className="inner">
@@ -80,23 +84,26 @@ class ChangePassword extends Component {
                                 <div className="col-md-12">
                                     <span className="title required">Old Password </span>
                                     <input
-                                        // value={this.state.oldpass}
-                                        type="text" className="form-control" name="oldpass" id="oldpass" placeholder="Old Password" required />
+                                        // value={this.state.old_password}
+                                        onChange={(e)=>this.setState({old_password:e.target.value})}
+                                        type="text" className="form-control" name="old_password" id="old_password" placeholder="Old Password" required />
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col-md-12">
                                     <span className="title required">New Password </span>
                                     <input
-                                        // value={this.state.newpass}
-                                        type="text" className="form-control" name="newpass" id="newpass" placeholder="New Password" required />
+                                        // value={this.state.new_password}
+                                        onChange={(e)=>this.setState({new_password:e.target.value})}
+                                        type="text" className="form-control" name="new_password" id="new_password" placeholder="New Password" required />
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col-md-12">
                                     <span className="title required">Confirm Password </span>
                                     <input
-                                        type="text" className="form-control" name="confirmpass" id="confirmpass" placeholder="Confirm Password" required />
+                                        onChange={(e)=>this.setState({confirm_pass:e.target.value})}
+                                        type="text" className="form-control" name="confirm_pass" id="confirm_pass" placeholder="Confirm Password" required />
                                 </div>
                             </div>
 

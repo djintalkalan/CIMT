@@ -11,32 +11,34 @@ import Header from '../custom/Header';
 import { AgGridReact } from 'ag-grid-react';
 import Modal from 'react-bootstrap/Modal';
 import { Button } from 'react-bootstrap';
-import { getArticlesList, addArticlesApi, updateArticlesApi, deleteArticlesApi } from '../../api/ApiService';
-
+import { getSourceComplaintList } from '../../api/ApiService';
+import { addSourceComplaintApi} from '../../api/ApiService';
+import { updateSourceComplaintApi} from '../../api/ApiService';
+import { deleteSourceComplaintApi} from '../../api/ApiService';
 import { toast } from 'react-toastify';
 import { showSuccessToast, showErrorToast, showInfoToast, showWarningToast, showSomethingWentWrong } from '../../utils/Utils'
 
-class Articles extends Component {
+class SourceComplaint extends Component {
     constructor(props) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.deleteArticles = this.deleteArticles.bind(this);
-        this.gridOptionsArticles = {
+        this.deleteSourceComplaint = this.deleteSourceComplaint.bind(this);
+        this.gridOptionsSourceComplaint = {
 
         }
         this.state = {
-            articlesList: null,
+            sourceComplaintList: null,
             isAddVisible: false,
             isAddVisible1: false
         }
     }
 
-    deleteArticles = (id) => {
-        deleteArticlesApi(id).then((res) => {
+    deleteSourceComplaint = (id) => {
+        deleteSourceComplaintApi(id).then((res) => {
             console.log("Response of Delete", res)
             if (res.success) {
                 showSuccessToast("Deleted Successfully")
-                this.callArticlesListApi()
+                this.callSourceComplaintListApi()
             }
             else {
                 showErrorToast("Something went wrong")
@@ -49,32 +51,32 @@ class Articles extends Component {
     }
 
     componentWillMount() {
-        let deleteArticles = this.deleteArticles
+        let deleteSourceComplaint = this.deleteSourceComplaint
         let onEdit = (data) => {
             this.setState({
                 isAddVisible: true,
-                article_no: data.article_no,
-                gist_of_article: data.gist_of_article,
+                type: data.type,
+                description: data.description,
                 id: data.id
             })
         }
         this.columnDefs = [
             { headerName: "ID", field: "id", sortable: true, filter: true, width: 120 },
-            { headerName: "Article No", field: "article_no", sortable: true, filter: true, width: 170 },
-            { headerName: "Gist of Article", field: "name", sortable: true, filter: true, width: 170 },
+            { headerName: "Type", field: "type", sortable: true, filter: true, width: 170 },
+            { headerName: "Description", field: "description", sortable: true, filter: true, width: 170 },
             {
-                headerName: "Action", field: "article_no", sortable: false, filter: false, cellRendererFramework: function (params) {
+                headerName: "Action", field: "id", sortable: false, filter: false, cellRendererFramework: function (params) {
                     return <Button className="btn btn-sm btn-primary btn-small" onClick={() => onEdit(params.data)} >Edit </Button>
                 },
             },
             {
-                headerName: "Action", field: "article_no", sortable: false, filter: false, cellRendererFramework: function (params) {
-                    return <Button className="btn btn-sm btn-danger btn-small" onClick={() => deleteArticles(params.data.id)}> Delete </Button>
+                headerName: "Action", field: "id", sortable: false, filter: false, cellRendererFramework: function (params) {
+                    return <Button className="btn btn-sm btn-danger btn-small" onClick={() => deleteSourceComplaint(params.data.id)}> Delete </Button>
                 },
             }
         ]
 
-        this.gridOptionsArticles = {
+        this.gridOptionsSourceComplaint = {
             defaultColDef: {
                 sortable: true,
                 filter: true
@@ -106,42 +108,42 @@ class Articles extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
 
-        const { article_no, gist_of_article } = this.state
+        const { type, description } = this.state
 
-        if (!article_no) {
-            showWarningToast("Please enter Articles Type");
+        if (!type) {
+            showWarningToast("Please enter source complaint");
             return
         }
         // let this is login response from server
         const params = {
-            article_no: this.state.article_no,
-            name: this.state.gist_of_article,
+            type: this.state.type,
+            description: this.state.description,
             // desc: this.state.desc,
         }
 
-        // this.callAddArticlesApi(params)
+        // this.calladdSourceComplaintApi(params)
         if (this.state.id) {
-            this.callUdateArticlesApi(this.state.id, params)
+            this.callUdateSourceComplaintApi(this.state.id, params)
         } else {
-            this.callAddArticlesApi(params)
+            this.calladdSourceComplaintApi(params)
         }
 
     }
 
-    callUdateArticlesApi = (id, params) => {
-        console.log("UPDATE_Articles_API_PARAMS:" + JSON.stringify(params))
+    callUdateSourceComplaintApi = (id, params) => {
+        console.log("UPDATE_Source Complaint_API_PARAMS:" + JSON.stringify(params))
 
-        updateArticlesApi(id, params).then(res => {
-        console.log("UPDATE Articles STATUS", JSON.stringify(res))
+        updateSourceComplaintApi(id, params).then(res => {
+        console.log("UPDATE Source Complaint STATUS", JSON.stringify(res))
             if (res.success) {
                 showSuccessToast("Updated Successfully")
                 this.setState({
-                    article_no: "",
-                    gist_of_article: "",
+                    type: "",
+                    description: "",
                     isAddVisible: false,
                     id: ""
                 })
-                this.callArticlesListApi()
+                this.callSourceComplaintListApi()
             }
             else {
                 showSomethingWentWrong()
@@ -152,20 +154,20 @@ class Articles extends Component {
         });
     }
 
-    callAddArticlesApi = (params) => {
-        console.log("ADD_Articles_API_PARAMS:" + JSON.stringify(params))
+    calladdSourceComplaintApi = (params) => {
+        console.log("ADD_Source_Complaint_API_PARAMS:" + JSON.stringify(params))
 
-        addArticlesApi(params).then(res => {
-            console.log("ADD Articles STATUS",JSON.stringify(res))
+        addSourceComplaintApi(params).then(res => {
+            console.log("ADD Source Complaint STATUS",JSON.stringify(res))
             if (res.success) {
                 showSuccessToast("Added Successfully")
                 this.setState({
-                    article_no: "",
-                    gist_of_article: "",
+                    type: "",
+                    description: "",
                     isAddVisible: false,
                     id: ""
                 })
-                this.callArticlesListApi()
+                this.callSourceComplaintListApi()
             }
             else {
                 showSomethingWentWrong()
@@ -179,40 +181,40 @@ class Articles extends Component {
 
 
     componentDidMount() {
-        this.callArticlesListApi()
+        this.callSourceComplaintListApi()
 
     }
 
-    callArticlesListApi(){
-        getArticlesList().then(res=>{
-            console.log("Articles",JSON.stringify(res))
-            this.setState({articlesList:res.data})
+    callSourceComplaintListApi(){
+        getSourceComplaintList().then(res=>{
+            console.log("Source Complaint",JSON.stringify(res))
+            this.setState({SourceComplaintList:res.data})
         })
     }
 
 
-    renderArticlesModal() {
+    renderSourceComplaintModal() {
         return (
             <Modal show={this.state.isAddVisible} onHide={() => { this.setState({ isAddVisible: false, id: "" }) }}>
                 <Modal.Header closeButton >
-                    <Modal.Title>{this.state.id ? "Edit Articles" : "Add Articles"}</Modal.Title>
+                    <Modal.Title>{this.state.id ? "Edit Source Complaint" : "Add Source Complaint"}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form
                         onSubmit={this.handleSubmit} >
                         <div className="form-group">
-                            <span>Articles No</span>
+                            <span>Type</span>
                             <input
-                                value={this.state.article_no}
+                                value={this.state.type}
                                 onChange={this.handleChange}
-                                type="text" className="form-control" id="article_no" name="article_no" placeholder="Type" />
+                                type="text" className="form-control" id="type" name="type" placeholder="Type" />
                         </div>
                         <div className="form-group">
-                            <span>Gist Of Article</span>
+                            <span>Description</span>
                             <input
-                                value={this.state.gist_of_article}
+                                value={this.state.description}
                                 onChange={this.handleChange}
-                                type="text" className="form-control" id="gist_of_article" name="gist_of_article" placeholder="Description" />
+                                type="text" className="form-control" id="description" name="description" placeholder="Description" />
                         </div>
 
                         <Button variant="secondary" onClick={() => { this.setState({ isAddVisible: false }) }} className="mr10">
@@ -232,26 +234,26 @@ class Articles extends Component {
         return (
             <div className="dashboardCt">
                 <div className="inner">
-                    {this.renderArticlesModal()}
+                    {this.renderSourceComplaintModal()}
 
                     <div className="container-fluid">
                         <div className="row">
                             <div className="col-md-12 mb20">
-                                <h3>Article No</h3>
+                                <h3>SourceComplaint Information</h3>
                             </div>
-                            <div className="col-md-12 mb10">
-                                <button onClick={() => this.setState({ isAddVisible: true, id: "", article_no: "", gist_of_article: "" })} className="btn btn-sm btn-success">Add</button>
+                            <div className="col-md-12">
+                                <button onClick={() => this.setState({ isAddVisible: true, id: "", SourceComplaint: "" })} className="btn btn-sm btn-success">Add</button>
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-md-12">
-                                {this.state.articlesList && <div className="ag-theme-balham" style={{ height: 500, width: '100%' }}>
+                                {this.state.SourceComplaintList && <div className="ag-theme-balham" style={{ height: 500, width: '100%' }}>
                                     <AgGridReact
                                         animateRows={true}
                                         rowSelection="multiple"
                                         //columnDefs={this.state.columnDefs}
-                                        gridOptions={this.gridOptionsArticles}
-                                        rowData={this.state.articlesList}>
+                                        gridOptions={this.gridOptionsSourceComplaint}
+                                        rowData={this.state.SourceComplaintList}>
                                     </AgGridReact>
                                 </div>}
                             </div>
@@ -283,5 +285,5 @@ const mapDispatchToProps = (dispatch) => {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Articles);
+export default connect(mapStateToProps, mapDispatchToProps)(SourceComplaint);
 

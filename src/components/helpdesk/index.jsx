@@ -113,16 +113,16 @@ class Helpdesk extends Component {
                                 <h5 className="text-center mt30">Team Members</h5>
                                 <div className="innovation_team">
                                     <div className="team_member">
-                                        <div className="name">Himanshu Chauhan</div>
-                                        <div className="designation">Developer</div>
+                                        <div className="name">Sunil</div>
+                                        <div className="designation">Software Developer</div>
                                     </div>
                                     <div className="team_member">
-                                        <div className="name">Sunil</div>
-                                        <div className="designation">Developer</div>
+                                        <div className="name">Himanshu Chauhan</div>
+                                        <div className="designation">Software Developer</div>
                                     </div>
                                     <div className="team_member">
                                         <div className="name">Mohit Kumar Jain</div>
-                                        <div className="designation">Forensic Expert</div>
+                                        <div className="designation">Forensic</div>
                                     </div>
                                 </div>
                             </div>

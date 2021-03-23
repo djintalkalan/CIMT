@@ -38,15 +38,18 @@ class Cases extends Component {
                 filter: true
             },
             columnDefs: [
-                { headerName: "FIR No", field: "fir_no", sortable: true, filter: true },
-                { headerName: "Case No", field: "case_no", sortable: true, filter: true },
-                { headerName: "Name", field: "name", sortable: true, filter: true },
-                { headerName: "Address", field: "address", sortable: true, filter: true },
+                { headerName: "Case ID", field: "case_id", sortable: true, filter: true, width: 100 },
+                { headerName: "Charged Officer", field: "charged_officer", sortable: true, filter: true },
+                { headerName: "File No", field: "file_number", sortable: true, filter: true , width: 100},
+                { headerName: "File Date", field: "file_year", sortable: true, filter: true, width: 150 },
+                { headerName: "Misconduct Type", field: "nature_of_misconduct", sortable: true, filter: true, width: 150 },
+                { headerName: "Complaint Source", field: "source_of_complaint", sortable: true, filter: true, width: 150 },
                 {
-                    headerName: "Action", field: "user_id", sortable: false, filter: false, cellRendererFramework: function (params) {
-                        return <Button className="btn btn-sm btn-success btn-small" onClick={() => history.push('/addevidence', { data: params.data })} > Test </Button>
+                    headerName: "Action", field: "user_id", sortable: false, filter: false, width: 150, cellRendererFramework: function (params) {
+                        return <Button className="btn btn-sm btn-success btn-small" onClick={() => history.push('/addevidence', { data: params.data.case_id })} > Add Evidence </Button>
                     },
-                }],
+                },
+                { headerName: "Status", field: "status", sortable: true, filter: true, width: 120 }],
             rowData: null,
             floatingFilter: true,
             pagination: true,
@@ -69,7 +72,7 @@ class Cases extends Component {
 
     handleSubmitEvidence = (e) => {
         e.preventDefault();
-        console.log("stateInfo", this.state);
+        // console.log("stateInfo", this.state);
 
         let form_data = new FormData();
         form_data.append('image', this.state.image, this.state.image.name);
@@ -128,10 +131,10 @@ class Cases extends Component {
     };
 
     callAddCaseApi = (params) => {
-        console.log("ADD_CASE_API_PARAMS:" + JSON.stringify(params))
+        // console.log("ADD_CASE_API_PARAMS:" + JSON.stringify(params))
 
         addCaseApi(params).then(res => {
-            console.log("ADD CASE STATUS", JSON.stringify(res))
+            // console.log("ADD CASE STATUS", JSON.stringify(res))
             // this.setState({ addCaseStatus: res.addcase }, () => {
             //     let caseList = this.state.caseList;
             //     caseList.push({
@@ -160,15 +163,20 @@ class Cases extends Component {
 
     callUserListApi() {
         getUserList().then(res => {
-            console.log("USERS", JSON.stringify(res))
+            // console.log("USERS", JSON.stringify(res))
             this.setState({ userList: res.data })
         })
     }
 
+
     callCaseListApi() {
         getCaseList().then(res => {
+            // console.log('**************')
             console.log("CASES", JSON.stringify(res))
-            this.setState({ caseList: res.data })
+            const newData = res.data.map(x => ({
+                file_number: x.case_identity.file_number, status: x.status, file_year: x.case_identity.file_year, case_id: x.case_id , nature_of_misconduct: x.case_identity.nature_of_misconduct.type, source_of_complaint: x.case_identity.source_of_complaint.type ,charged_officer: x.charged_officer.map(y=> `${y.user.first_name} ${y.user.last_name}`).join(", "),
+            }))
+            this.setState({ caseList: newData })
         })
     }
 
@@ -257,15 +265,15 @@ class Cases extends Component {
                 <div className="container-fluid">
                     <div className="inner">
 
-                        {this.renderCaseModal()}
+                        {/* {this.renderCaseModal()} */}
                         {/* {this.renderEvidenceModal()} */}
 
                         <div className="firCt mb10">
-                            <button onClick={() => this.setState({ isAddCaseVisible: true })} className="btn btn-sm btn-success">Add Case</button>
+                            <button onClick={() => history.push('/newchargesheet')} className="btn btn-sm btn-success">Add Case</button>
                         </div>
                         <div className="row">
                             <div className="col-md-12">
-                                {this.state.userList && <div className="ag-theme-balham" style={{ height: 500, width: '100%' }}>
+                                {console.log(this.state.caseList) || this.state.userList && <div className="ag-theme-balham" style={{ height: 500, width: '100%' }}>
                                     {/* <AgGridReact
                                         animateRows={true}
                                         rowSelection="multiple"

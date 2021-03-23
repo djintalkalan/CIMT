@@ -228,10 +228,19 @@ h6 {
   .sidebarCt .img-wrapper {
     border-bottom: 1px solid #e7e7e7;
     text-align: center; }
-    .sidebarCt .img-wrapper img {
-      margin: 10px auto;
+    .sidebarCt .img-wrapper .image {
+      margin: 10px auto 0px;
       height: 110px;
-      width: 110px; }
+      width: 110px;
+      background-size: cover;
+      background-position: center;
+      border-radius: 5px; }
+    .sidebarCt .img-wrapper .name-designation {
+      font-size: 13px;
+      font-weight: 400;
+      color: #922525;
+      text-transform: uppercase;
+      font-family: 'Roboto', sans-serif; }
   .sidebarCt .box-circle a {
     margin-top: 1px;
     display: block;
@@ -268,13 +277,34 @@ h6 {
 .boxCt {
   margin-bottom: 30px; }
   .boxCt .inner {
-    padding: 10px 20px 25px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
     background-color: #fff;
-    border: 1px solid #ddd; }
+    border: 1px solid #ddd;
+    text-transform: uppercase; }
     .boxCt .inner span {
-      display: block; }
-    .boxCt .inner input {
-      width: 100%; }
+      padding: 3px 10px;
+      background-color: #ddd; }
+
+.reportCt {
+  padding: 15px 10px;
+  overflow: auto;
+  border: 1px solid #000; }
+  .reportCt .inner-block {
+    overflow: auto; }
+  .reportCt h5 {
+    color: #922525;
+    font-size: 16px; }
+  .reportCt .boxCt {
+    width: 46%;
+    margin: 3px 2%;
+    float: left; }
+    .reportCt .boxCt .inner {
+      padding: 3px;
+      font-size: 12px; }
+      .reportCt .boxCt .inner span {
+        padding: 2px 5px; }
 
 .tableCt {
   display: block;
@@ -474,6 +504,11 @@ h6 {
   color: #fff !important;
   border-radius: 0px !important; }
 
+.btn-custom-grid {
+  min-width: 78px;
+  white-space: nowrap;
+  text-align: center; }
+
 .helpdeskCt .gjutitle {
   font-size: 22px;
   color: red; }
@@ -499,6 +534,47 @@ h6 {
     .helpdeskCt .innovation_team .team_member .designation {
       font-size: 14px;
       color: #b4bbc3; }
+
+select.customSelect {
+  padding: 2px 10px;
+  width: auto;
+  min-width: 169px;
+  height: 30px;
+  float: left;
+  font-size: 14px;
+  background: #f4f4e9;
+  border: 1px solid #000;
+  border-radius: 0; }
+  select.customSelect:focus {
+    box-shadow: none; }
+
+.customTable {
+  width: 100%;
+  font-family: 'Roboto', sans-serif; }
+  .customTable thead th {
+    padding: 4px 10px !important;
+    font-size: 14px;
+    font-weight: 500;
+    color: #17a2b8; }
+  .customTable tbody td, .customTable tbody th {
+    padding: 4px 10px !important;
+    font-size: 13px;
+    color: #6c757d; }
+  .customTable.maxheight {
+    height: auto;
+    max-height: 202px; }
+
+.faceDetection {
+  padding: 30px;
+  text-align: center;
+  background-color: #ffffff; }
+  .faceDetection .demoImage {
+    margin: 20px auto;
+    width: 300px;
+    height: 300px;
+    border-radius: 20px;
+    background-repeat: no-repeat;
+    background-position: center; }
 
 .loader {
   display: none;
@@ -571,12 +647,12 @@ header {
       top: 5px;
       right: 30px;
       font-size: 25px;
-      color: #fff; }
-      header > .inner .logoutCt img {
-        width: 50px;
-        height: 50px;
-        border-radius: 50px;
-        cursor: pointer; }
+      color: #fff;
+      width: 50px;
+      height: 50px;
+      border-radius: 50px;
+      background-position: center;
+      background-size: cover; }
     header > .inner .menuCt {
       position: absolute;
       display: inline;

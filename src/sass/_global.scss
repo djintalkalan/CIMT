@@ -266,10 +266,20 @@ h6 {
 	.img-wrapper {
 		border-bottom: 1px solid #e7e7e7;
 		text-align: center;
-		img {
-			margin: 10px auto;
+		.image {
+			margin: 10px auto 0px;
 			height: 110px;
 			width: 110px;
+			background-size: cover;
+			background-position: center;
+			border-radius: 5px;
+		}
+		.name-designation {
+			font-size: 13px;
+			font-weight: 400;
+			color: #922525;
+			text-transform: uppercase;
+			font-family: 'Roboto', sans-serif;
 		}
 	}
 	.box-circle {
@@ -366,16 +376,43 @@ h6 {
 // }
 
 .boxCt {
-	margin-bottom: 30px;;
+	margin-bottom: 30px;
 	.inner {
-		padding: 10px 20px 25px;
+		padding: 10px 20px;
+		font-size: 14px;
+		font-family: 'Roboto', sans-serif;
 		background-color: #fff;
 		border: 1px solid #ddd;
+		text-transform: uppercase;
 		span {
-			display: block;
+			padding: 3px 10px;
+			background-color: #ddd;
 		}
-		input {
-			width: 100%;
+	}
+}
+
+.reportCt {
+	padding: 15px 10px;
+	overflow: auto;
+	border: 1px solid #000;
+	.inner-block {
+		overflow: auto;
+	}
+
+	h5 {
+		color: #922525;
+		font-size: 16px;
+	}
+	.boxCt {
+		width: 46%;
+		margin: 3px 2%;
+		float: left;
+		.inner {
+			padding: 3px;
+			font-size: 12px;
+			span {
+				padding: 2px 5px;
+			}
 		}
 	}
 }
@@ -637,6 +674,12 @@ h6 {
 	border-radius: 0px !important;
 }
 
+.btn-custom-grid {
+	min-width: 78px;
+	white-space: nowrap;
+	text-align: center;
+}
+
 .helpdeskCt {
 	.gjutitle {
 		font-size: 22px;
@@ -666,5 +709,59 @@ h6 {
 				color: #b4bbc3;
 			}
 		}
+	}
+}
+
+select.customSelect {
+	padding: 2px 10px;
+	width: auto;
+	min-width: 169px;
+	height: 30px;
+	float: left;
+	font-size: 14px;
+	background: #f4f4e9;
+	border: 1px solid #000;
+	border-radius: 0;
+	&:focus {
+		box-shadow: none;
+	}
+}
+
+.customTable  {
+	width: 100%;
+	font-family: 'Roboto', sans-serif;
+	thead {
+		th {
+			padding: 4px 10px !important;
+			font-size: 14px;
+			font-weight: 500;
+			color: #17a2b8;
+		}
+	}
+	tbody {
+		td , th{
+			padding: 4px 10px !important;
+			font-size: 13px;
+			color: #6c757d;
+
+		}
+	}
+	&.maxheight {
+		height: auto;
+		max-height: 202px;
+	}
+}
+
+.faceDetection {
+	padding: 30px;
+	text-align: center;
+	background-color: #ffffff;
+	.demoImage {
+		margin: 20px auto;
+		width: 300px;
+		height: 300px;
+		border-radius: 20px;
+		background-repeat: no-repeat;
+		background-position: center;
 	}
 }

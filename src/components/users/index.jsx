@@ -15,7 +15,7 @@ import { getUserList } from '../../api/ApiService';
 import { addUserApi} from '../../api/ApiService';
 import { getRoleList } from '../../api/ApiService';
 import { addRoleApi} from '../../api/ApiService';
-import { getOfficesList } from '../../api/ApiService';
+import { getOfficesList, getDesignationList } from '../../api/ApiService';
 import { toast } from 'react-toastify';
 import { showSuccessToast, showErrorToast, showInfoToast, showWarningToast, showSomethingWentWrong } from '../../utils/Utils';
 
@@ -34,10 +34,14 @@ class Users extends Component {
                 filter: true
             },
             columnDefs: [
-                { headerName: "ID", field: "id", sortable: true, filter: true, width: 120},
-                { headerName: "First Name", field: "first_name", sortable: true, filter: true, width: 170 },
-                { headerName: "Last Name", field: "last_name", sortable: true, filter: true, width: 170 },
-                { headerName: "Username", field: "username", sortable: true, filter: true, width: 200 },
+                // { headerName: "ID", field: "id", sortable: true, filter: true, width: 80},
+                { headerName: "First Name", field: "first_name", sortable: true, filter: true, width: 140 },
+                { headerName: "Last Name", field: "last_name", sortable: true, filter: true, width: 140 },
+                { headerName: "Username", field: "username", sortable: true, filter: true, width: 140 },
+                { headerName: "Role", valueGetter: params => {
+                    return params.groups;
+                }, sortable: true, filter: true, width: 140 },
+                { headerName: "Phone", field: "phone_no", sortable: true, filter: true, width: 140 },
                 { headerName: "Email", field: "email", sortable: true, filter: true, width: 300 }],
                 
                 defaultColDef: {
@@ -80,21 +84,25 @@ class Users extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
 
-        const { firstname, lastname, username, email, designation, phone, work_place } = this.state
+        let role1 = []
 
-        if ((!firstname) || (!lastname) || (!username) || (!email) || (!designation) || (!phone) || (!work_place)) {
+        const { first_name, last_name, username, email, designation, phone, office, role } = this.state
+
+        if ((!first_name) || (!last_name) || (!username) || (!email) || (!designation) || (!phone) || (!office) || (!role)) {
             showWarningToast("Please Enter All Fields!");
       return
         }
+        role1.push(this.state.role)
         const params = {
-            first_name: this.state.firstname,
-            last_name: this.state.lastname,
+            first_name: this.state.first_name,
+            last_name: this.state.last_name,
             username: this.state.username,
             email: this.state.email,
-            // treasury_code: this.state.treasury_code,
+            treasury_code: this.state.treasury_code,
             designation: this.state.designation,
-            phone: this.state.phone,
-            office: this.state.work_place
+            phone_no: this.state.phone,
+            office: this.state.office,
+            groups: role1
         }
 
         this.callAddUserApi(params)
@@ -107,24 +115,26 @@ class Users extends Component {
 
         addUserApi(params).then(res => {
             console.log("ADD USER STATUS",JSON.stringify(res))
-            this.setState({addUserStatus:res.comment})
+            // this.setState({addUserStatus:res.comment})
             if (res.success) {
                 showSuccessToast("Added Successfully")
                 this.setState({
-                    firstname: "",
-                    lastname: "",
+                    first_name: "",
+                    last_name: "",
                     username: "",
                     email: "",
+                    treasury_code: "",
                     designation: "",
                     phone: "",
-                    work_place: "",
+                    office: "",
+                    role: "",
                     isAddVisible: false,
                     id: ""
                 })
                 this.callUserListApi()
             }
             else {
-                showSomethingWentWrong()
+                showErrorToast(res.error)
             }
         }).catch(e => {
             console.log(e);
@@ -156,13 +166,13 @@ class Users extends Component {
 
         addRoleApi(params).then(res => {
             console.log("ADD ROLE STATUS",JSON.stringify(res))
-            this.setState({addUserStatus:res.comment})
+            // this.setState({addUserStatus:res.comment})
             if (res.success) {
                 showSuccessToast("Added Successfully")
                 this.setState({
                     rolename: "",
                     roledesc: "",
-                    isAddVisible: false,
+                    isAddVisible1: false,
                     id: ""
                 })
                 this.callRoleListApi()
@@ -180,17 +190,18 @@ class Users extends Component {
          this.callUserListApi()
          this.callRoleListApi()
          this.callOfficesListApi()
+         this.callDesignationListApi()
         // let userListFromServer = [{
-        //     firstName: "Mark",
-        //     lastName: "Otto",
+        //     first_Name: "Mark",
+        //     last_name: "Otto",
         //     userName: "@mdo"
         // }, {
-        //     firstName: "Jacob",
-        //     lastName: "Thornton",
+        //     first_Name: "Jacob",
+        //     last_name: "Thornton",
         //     userName: "@fat",
         // }, {
-        //     firstName: "Larry",
-        //     lastName: "the Bird",
+        //     first_Name: "Larry",
+        //     last_name: "the Bird",
         //     userName: "@twitter",
         // },]
         // this.setState({
@@ -211,6 +222,23 @@ class Users extends Component {
         })
     }
 
+    renderRoleList() {
+        const { roleList } = this.state;
+        if (roleList && roleList.length > 0)
+            return (
+                <select className="form-control" name="role" value={this.state.role}
+                    onChange={this.handleChange}
+                    id="role">
+                    <option value="">Please Select role</option>
+                    {roleList.map((item, index) => {
+                        return (
+                            <option value={item.id}>{item.name}</option>
+                        )
+                    })}
+                </select>
+            )
+    }
+
     callOfficesListApi(){
         getOfficesList().then(res=>{
             console.log("Offices",JSON.stringify(res))
@@ -222,13 +250,36 @@ class Users extends Component {
         const { officesList } = this.state;
         if (officesList && officesList.length > 0)
             return (
-                <select className="form-control" name="work_place" value={this.state.work_place}
+                <select className="form-control" name="office" value={this.state.office}
                     onChange={this.handleChange}
-                    id="work_place">
+                    id="office">
                     <option value="">Please Select Office</option>
                     {officesList.map((item, index) => {
                         return (
                             <option value={item.id}>{item.office_name}</option>
+                        )
+                    })}
+                </select>
+            )
+    }
+
+    callDesignationListApi(){
+        getDesignationList().then(res=>{
+            console.log("DESIGNATIONS",JSON.stringify(res))
+            this.setState({designationList:res.data})
+        })
+    }
+
+    renderDesignationList() {
+        const { designationList } = this.state;
+        if (designationList && designationList.length > 0)
+            return (
+                <select className="form-control" name="designation" id="designation"
+                    onChange={this.handleChange}>
+                    <option value="">Select Designation</option>
+                    {designationList.map((item, index) => {
+                        return (
+                            <option value={item.id}>{item.designation}</option>
                         )
                     })}
                 </select>
@@ -249,23 +300,23 @@ class Users extends Component {
                         <div className="form-group">
                             <span>First Name</span>
                             <input
-                                value={this.state.firstname}
+                                value={this.state.first_name}
                                 onChange={this.handleChange}
-                                type="text" className="form-control" name="firstname" id="firstname" placeholder="First Name" />
+                                type="text" className="form-control" name="first_name" id="first_name" placeholder="First Name" />
                         </div>
                         <div className="form-group">
                             <span>Last Name</span>
                             <input
-                                value={this.state.lastname}
+                                value={this.state.last_name}
                                 onChange={this.handleChange}
-                                type="text" className="form-control" name="lastname" id="lastname" placeholder="Last Name" />
+                                type="text" className="form-control" name="last_name" id="last_name" placeholder="Last Name" />
                         </div>
                         <div className="form-group">
                             <span>Username</span>
                             <input
                                 value={this.state.username}
                                 onChange={this.handleChange}
-                                type="text" className="form-control" name="username" id="username" placeholder="Phone/Email" />
+                                type="text" className="form-control" name="username" id="username" placeholder="Username" />
                         </div>
                         <div className="form-group">
                             <span>Email</span>
@@ -283,10 +334,11 @@ class Users extends Component {
                         </div>
                         <div className="form-group">
                             <span>Designation</span>
-                            <input
+                            {/* <input
                                 value={this.state.designation}
                                 onChange={this.handleChange}
-                                type="text" className="form-control" name="designation" id="designation" placeholder="Designation" />
+                                type="text" className="form-control" name="designation" id="designation" placeholder="Designation" /> */}
+                                {this.renderDesignationList()}
                         </div>
                         <div className="form-group">
                             <span>Phone</span>
@@ -298,6 +350,10 @@ class Users extends Component {
                         <div className="form-group">
                             <span>Work Place</span>
                             {this.renderOfficesList()}
+                        </div>
+                        <div className="form-group">
+                            <span>User Role</span>
+                            {this.renderRoleList()}
                         </div>
                         {/* <div className="form-group">
                             <span>Password</span>

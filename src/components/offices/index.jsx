@@ -66,7 +66,7 @@ class Offices extends Component {
             { headerName: "ID", field: "id", sortable: true, filter: true, width: 120 },
             { headerName: "Office Name", field: "office_name", sortable: true, filter: true, width: 170 },
             { headerName: "Office Address", field: "office_address", sortable: true, filter: true, width: 170 },
-            { headerName: "Description", field: "district", sortable: true, filter: true, width: 170 },
+            { headerName: "District", field: "district_id", sortable: true, filter: true, width: 170 },
             {
                 headerName: "Action", field: "offices", sortable: false, filter: false, cellRendererFramework: function (params) {
                     return <Button className="btn btn-sm btn-primary btn-small" onClick={() => onEdit(params.data)} >Edit </Button>

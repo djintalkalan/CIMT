@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import { userDataAction, userTokenAction, isLoginAction } from "../../redux/actions"
 import { connect } from "react-redux";
 import { history } from '../../routes';
-import { getCaseReport, getMonthlyCaseReport, getDistrictReport } from '../../api/ApiService';
+import { getCaseReport, getMonthlyCaseReport, getDistrictReport, faceDetectionApi } from '../../api/ApiService';
 import CanvasJSReact from '../../assets/canvasjs.react';
 // import Fingerprint2 from 'fingerprintjs2'
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
+import { showSuccessToast, showErrorToast, showInfoToast, showWarningToast, showSomethingWentWrong } from '../../utils/Utils';
+
 import Header from '../custom/Header';
 import SideNav from '../custom/SideNav';
 // import logo from './logo.svg';
@@ -39,7 +41,7 @@ const monthlyCases = {
 	data: [
 	{
 		type: "column",
-		name: "Actual Cases",
+		name: "Total Monthly Cases",
 		showInLegend: true,
 		xValueFormatString: "MMMM YYYY",
 		// yValueFormatString: "$#,##0",
@@ -136,7 +138,9 @@ class DashBoard extends Component {
         this.state = {
             caseReportList: null,
             monthlyCaseReportList: null,
-            districtReportList: null
+            districtReportList: null,
+            monthlyCases,
+            stateReport
         }
 
 
@@ -189,19 +193,66 @@ class DashBoard extends Component {
     getCaseReportApi(){
         getCaseReport().then(res=>{
             console.log("CASE REPORT",JSON.stringify(res))
-            this.setState({caseReportList:res.data})
+            this.setState(res)
         })
     }
     getMonthlyCaseReportApi(){
         getMonthlyCaseReport().then(res=>{
             console.log("MONTHLY CASE REPORT",JSON.stringify(res))
-            this.setState({monthlyCaseReportList:res.data})
+
+          const newMonthlyCase = {
+            ...this.state.monthlyCases,
+            data: [
+              {
+                type: "column",
+                name: "Total Monthly Cases",
+                showInLegend: true,
+                xValueFormatString: "MMMMYYYY",
+                // yValueFormatString: "$#,##0",
+                dataPoints: res.data.total_monthly_cases.map(x => ({
+                  "x":new Date(x.month.split("-")[0], x.month.split("-")[1]), "y":x.c
+                }))
+              }, 
+              {
+                type: "line",
+                name: "Expected Cases",
+                showInLegend: true,
+                // yValueFormatString: "$#,##0",
+                dataPoints: res.data.ongoing_monthly_cases.map(x => ({
+                  "x":new Date(x.month.split("-")[0], x.month.split("-")[1]), "y":x.c
+                }))
+              },
+              {
+                type: "area",
+                name: "Pending",
+                markerBorderColor: "white",
+                markerBorderThickness: 2,
+                showInLegend: true,
+                // yValueFormatString: "$#,##0",
+                dataPoints: res.data.complete_monthly_cases.map(x => ({
+                  "x":new Date(x.month.split("-")[0], x.month.split("-")[1]), "y":x.c
+                }))
+              }]
+          }
+           
+                this.setState({monthlyCases: newMonthlyCase })
         })
     }
     getDistrictReportApi(){
         getDistrictReport().then(res=>{
             console.log("DISRTICT REPORT",JSON.stringify(res))
             this.setState({districtReportList:res.data})
+             const largestIndex = 0;
+             const newStatereport = {...this.state.stateReport,
+                data: [{
+                    type: "pie",
+                    showInLegend: true,
+                    toolTipContent: "{name}: <strong>{y}%</strong>",
+                    indexLabel: "{name} - {y}%",
+                    dataPoints: res.data.map((x,index)=> ({y:x.percentage ,name:x.district, ...(largestIndex===index? {exploded: true} : {})}))
+                }]
+            }
+            this.setState({stateReport: newStatereport})
         })
     }
 
@@ -224,7 +275,7 @@ class DashBoard extends Component {
 
    
     render() {
-        console.log("UserName", this.state.total_case)
+        console.log("State", this.state)
         return (
             <div className="dashboardCt">
                 <div className="container-fluid">
@@ -239,19 +290,19 @@ class DashBoard extends Component {
                             <div className="col-md-4">
                                 <div className="threeBlockCss">
                                     <span className="title">Ongoing Case: </span>
-                                    <span className="titleans">4350</span>
+                                    <span className="titleans">{this.state.ongoing_cases}</span>
                                 </div>
                             </div>
                             <div className="col-md-4">
                                 <div className="threeBlockCss">
                                     <span className="title">Complete Case: </span>
-                                    <span className="titleans">2120</span>
+                                    <span className="titleans">{this.state.complete_cases}</span>
                                 </div>
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-md-12 pt20">
-                                <CanvasJSChart options = {monthlyCases} />
+                                <CanvasJSChart options = {this.state.monthlyCases} />
                             </div>
                         </div>
                         <div className="row pt40">
@@ -265,8 +316,8 @@ class DashBoard extends Component {
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col-md-12 mb80 mt30">
-                                <CanvasJSChart options = {stateReport} />
+                            <div className="col-md-12 mb100 mt30">
+                                <CanvasJSChart options = {this.state.stateReport} />
                             </div>
                             {/* <div className="col-md-12 mb100">
                                 <div className="text_wrapper pull-right">
@@ -304,4 +355,3 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DashBoard);
-

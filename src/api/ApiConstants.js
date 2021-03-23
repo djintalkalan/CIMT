@@ -2,7 +2,7 @@
 const baseUrl ="https://jsonplaceholder.typicode.com"
 const baseUrl_heroku ="https://cimt.herokuapp.com"
 const baseUrl2 ="https://kartforu.com/deepak/shally_maid_api/api"
-const localUrl ="http://127.0.0.1:8000"
+export const localUrl ="http://127.0.0.1:8000"
 
 export const ApiConstants = {
     getPhotos:baseUrl+"/photos",
@@ -10,8 +10,10 @@ export const ApiConstants = {
     loginUser1:localUrl+"/customer/login.php",
 
     loginUser:localUrl+"/validateUser/",
-    passwordReset: localUrl+"/passwordReset/",
+    passwordReset: localUrl+"/reset-password/",
     changePass: localUrl+"/changePassword/",
+    logout: localUrl+"/logout/",
+
     updateUser: localUrl+"/updateUser/",
 
     getCaseReport:localUrl+"/getCaseReport/",
@@ -25,11 +27,16 @@ export const ApiConstants = {
     getRoleList:localUrl+"/getAllRoles/",
     addRole:localUrl+"/addRole/",
 
-    getCaseList:baseUrl_heroku+"/GetAllCase/",
-    addCase:baseUrl_heroku+"/AddCase/",
+    getCaseList:localUrl+"/getAllCase/",
+    getCaseById:localUrl+"/getCaseById/",
+    addEvidence:localUrl+"/addEvidence/",
+    getEvidenceList:localUrl+"/getEvidenceById/",
 
-    getNatureMisconduct:localUrl+"/natureMisconduct/",
-    getSourceComplaint:localUrl+"/sourceComplaint/",
+    addChargeSheet:localUrl+"/addChargeSheet/",
+    getAllChargedOfficer:localUrl+"/getAllChargedOfficer/",
+
+    // getNatureMisconduct:localUrl+"/natureMisconduct/",
+    addUpdateDelSourceComplaint:localUrl+"/sourceComplaint/",
 
     addUpdateDelDesignation:localUrl+"/Designations/",
     // addDesignation:localUrl+"/Designations/",
@@ -40,11 +47,14 @@ export const ApiConstants = {
     addUpdateDelDistrict:localUrl+"/Districts/",
     // addDistrict:localUrl+"/Districts/",
 
-    addUpdateDelMisconduct:localUrl+"/Districts/",
+    addUpdateDelMisconduct:localUrl+"/misconductType/",
 
-    addUpdateDelArticles:localUrl+"/Districts/",
+    addUpdateDelArticles:localUrl+"/articles/",
 
     uploadImageOnServer:localUrl+"/uploadAttachment/",
+
+    faceDetection:localUrl+"/faceDetection/",
+    getChargedOfficerById:localUrl+"/getAllChargedOfficer/",
 
 
 }

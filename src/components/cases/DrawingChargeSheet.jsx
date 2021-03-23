@@ -8,7 +8,8 @@ import { AgGridReact } from 'ag-grid-react';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import Modal from 'react-bootstrap/Modal';
-import { getRoleList } from '../../api/ApiService';
+import { getChargedOfficerByIdApi } from '../../api/ApiService';
+import { showSuccessToast, showErrorToast, showInfoToast, showWarningToast, showSomethingWentWrong } from '../../utils/Utils';
 
 
 //Open console and perform an action on page
@@ -19,12 +20,7 @@ class DrawingChargeSheet extends Component {
         super(props);
         // console.log("HISTORY:-", props.location.state.data)
        this.state = {
-            userList: null,
-            // isAddVisibleEnquiry: false,
-            // isAddVisibleImputation: false,
-            // isAddVisibleDocuments: false,
-            // isAddVisibleWitness: false,
-            //     data: props.location.state.data
+            chargedOfficerList: null
         }
 
     }
@@ -35,229 +31,189 @@ class DrawingChargeSheet extends Component {
         })
     };
 
-    handleSubmitDrawingChargeSheet = (e) => {
+    handleSearchChargeSheet = (e) => {
         e.preventDefault();
-        // console.log("stateInfo", this.state);
+        console.log("fdsfdsfsdfdsfsdf")
+// debugger
+        const { case_id } = this.state
 
-        // let form_data = new FormData();
-        // form_data.append('evidence_image', this.state.image, this.state.image.name);
-        // form_data.append('evidence_name', this.state.name);
-        // form_data.append('case_no', this.state.data.case_no);
-        // form_data.append('evidence_desc', this.state.imagedesc);
-        // for (var pair of form_data.entries()) {
-        //     console.log(pair[0] + ': ' + pair[1]);
-        // }
-        // console.log("Info", form_data);
-        // return
-        // let url = 'https://cors-anywhere.herokuapp.com/https://cimt.herokuapp.com/DrawingChargeSheet/';
-        // axios.post(url, form_data, {
-        //     headers: {
-        //         'content-type': 'multipart/form-data'
-        //     }
-        // })
-        //     .then(res => {
-        //         console.log(res.data);
-        //     })
-        //     .catch(err => console.log(err))
-    };
+        if (!case_id) {
+            showWarningToast("Insert Case ID")
+            return
+        };
+
+        const params = {
+            case_id: case_id
+        }
+
+        getChargedOfficerByIdApi(params).then(res => {
+            if (res.success) {
+                debugger
+                // console.log("Charged Officer Details", JSON.stringify(res))
+                this.setState({ chargedOfficerList: res.data })
+            }
+            else {
+                showSomethingWentWrong()
+            }
+        }).catch(e => {
+            console.log(e);
+            showSomethingWentWrong()
+        });
+    }
+
+    renderGetchargedOfficerList() {
+        let { chargedOfficerList } = this.state
+        console.log("chargedOfficerList", this.state.chargedOfficerList);
+// debugger
+        if (chargedOfficerList && chargedOfficerList.length > 0)
+            return (
+                <div>
+                    {chargedOfficerList.map((item, index) => (
+                        <div className="inner">
+                            <span className="chargedOfficesTitle">{item.user.first_name + " " + item.user.last_name}</span>
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <span className="title">Username : </span>
+                                    <span className="value">{item.user.username}</span>
+                                </div>
+                                <div className="col-md-6"></div>
+                            </div>
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <span className="title">Email : </span>
+                                    <span className="value">{item.user.email}</span>
+                                </div>
+                                <div className="col-md-6">
+                                    <span className="title">Treasury Code : </span>
+                                    <span className="value">{item.user.treasury_code}</span>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <span className="title">Designation : </span>
+                                    <span className="value">{item.user.designation.designation ? item.user.designation.designation : " "}</span>
+                                </div>
+                                <div className="col-md-6">
+                                    <span className="title">Work Place : </span>
+                                    <span className="value">{item.user.office.office_name}</span>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <span className="title">Phone No : </span>
+                                    <span className="value">{item.user.phone_no}</span>
+                                </div>
+                                <div className="col-md-6"></div>
+                            </div>
+                            <div className="row">
+                                <div className="col-md-12 text-right mt10">
+                                    {/* <button type="submit" className="btn btn-sm btn-dark">View Full Details</button> */}
+                                </div>
+                            </div>
+                        </div>
+                    ))
+                    }
+                </div>
+            )
+    }
 
     componentDidMount() {
-        this.callRoleListApi()
+        // this.callRoleListApi()
 
-        // axios.get(`https://cors-anywhere.herokuapp.com/https://cimt.herokuapp.com/GetAllEvidence/1`)
-        // .then(res => {
-        //     console.log("GetEvidence", JSON.stringify(res))
-        //     this.setState({ getEvidenceList: res.data.data })
-        // })
     }
-
-    callRoleListApi(){
-        getRoleList().then(res=>{
-            console.log("Testing Mode",JSON.stringify(res))
-            this.setState({roleList:res.data})
-        })
-    }
-
-    renderVisibleEnquiry() {
-        return (
-            <Modal show={this.state.isAddVisibleEnquiry} onHide={() => { this.setState({ isAddVisibleEnquiry: false }) }} dialogClassName="modal-90w custom" aria-labelledby="example-custom-modal-styling-title">
-                <Modal.Header closeButton >
-                    <Modal.Title>Add User</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <form
-                        onSubmit={this.handleSubmitRole} >
-                        <div className="inner">
-                            <div className="row">
-                                <div className="col-md-6">
-                                    <span className="title required">Name of Charged Officer </span>
-                                    <input type="text"
-                                        id="charged_officer" name="charged_officer" className="form-control" onChange={this.handleChange} required />
-                                </div>
-                                <div className="col-md-6">
-                                <span className="title required">Working Place of Imputation</span>
-                                    <input type="text"
-                                        id="place_working" name="place_working" className="form-control" onChange={this.handleChange} required />
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-md-6">
-                                    <span className="title required">Designation at Imputation </span>
-                                    <input type="text"
-                                        id="designation" name="designation" className="form-control" onChange={this.handleChange} required />
-                                </div>
-                                <div className="col-md-6">
-                                <span className="title required">Officer Treasury Code</span>
-                                    <input type="text"
-                                        id="officer_treasury_code" name="officer_treasury_code" className="form-control" onChange={this.handleChange} required />
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-md-6">
-                                    <span className="title required">Email </span>
-                                    <input type="text"
-                                        id="email" name="email" className="form-control" onChange={this.handleChange} required />
-                                </div>
-                                <div className="col-md-6">
-                                <span className="title required">Phone Number </span>
-                                    <input type="text"
-                                        id="phone" name="phone" className="form-control" onChange={this.handleChange} required />
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-md-12">
-                                    <span className="title required">Previous Charges if Any </span>
-                                    <textarea name="previous_charges" className="form-control"></textarea>
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-md-12">
-                                    <span className="title required">Attachment If Any </span>
-                                    <textarea name="attachment_desc1" className="form-control"></textarea>
-                                    <label className="custom-file-upload">
-                                        <input type="file"
-                                            id="charged_officer_case_attachment" name="charged_officer_case_attachment" className="form-control" onChange={this.handleChange} />
-                                    </label>
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-md-12">
-                                    <a href="#" className="btn btn-sm btn-dark float-right mt10 ml10">Clear</a>
-                                    <a href="#" className="btn btn-sm btn-dark float-right mt10">Add to List</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-md-12">
-                                <div>
-                                    {<div className="ag-theme-balham mt20" style={{ height: 200, width: '100%' }}>
-                                        <AgGridReact
-                                            animateRows={true}
-                                            rowSelection="multiple"
-                                            //columnDefs={this.state.columnDefs}
-                                            gridOptions={this.gridOptionsVisibleEnquiry}
-                                            rowData={this.state.roleList}>
-                                        </AgGridReact>
-                                    </div>}
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <Button variant="secondary" onClick={() => { this.setState({ isAddVisibleEnquiry: false }) }} className="mr10">
-                        Close
-                         </Button>
-                        <Button type="submit" variant="primary" onClick={() => { this.setState({ isAddVisibleEnquiry: false }) }}>
-                        Save Changes
-                         </Button>
-                    </form>
-                </Modal.Body>
-            </Modal>
-        )
-    }
+    
 
     render() {
-        console.log("UserName", JSON.stringify(this.props.userdata))
+        // if(!this.state.chargedOfficerList) return null
+        console.log("Charged Officer List", JSON.stringify(this.state.chargedOfficerList))
         return (
             <div className="evidenceCt">
-                <div className="container-fluid customForm">
-                    {/* <form className="mb60"
-                        onSubmit={this.handleSubmitDrawingChargeSheet} > */}
+                <div className="container-fluid customForm pb20">
 
-                    {this.renderVisibleEnquiry()}
-
-                        <div className="inner">
-                            <h5>Follow up on Charge Memo</h5>
+                    <div className="inner">
+                        <h5>Follow up on Charge Memo</h5>
+                        <form className="mb60"
+                                onSubmit={this.handleSearchChargeSheet} >
                             <div className="row mt30 mb30">
-                                <div className="col-md-2 text-right">
+                                <div className="col-md-4 text-right">
                                     <div className="title">Search Case : </div>
                                 </div>
                                 <div className="col-md-4">
-                                    <input type="text" id="searchcase" name="searchcase" className="form-control searchcase" onChange={this.handleChange} placeholder="Type case name" />
+                                    <input type="text" id="case_id" name="case_id" className="form-control case_id" onChange={this.handleChange} placeholder="Search Case" />
+                                </div>
+                                <div className="col-md-3">
+                                    <Button type="submit" className="btn btn-success">Submit</Button>
+                                    {/* <a onClick={this.handleSearchChargeSheet} className="btn btn-sm btn-info btn-custom">Search</a> */}
+                                </div>
+                            
+                            </div>
+                        </form>
+                        <div className="chargedOfficerCt mx20 my40 mb60">
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <span className="title">Case Number : </span>
+                                    <span className={ this.state.chargedOfficerList ? this.state.chargedOfficerList.id : "-" }></span>
+                                </div>  
+                                <div className="col-md-6">
+                                    <span className="title">Controlling Officer : </span>
+                                    <span className="value"></span>
                                 </div>
                             </div>
-                            <div className="chargedOfficerCt mx20 my40">
+                            {this.state.chargedOfficerList ? this.renderGetchargedOfficerList() : (
+                                <div className="inner">
+                                <span className="chargedOfficesTitle">Charged Officer</span>
                                 <div className="row">
                                     <div className="col-md-6">
-                                        <span className="title">Case Number : </span>
-                                        <span className=""></span>
+                                        <span className="title">Username : </span>
+                                        <span className="value">-</span>
+                                    </div>
+                                    <div className="col-md-6"></div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-md-6">
+                                        <span className="title">Email : </span>
+                                        <span className="value">-</span>
                                     </div>
                                     <div className="col-md-6">
-                                        <span className="title">Controlling Officer : </span>
-                                        <span className=""></span>
+                                        <span className="title">Treasury Code : </span>
+                                        <span className="value">-</span>
                                     </div>
                                 </div>
-                                <div className="inner">
-                                    <span className="chargedOfficesTitle">Charged Officer </span>
-                                    <div className="row">
-                                        <div className="col-md-6">
-                                            <span className="title">Name : </span>
-                                            <span className=""></span>
-                                        </div>
-                                        <div className="col-md-6"></div>
+                                <div className="row">
+                                    <div className="col-md-6">
+                                        <span className="title">Designation : </span>
+                                        <span className="value">-</span>
                                     </div>
-                                    <div className="row">
-                                        <div className="col-md-6">
-                                            <span className="title">Work Place of Imputation : </span>
-                                            <span className=""></span>
-                                        </div>
-                                        <div className="col-md-6">
-                                            <span className="title">Designation at Imputation : </span>
-                                            <span className=""></span>
-                                        </div>
+                                    <div className="col-md-6">
+                                        <span className="title">Work Place : </span>
+                                        <span className="value">-</span>
                                     </div>
-                                    <div className="row">
-                                        <div className="col-md-6">
-                                            <span className="title">Present Work Place : </span>
-                                            <span className=""></span>
-                                        </div>
-                                        <div className="col-md-6">
-                                            <span className="title">Present Designation : </span>
-                                            <span className=""></span>
-                                        </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-md-6">
+                                        <span className="title">Phone No : </span>
+                                        <span className="value">-</span>
                                     </div>
-                                    <div className="row">
-                                        <div className="col-md-6">
-                                            <span className="title">Misconduct Type : </span>
-                                            <span className=""></span>
-                                        </div>
-                                        <div className="col-md-6"></div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col-md-12 text-right mt10">
-                                            <button type="submit" className="btn btn-sm btn-dark">View Full Details</button>
-                                        </div>
+                                    <div className="col-md-6"></div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-md-12 text-right mt10">
+                                        {/* <button type="submit" className="btn btn-sm btn-dark">View Full Details</button> */}
                                     </div>
                                 </div>
                             </div>
-                            <div className="row">
-                                <div className="col-md-12 mx20">
-                                    <a href="#" className="btn btn-info mr20 mb10">Add Dispatch Detail</a>
-                                    <a href="#" className="btn btn-info mr20 mb10">Add SR Entry Details</a>
-                                    <a href="#" className="btn btn-info mr20 mb10">Add Follow-up Action</a>
-                                </div>
-                            </div>
+                            )}
+                            
                         </div>
-                    {/* </form> */}
+                        {/* <div className="row">
+                            <div className="col-md-12 mx20">
+                                <a href="#" className="btn btn-info mr20 mb10">Add Dispatch Detail</a>
+                                <a href="#" className="btn btn-info mr20 mb10">Add SR Entry Details</a>
+                                <a href="#" className="btn btn-info mr20 mb10">Add Follow-up Action</a>
+                            </div>
+                        </div> */}
+                    </div>
+                    
                 </div>
                 
             </div>

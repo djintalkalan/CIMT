@@ -8,12 +8,14 @@ import AddEvidence from "../cases/AddEvidence"
 import NewChargeSheet from "../cases/NewChargeSheet"
 import ChargeSheet from "../cases/ChargeSheet"
 import DrawingChargeSheet from "../cases/DrawingChargeSheet"
+import FaceDetection from "../faceDetection"
 
 import Designations from "../designations"
 import Offices from "../offices"
 import District from "../district"
 import Misconduct from "../misconduct"
 import Articles from "../articles"
+import SourceComplaint from "../sourceComplaint"
 
 import Helpdesk from "../helpdesk"
 
@@ -36,8 +38,8 @@ const filterScreen = (path) => {
             return <UserProfile />
         case '/changepass':
             return <ChangePassword />
-        // case '/resetpass':
-        //     return <ResetPassword />
+        case '/faceDetection':
+            return <FaceDetection />
         case '/newchargesheet':
             return <NewChargeSheet />
         case '/chargesheet':
@@ -54,6 +56,8 @@ const filterScreen = (path) => {
             return <Articles />
         case '/misconduct':
             return <Misconduct />
+        case '/sourcecomplaint':
+            return <SourceComplaint />
         case '/helpdesk':
             return <Helpdesk />
     }
