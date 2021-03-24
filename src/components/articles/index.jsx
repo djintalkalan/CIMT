@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
 import { userDataAction, userTokenAction, isLoginAction } from "../../redux/actions"
 import { connect } from "react-redux";
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+// import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 // import DataGrid from 'react-data-grid';
-import BarChart from 'react-bar-chart';
-import { history } from '../../routes';
-import Header from '../custom/Header';
+// import BarChart from 'react-bar-chart';
+// import { history } from '../../routes';
+// import Header from '../custom/Header';
 
 import { AgGridReact } from 'ag-grid-react';
 import Modal from 'react-bootstrap/Modal';
 import { Button } from 'react-bootstrap';
 import { getArticlesList, addArticlesApi, updateArticlesApi, deleteArticlesApi } from '../../api/ApiService';
 
-import { toast } from 'react-toastify';
-import { showSuccessToast, showErrorToast, showInfoToast, showWarningToast, showSomethingWentWrong } from '../../utils/Utils'
+import { showSuccessToast, showErrorToast, showWarningToast, showSomethingWentWrong } from '../../utils/Utils'
 
 class Articles extends Component {
     constructor(props) {
@@ -33,7 +32,7 @@ class Articles extends Component {
 
     deleteArticles = (id) => {
         deleteArticlesApi(id).then((res) => {
-            console.log("Response of Delete", res)
+            // console.log("Response of Delete", res)
             if (res.success) {
                 showSuccessToast("Deleted Successfully")
                 this.callArticlesListApi()
@@ -43,7 +42,7 @@ class Articles extends Component {
             }
 
         }).catch((err) => {
-            console.log("Error is", err)
+            // console.log("Error is", err)
             showErrorToast("Something went wrong")
         })
     }
@@ -129,10 +128,10 @@ class Articles extends Component {
     }
 
     callUdateArticlesApi = (id, params) => {
-        console.log("UPDATE_Articles_API_PARAMS:" + JSON.stringify(params))
+        // console.log("UPDATE_Articles_API_PARAMS:" + JSON.stringify(params))
 
         updateArticlesApi(id, params).then(res => {
-        console.log("UPDATE Articles STATUS", JSON.stringify(res))
+        // console.log("UPDATE Articles STATUS", JSON.stringify(res))
             if (res.success) {
                 showSuccessToast("Updated Successfully")
                 this.setState({
@@ -147,16 +146,16 @@ class Articles extends Component {
                 showSomethingWentWrong()
             }
         }).catch(e => {
-            console.log(e);
+            // console.log(e);
             showSomethingWentWrong()
         });
     }
 
     callAddArticlesApi = (params) => {
-        console.log("ADD_Articles_API_PARAMS:" + JSON.stringify(params))
+        // console.log("ADD_Articles_API_PARAMS:" + JSON.stringify(params))
 
         addArticlesApi(params).then(res => {
-            console.log("ADD Articles STATUS",JSON.stringify(res))
+            // console.log("ADD Articles STATUS",JSON.stringify(res))
             if (res.success) {
                 showSuccessToast("Added Successfully")
                 this.setState({
@@ -171,7 +170,7 @@ class Articles extends Component {
                 showSomethingWentWrong()
             }
         }).catch(e => {
-            console.log(e);
+            // console.log(e);
             showSomethingWentWrong()
         });
 
@@ -185,7 +184,7 @@ class Articles extends Component {
 
     callArticlesListApi(){
         getArticlesList().then(res=>{
-            console.log("Articles",JSON.stringify(res))
+            // console.log("Articles",JSON.stringify(res))
             this.setState({articlesList:res.data})
         })
     }

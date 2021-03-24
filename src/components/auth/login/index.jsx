@@ -3,8 +3,8 @@ import { userDataAction, userTokenAction, isLoginAction } from "../../../redux/a
 import { connect } from "react-redux";
 import { history } from '../../../routes'
 import { loginApi } from '../../../api/ApiService';
-import { toast } from 'react-toastify';
-import { showSuccessToast, showErrorToast, showInfoToast, showWarningToast, showSomethingWentWrong } from '../../../utils/Utils';
+
+import { showErrorToast } from '../../../utils/Utils';
 
 // import logo from './logo.svg';
 // import './App.css';
@@ -19,8 +19,8 @@ class Login extends Component {
         // this.props.isLoginReducer && history.push('/')
         localStorage.getItem('userData') && history.push('/')
         this.state = {
-            username: "Himanshu11",
-            password: "wzX24srJwt"
+            username: "",
+            password: ""
         }
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
@@ -66,11 +66,10 @@ class Login extends Component {
     }
 
     callLoginApi = (params) => {
-        console.log("SIGN_IN_API_PARAMS:" + JSON.stringify(params))
+        // console.log("SIGN_IN_API_PARAMS:" + JSON.stringify(params))
 
         loginApi(params).then(res => {
-            const notify = () => toast("Wow so easy !");
-            console.log("SIGN_IN_API_RES:" + JSON.stringify(res))
+            // console.log("SIGN_IN_API_RES:" + JSON.stringify(res))
             // history.push('/users')
             // return
             if (res && res.success) {
@@ -124,24 +123,24 @@ class Login extends Component {
 
     }
 
-    setStaticData = () => {
+    // setStaticData = () => {
 
-        const userData = {
-            username: "Deepak Jaglan",
-            phone: "9588558818",
-            age: "21"
-        }
+    //     const userData = {
+    //         username: "1111111",
+    //         phone: "11111111",
+    //         age: "21"
+    //     }
 
-        localStorage.setItem('userData', JSON.stringify(userData));
-        localStorage.setItem('userToken', JSON.stringify("MYSTATICTOKEN"));
-        localStorage.setItem('isLogin', JSON.stringify(true));
+    //     localStorage.setItem('userData', JSON.stringify(userData));
+    //     localStorage.setItem('userToken', JSON.stringify("MYSTATICTOKEN"));
+    //     localStorage.setItem('isLogin', JSON.stringify(true));
 
-        this.props.userDataAction(userData)
-        this.props.userTokenAction("MYSTATICTOKEN")
-        this.props.isLoginAction(true)
+    //     this.props.userDataAction(userData)
+    //     this.props.userTokenAction("MYSTATICTOKEN")
+    //     this.props.isLoginAction(true)
 
-        history.push('/')
-    }
+    //     history.push('/')
+    // }
 
     logOut = (event) => {
         // clearing user's data in redux store
@@ -152,8 +151,8 @@ class Login extends Component {
         event.preventDefault();
     }
     render() {
-        console.log("UserName", this.state.username)
-        console.log("Password", this.state.password)
+        // console.log("UserName", this.state.username)
+        // console.log("Password", this.state.password)
         return (
             <div className="login_block">
                 <div className="inner">
@@ -194,7 +193,7 @@ class Login extends Component {
 }
 
 const mapStateToProps = state => {
-    console.log("Redux State:", JSON.stringify(state))
+    // console.log("Redux State:", JSON.stringify(state))
     return {
         userDataReducer: state.userDataReducer,
         isLoginReducer: state.isLoginReducer,

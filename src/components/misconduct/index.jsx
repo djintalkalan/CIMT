@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { userDataAction, userTokenAction, isLoginAction } from "../../redux/actions"
 import { connect } from "react-redux";
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 // import DataGrid from 'react-data-grid';
-import BarChart from 'react-bar-chart';
-import { history } from '../../routes';
-import Header from '../custom/Header';
+// import BarChart from 'react-bar-chart';
+// import { history } from '../../routes';
+// import Header from '../custom/Header';
 
 import { AgGridReact } from 'ag-grid-react';
 import Modal from 'react-bootstrap/Modal';
@@ -14,7 +13,7 @@ import { Button } from 'react-bootstrap';
 import { getMisconductList, addMisconductApi, updateMisconductApi, deleteMisconductApi } from '../../api/ApiService';
 
 import { toast } from 'react-toastify';
-import { showSuccessToast, showErrorToast, showInfoToast, showWarningToast, showSomethingWentWrong } from '../../utils/Utils'
+import { showSuccessToast, showErrorToast, showWarningToast, showSomethingWentWrong } from '../../utils/Utils'
 
 class Misconduct extends Component {
     constructor(props) {
@@ -33,7 +32,7 @@ class Misconduct extends Component {
 
     deleteMisconduct = (id) => {
         deleteMisconductApi(id).then((res) => {
-            console.log("Response of Delete", res)
+            // console.log("Response of Delete", res)
             if (res.success) {
                 showSuccessToast("Deleted Successfully")
                 this.callmisconductListApi()
@@ -43,7 +42,7 @@ class Misconduct extends Component {
             }
 
         }).catch((err) => {
-            console.log("Error is", err)
+            // console.log("Error is", err)
             showErrorToast("Something went wrong")
         })
     }
@@ -129,10 +128,10 @@ class Misconduct extends Component {
     }
 
     callUdateMisconductApi = (id, params) => {
-        console.log("UPDATE_MISCONDUCT_API_PARAMS:" + JSON.stringify(params))
+        // console.log("UPDATE_MISCONDUCT_API_PARAMS:" + JSON.stringify(params))
 
         updateMisconductApi(id, params).then(res => {
-        console.log("UPDATE MISCONDUCT STATUS", JSON.stringify(res))
+        // console.log("UPDATE MISCONDUCT STATUS", JSON.stringify(res))
             if (res.success) {
                 showSuccessToast("Updated Successfully")
                 this.setState({
@@ -153,10 +152,10 @@ class Misconduct extends Component {
     }
 
     calladdMisconductApi = (params) => {
-        console.log("ADD_MISCONDUCT_API_PARAMS:" + JSON.stringify(params))
+        // console.log("ADD_MISCONDUCT_API_PARAMS:" + JSON.stringify(params))
 
         addMisconductApi(params).then(res => {
-            console.log("ADD MISCONDUCT STATUS",JSON.stringify(res))
+            // console.log("ADD MISCONDUCT STATUS",JSON.stringify(res))
             if (res.success) {
                 showSuccessToast("Added Successfully")
                 this.setState({
@@ -185,7 +184,7 @@ class Misconduct extends Component {
 
     callmisconductListApi(){
         getMisconductList().then(res=>{
-            console.log("MISCONDUCT",JSON.stringify(res))
+            // console.log("MISCONDUCT",JSON.stringify(res))
             this.setState({misconductList:res.data})
         })
     }

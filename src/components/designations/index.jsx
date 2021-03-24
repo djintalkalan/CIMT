@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { userDataAction, userTokenAction, isLoginAction } from "../../redux/actions"
 import { connect } from "react-redux";
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 // import DataGrid from 'react-data-grid';
-import BarChart from 'react-bar-chart';
-import { history } from '../../routes';
-import Header from '../custom/Header';
+// import BarChart from 'react-bar-chart';
+// import { history } from '../../routes';
+// import Header from '../custom/Header';
 
 import { AgGridReact } from 'ag-grid-react';
 import Modal from 'react-bootstrap/Modal';
@@ -15,8 +14,7 @@ import { getDesignationList } from '../../api/ApiService';
 import { addDesignationApi} from '../../api/ApiService';
 import { updateDesignationApi} from '../../api/ApiService';
 import { deleteDesignationApi} from '../../api/ApiService';
-import { toast } from 'react-toastify';
-import { showSuccessToast, showErrorToast, showInfoToast, showWarningToast, showSomethingWentWrong } from '../../utils/Utils'
+import { showSuccessToast, showErrorToast, showWarningToast, showSomethingWentWrong } from '../../utils/Utils'
 
 class Designations extends Component {
     constructor(props) {
@@ -35,7 +33,7 @@ class Designations extends Component {
 
     deleteDesignation = (id) => {
         deleteDesignationApi(id).then((res) => {
-            console.log("Response of Delete", res)
+            // console.log("Response of Delete", res)
             if (res.success) {
                 showSuccessToast("Deleted Successfully")
                 this.callDesignationListApi()
@@ -45,7 +43,7 @@ class Designations extends Component {
             }
 
         }).catch((err) => {
-            console.log("Error is", err)
+            // console.log("Error is", err)
             showErrorToast("Something went wrong")
         })
     }
@@ -128,10 +126,10 @@ class Designations extends Component {
     }
 
     callUdateDesignationsApi = (id, params) => {
-        console.log("UPDATE_Designations_API_PARAMS:" + JSON.stringify(params))
+        // console.log("UPDATE_Designations_API_PARAMS:" + JSON.stringify(params))
 
         updateDesignationApi(id, params).then(res => {
-        console.log("UPDATE Designations STATUS", JSON.stringify(res))
+        // console.log("UPDATE Designations STATUS", JSON.stringify(res))
             if (res.success) {
                 showSuccessToast("Updated Successfully")
                 this.setState({
@@ -145,16 +143,16 @@ class Designations extends Component {
                 showSomethingWentWrong()
             }
         }).catch(e => {
-            console.log(e);
+            // console.log(e);
             showSomethingWentWrong()
         });
     }
 
     calladdDesignationApi = (params) => {
-        console.log("ADD_DESIGNATIONS_API_PARAMS:" + JSON.stringify(params))
+        // console.log("ADD_DESIGNATIONS_API_PARAMS:" + JSON.stringify(params))
 
         addDesignationApi(params).then(res => {
-            console.log("ADD DESIGNATIONS STATUS",JSON.stringify(res))
+            // console.log("ADD DESIGNATIONS STATUS",JSON.stringify(res))
             if (res.success) {
                 showSuccessToast("Added Successfully")
                 this.setState({
@@ -168,7 +166,7 @@ class Designations extends Component {
                 showSomethingWentWrong()
             }
         }).catch(e => {
-            console.log(e);
+            // console.log(e);
             showSomethingWentWrong()
         });
 
@@ -182,7 +180,7 @@ class Designations extends Component {
 
     callDesignationListApi(){
         getDesignationList().then(res=>{
-            console.log("DESIGNATIONS",JSON.stringify(res))
+            // console.log("DESIGNATIONS",JSON.stringify(res))
             this.setState({designationList:res.data})
         })
     }

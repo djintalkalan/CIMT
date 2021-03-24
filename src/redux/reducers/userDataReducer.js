@@ -2,7 +2,7 @@ import ActionTypes from '../actions/actionTypes'
 // localStorage.setItem('userData', null);
 //     localStorage.setItem('userToken', JSON.stringify("MYSTATICTOKEN"));
 //     localStorage.setItem('isLogin', false);
-console.log(localStorage.getItem('userData'))
+//     console.log(localStorage.getItem('userData'))
 let userData = JSON.parse(localStorage.getItem('userData'));
 
 const initialState = userData ? { loggedIn: true, userData } : { loggedIn: false, userData: null };

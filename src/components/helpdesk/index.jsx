@@ -18,46 +18,8 @@ class Helpdesk extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            // designationList: null,
-            // isAddVisible: false,
-            // isAddVisible1: false
-        }
-        this.handleSubmit = this.handleSubmit.bind(this);
-        // this.gridOptionsDesignation = {
-        //     defaultColDef: {
-        //         sortable: true,
-        //         filter: true
-        //     },
-        //     columnDefs: [
-        //         { headerName: "ID", field: "id", sortable: true, filter: true, width: 120},
-        //         { headerName: "Designation", field: "designation", sortable: true, filter: true, width: 170 },
-        //         { headerName: "Description", field: "desc", sortable: true, filter: true, width: 170 },
-        //         {
-        //             headerName: "Action", field: "designation", sortable: false, filter: false, cellRendererFramework: function (params) {
-        //                 return <Button className="btn btn-sm btn-success btn-small" onClick={() => history.push('/#', { data: params.data })} > Edit </Button>
-        //             },
-        //         },
-        //         {
-        //             headerName: "Action", field: "designation", sortable: false, filter: false, cellRendererFramework: function (params) {
-        //                 return <Button className="btn btn-sm btn-danger btn-small" onClick={() => history.push('/#', { data: params.data })} > Delete </Button>
-        //             },
-        //         }
-        //         ],
-                
-        //         defaultColDef: {
-        //             // make every column editable
-        //             editable: true,
-        //             // make every column use 'text' filter by default
-        //             filter: 'agTextColumnFilter',
-        //             // make columns resizable
-        //             resizable: true,
-        //           },
 
-        //     rowData: null,
-        //     floatingFilter: true,
-        //     pagination: true,
-        //     paginationPageSize: 10
-        // }
+        }
     }
 
     handleChange = (e) => {
@@ -65,28 +27,6 @@ class Helpdesk extends Component {
             [e.target.id]: e.target.value
         })
     };
-
-    handleSubmit = (event) => {
-
-        // const { designation, desc } = this.state
-
-        // if (!designation) {
-        //     alert("Please Enter Designation");
-        //     return
-        // }
-        // if (!password) {
-        //     alert("Password can not be empty");
-        //     return
-        // }
-        // let this is login response from server
-        // const params = {
-        //     designation: this.state.designation,
-        //     desc: this.state.desc,
-        // }
-
-
-        event.preventDefault();
-    }
 
     componentDidMount() {
 

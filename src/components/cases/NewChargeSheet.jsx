@@ -8,8 +8,7 @@ import { getDesignationList, getMisconductList, getOfficesList, getRoleList, get
 // import axios from 'axios';
 import { isLoginAction, userDataAction, userTokenAction } from "../../redux/actions";
 import { localUrl } from '../../api/ApiConstants';
-import { showSuccessToast, showErrorToast, showInfoToast, showWarningToast, showSomethingWentWrong } from '../../utils/Utils';
-// import { faMonument } from '@fortawesome/free-solid-svg-icons';
+import { showSuccessToast, showWarningToast, showSomethingWentWrong } from '../../utils/Utils';
 
 
 //Open console and perform an action on page
@@ -67,7 +66,7 @@ class NewChargeSheet extends Component {
         e.preventDefault();
         // console.log("stateInfo", this.state);
 
-        const { file_no, file_year, case_office, nature_misconduct, source_complaint, nature_complaint, complainant_address, case_identity_attachment_desc } = this.state
+        // const { file_no, file_year, case_office, nature_misconduct, source_complaint, nature_complaint, complainant_address, case_identity_attachment_desc } = this.state
 
         // if ((!file_no) || (!file_year) || (!case_office) || (!nature_misconduct) || (!source_complaint) || (!nature_complaint)) {
         //     showWarningToast("Please fill necessary fields")
@@ -169,25 +168,26 @@ class NewChargeSheet extends Component {
         // for (var pair of form_data.entries()) {
         //     console.log(pair[0] + ': ' + pair[1]);
         // }
-        console.log("NewChargeSheetData", params);
+        // console.log("NewChargeSheetData", params);
         this.callChargeSheetApi(params)
 
     };
 
     callChargeSheetApi = (params) => {
-        console.log("ADD_CHARGE_SHEET_API_PARAMS:" + JSON.stringify(params))
+        // console.log("ADD_CHARGE_SHEET_API_PARAMS:" + JSON.stringify(params))
 
         addChargeSheetApi(params).then(res => {
-            console.log("ADD CHARGE SHEET STATUS",JSON.stringify(res))
+            // console.log("ADD CHARGE SHEET STATUS",JSON.stringify(res))
             // this.setState({addUserStatus:res.comment})
             if (res.success) {
                 showSuccessToast("Charge Sheet Added Successfully")
+                history.push('/cases')
             }
             else {
                 showSomethingWentWrong()
             }
         }).catch(e => {
-            console.log(e);
+            // console.log(e);
             showSomethingWentWrong()
         });
     }
@@ -210,14 +210,14 @@ class NewChargeSheet extends Component {
 
     callRoleListApi() {
         getRoleList().then(res => {
-            console.log("Testing Mode", JSON.stringify(res))
+            // console.log("Testing Mode", JSON.stringify(res))
             this.setState({ roleList: res.data })
         })
     }
 
     callUserListApi() {
         getUserList().then(res => {
-            console.log("USERS", JSON.stringify(res))
+            // console.log("USERS", JSON.stringify(res))
             this.setState({ userList: res.data })
         })
     }
@@ -227,11 +227,12 @@ class NewChargeSheet extends Component {
         if (userList && userList.length > 0)
             return (
                 <select className="form-control" name={key} id={key}
+                    // value={this.state.key}
                     onChange={this.handleChange}>
                     <option value="">User</option>
                     {userList.map((item, index) => {
                         return (
-                            <option value={item.id}>{item.username}</option>
+                            <option selected={this.state + key ? "selected" : "false"} value={item.id}>{item.username}</option>
                         )
                     })}
                 </select>
@@ -240,7 +241,7 @@ class NewChargeSheet extends Component {
 
     callOfficeListApi() {
         getOfficesList().then(res => {
-            console.log("Offices", JSON.stringify(res))
+            // console.log("Offices", JSON.stringify(res))
             this.setState({ officeList: res.data })
         })
     }
@@ -250,6 +251,7 @@ class NewChargeSheet extends Component {
         if (officeList && officeList.length > 0)
             return (
                 <select className="form-control" name={key} id={key}
+                    value={this.state + key}
                     onChange={this.handleChange}>
                     <option value="">Select Office</option>
                     {officeList.map((item, index) => {
@@ -263,7 +265,7 @@ class NewChargeSheet extends Component {
 
     callDesignationListApi(){
         getDesignationList().then(res=>{
-            console.log("DESIGNATIONS",JSON.stringify(res))
+            // console.log("DESIGNATIONS",JSON.stringify(res))
             this.setState({designationList:res.data})
         })
     }
@@ -273,6 +275,7 @@ class NewChargeSheet extends Component {
         if (designationList && designationList.length > 0)
             return (
                 <select className="form-control" name={key} id={key}
+                    value={this.state + key}
                     onChange={this.handleChange}>
                     <option value="">Select Designation</option>
                     {designationList.map((item, index) => {
@@ -286,7 +289,7 @@ class NewChargeSheet extends Component {
 
     callNatureMisconductListApi() {
         getMisconductList().then(res => {
-            console.log("NatureMisconduct:", JSON.stringify(res))
+            // console.log("NatureMisconduct:", JSON.stringify(res))
             this.setState({ natureMisconductList: res.data })
         })
     }
@@ -296,6 +299,7 @@ class NewChargeSheet extends Component {
         if (natureMisconductList && natureMisconductList.length > 0)
             return (
                 <select className="form-control" name={key} id={key}
+                    value={this.state + key}
                     onChange={this.handleChange}>
                     <option value="">Select Misconduct</option>
                     {natureMisconductList.map((item, index) => {
@@ -309,7 +313,7 @@ class NewChargeSheet extends Component {
 
     callSourceComplaintListApi() {
         getSourceComplaintList().then(res => {
-            console.log("SourceComplaint:", JSON.stringify(res))
+            // console.log("SourceComplaint:", JSON.stringify(res))
             this.setState({ sourceComplaintList: res.data })
         })
     }
@@ -319,6 +323,7 @@ class NewChargeSheet extends Component {
         if (sourceComplaintList && sourceComplaintList.length > 0)
             return (
                 <select className="form-control" name={key} id={key}
+                    value={this.state + key}
                     onChange={this.handleChange}>
                     <option value="">Select Source</option>
                     {sourceComplaintList.map((item, index) => {
@@ -332,7 +337,7 @@ class NewChargeSheet extends Component {
 
     callArticlesListApi() {
         getArticlesList().then(res => {
-            console.log("Articles:", JSON.stringify(res))
+            // console.log("Articles:", JSON.stringify(res))
             this.setState({ articlesList: res.data })
         })
     }
@@ -342,6 +347,7 @@ class NewChargeSheet extends Component {
         if (articlesList && articlesList.length > 0)
             return (
                 <select className="form-control" name={key} id={key}
+                    value={this.state + key}
                     onChange={this.handleChange}>
                     <option value="">Select Article</option>
                     {articlesList.map((item, index) => {
@@ -354,8 +360,8 @@ class NewChargeSheet extends Component {
     }
 
     onClearOfficerChargeList = () => {
-        console.log("Charged Officer:", this.state)
-        return
+        // console.log("Charged Officer:", this.state.user)
+        // return
         this.setState({
             // charged_officer: "",
             // working_place: "",
@@ -379,26 +385,10 @@ class NewChargeSheet extends Component {
         //     showWarningToast("Please Insert Charge Officer Name")
         //     return
         // }
-        // if (!working_place) {
-        //     showWarningToast("Please Insert Working Place of Imputation")
-        //     return
-        // }
-        // if (!designation_imputation) {
-        //     showWarningToast("Please Insert Designation at Imputation")
-        //     return
-        // }
         if (!user) {
             showWarningToast("Please Select User")
             return
         }
-        // if (!charged_officer_email) {
-        //     showWarningToast("Please Insert Email")
-        //     return
-        // }
-        // if (!charged_officer_phone) {
-        //     showWarningToast("Please Insert Phone Number")
-        //     return
-        // }
         const item = { user, charged_officer_previous_charges, charged_officer_case_attachment_file }
 
         chargeOfficerList.push(item)
@@ -430,7 +420,7 @@ class NewChargeSheet extends Component {
 
     renderchargeOfficerList() {
         let { chargeOfficerList } = this.state
-        console.log("chargeOfficerList", this.state.chargeOfficerList);
+        // console.log("chargeOfficerList", this.state.chargeOfficerList);
         // const { chargeOfficerList } = [{ id: this.state., name: "Deepak", description: "This is Description" }]
 
         // let chargeOfficerList = [{ id: 123, name: "Deepak", description: "This is Description" }]
@@ -526,7 +516,7 @@ class NewChargeSheet extends Component {
                             <tbody>
                                 {draftChargeList.map((item, index) => (
                                     <tr>
-                                        <th scope="row">{index}</th>
+                                        <th scope="row">{index + 1}</th>
                                         <td>{item.proposal_file_no}</td>
                                         <td>{item.draft_charge_date}</td>
                                         <td>{item.submitted_by}</td>
@@ -597,7 +587,7 @@ class NewChargeSheet extends Component {
                             <tbody>
                                 {draftArticleList.map((item, index) => (
                                     <tr>
-                                        <th scope="row">{index}</th>
+                                        <th scope="row">{index + 1}</th>
                                         <td>{item.drafts_article_number}</td>
                                         <td>{item.draft_misconduct_date}</td>
                                         <td>{item.gist_draft_article}</td>
@@ -663,7 +653,7 @@ class NewChargeSheet extends Component {
                             <tbody>
                                 {preliminaryInquiryList.map((item, index) => (
                                     <tr>
-                                        <th scope="row">{index}</th>
+                                        <th scope="row">{index + 1}</th>
                                         <td>{item.preliminary_charged_officer}</td>
                                         <td>{item.preliminary_report_date}</td>
                                         <td>{item.preliminary_office}</td>
@@ -689,7 +679,7 @@ class NewChargeSheet extends Component {
     }
 
     uploadOnServer = (e)=> {
-        console.log("aaaaaa",e.target.files)
+        // console.log("aaaaaa",e.target.files)
         const id = e.target.id
 
         // e.target.files[0]
@@ -704,7 +694,7 @@ class NewChargeSheet extends Component {
         // console.log("Upload Image Data", JSON.stringify(formData1))
 
         uploadImageApi(formData1).then(res=>{
-            console.log("Upload Image Response" , res)
+            // console.log("Upload Image Response" , res)
 
             this.setState({
             [id + "_file"]: res.data.url
@@ -714,7 +704,7 @@ class NewChargeSheet extends Component {
 
 
     render() {
-        console.log("State",this.state)
+        // console.log("State",this.state)
         return (
             <div className="evidenceCt">
                 <div className="container-fluid">
@@ -880,16 +870,16 @@ class NewChargeSheet extends Component {
                                                 <div className="row">
                                                     <div className="col-md-12">
                                                         <span className="title">Previous Charges if Any </span>
-                                                        <textarea name="charged_officer_previous_charges" id="charged_officer_previous_charges" className="form-control" onChange={this.handleChange}></textarea>
+                                                        <textarea name="charged_officer_previous_charges" value={this.state.charged_officer_previous_charges} id="charged_officer_previous_charges" className="form-control" onChange={this.handleChange}></textarea>
                                                     </div>
                                                 </div>
                                                 <div className="row">
                                                     <div className="col-md-12">
                                                         <span className="title">Attachment If Any </span>
-                                                        <textarea name="charge_officer_attachment_desc" id="charge_officer_attachment_desc" className="form-control" onChange={this.handleChange}></textarea>
+                                                        <textarea name="charge_officer_attachment_desc" id="charge_officer_attachment_desc" value={this.state.charge_officer_attachment_desc} className="form-control" onChange={this.handleChange}></textarea>
                                                         <label className="custom-file-upload">
                                                             <input type="file"
-                                                                id="charged_officer_case_attachment" name="charged_officer_case_attachment" className="form-control" onChange={this.uploadOnServer} />
+                                                                id="charged_officer_case_attachment" name="charged_officer_case_attachment" value={this.state.charged_officer_case_attachment} className="form-control" onChange={this.uploadOnServer} />
                                                         </label>
                                                         {/* {this.state.charged_officer_case_attachment_file && <img height='80px' width='80px' src={URL.createObjectURL(this.state.charged_officer_case_attachment_file)} />} */}
                                                         {this.state.charged_officer_case_attachment_file && <img height='80px' width='80px' src={localUrl+this.state.charged_officer_case_attachment_file} />}

@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
-import SideNav, { Toggle } from '@trendmicro/react-sidenav';
 import { withRouter } from 'react-router-dom';
 import logo from '../../../public/images/profile.jpg';
 import { history } from '../../routes';
 import { localUrl } from '../../api/ApiConstants';
 import { logoutApi} from '../../api/ApiService';
-import { showSuccessToast, showErrorToast, showInfoToast, showWarningToast, showSomethingWentWrong } from '../../utils/Utils'
+import { showSuccessToast, showErrorToast } from '../../utils/Utils'
 import { connect } from "react-redux";
 
 
@@ -44,7 +41,7 @@ class Header extends Component {
 
     logout() {
         logoutApi().then((res) => {
-            console.log("Response of Logout", res)
+            // console.log("Response of Logout", res)
             if (res.success) {
                 showSuccessToast(res.data)
                 localStorage.clear();
@@ -55,7 +52,7 @@ class Header extends Component {
             }
 
         }).catch((err) => {
-            console.log("Error is", err)
+            // console.log("Error is", err)
             // showErrorToast("Something went wrong")
         })
     }

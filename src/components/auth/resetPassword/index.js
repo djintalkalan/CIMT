@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { userDataAction, userTokenAction, isLoginAction } from "../../../redux/actions"
 import { connect } from "react-redux";
-import { history } from '../../../routes'
+// import { history } from '../../../routes'
 import { passwordResetApi } from '../../../api/ApiService';
-import { showSuccessToast, showErrorToast, showInfoToast, showWarningToast, showSomethingWentWrong } from '../../../utils/Utils';
+import { showSuccessToast, showErrorToast } from '../../../utils/Utils';
 // import logo from './logo.svg';
 // import './App.css';
 
@@ -33,17 +33,15 @@ class ResetPassword extends Component {
             password: this.state.password,
             token: this.props.match.params.token
         }
-
-        const { password } = this.state;
    
         this.callPassResetApi(params)
     }
 
     callPassResetApi = (params) => {
-        console.log("SIGN_IN_API_PARAMS:" + JSON.stringify(params))
+        // console.log("SIGN_IN_API_PARAMS:" + JSON.stringify(params))
 
         passwordResetApi(params).then(res => {
-            console.log("SIGN_IN_API_RES:" + JSON.stringify(res))
+            // console.log("SIGN_IN_API_RES:" + JSON.stringify(res))
             if (res.success) {
                 showSuccessToast("Password Reset Successfully.")
             }
@@ -57,7 +55,7 @@ class ResetPassword extends Component {
 
 
     render() {
-        console.log("data", this.state.password)
+        // console.log("data", this.state.password)
         return (
             <div className="login_block">
                 <div className="inner">
@@ -95,7 +93,7 @@ class ResetPassword extends Component {
 }
 
 const mapStateToProps = state => {
-    console.log("Redux State:", JSON.stringify(state))
+    // console.log("Redux State:", JSON.stringify(state))
     return {
         userDataReducer: state.userDataReducer,
         isLoginReducer: state.isLoginReducer,

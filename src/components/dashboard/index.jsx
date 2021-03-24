@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import { userDataAction, userTokenAction, isLoginAction } from "../../redux/actions"
 import { connect } from "react-redux";
 import { history } from '../../routes';
-import { getCaseReport, getMonthlyCaseReport, getDistrictReport, faceDetectionApi } from '../../api/ApiService';
+import { getCaseReport, getMonthlyCaseReport, getDistrictReport } from '../../api/ApiService';
 import CanvasJSReact from '../../assets/canvasjs.react';
 // import Fingerprint2 from 'fingerprintjs2'
-var CanvasJS = CanvasJSReact.CanvasJS;
+// var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
-import { showSuccessToast, showErrorToast, showInfoToast, showWarningToast, showSomethingWentWrong } from '../../utils/Utils';
+// import { showSuccessToast, showErrorToast, showInfoToast, showWarningToast, showSomethingWentWrong } from '../../utils/Utils';
 
-import Header from '../custom/Header';
-import SideNav from '../custom/SideNav';
+// import Header from '../custom/Header';
+// import SideNav from '../custom/SideNav';
 // import logo from './logo.svg';
 // import './App.css';
 
@@ -192,13 +192,13 @@ class DashBoard extends Component {
     //  }
     getCaseReportApi(){
         getCaseReport().then(res=>{
-            console.log("CASE REPORT",JSON.stringify(res))
+            // console.log("CASE REPORT",JSON.stringify(res))
             this.setState(res)
         })
     }
     getMonthlyCaseReportApi(){
         getMonthlyCaseReport().then(res=>{
-            console.log("MONTHLY CASE REPORT",JSON.stringify(res))
+            // console.log("MONTHLY CASE REPORT",JSON.stringify(res))
 
           const newMonthlyCase = {
             ...this.state.monthlyCases,
@@ -215,7 +215,7 @@ class DashBoard extends Component {
               }, 
               {
                 type: "line",
-                name: "Expected Cases",
+                name: "Ongoing Cases",
                 showInLegend: true,
                 // yValueFormatString: "$#,##0",
                 dataPoints: res.data.ongoing_monthly_cases.map(x => ({
@@ -224,7 +224,7 @@ class DashBoard extends Component {
               },
               {
                 type: "area",
-                name: "Pending",
+                name: "Complete Cases",
                 markerBorderColor: "white",
                 markerBorderThickness: 2,
                 showInLegend: true,
@@ -240,7 +240,7 @@ class DashBoard extends Component {
     }
     getDistrictReportApi(){
         getDistrictReport().then(res=>{
-            console.log("DISRTICT REPORT",JSON.stringify(res))
+            // console.log("DISRTICT REPORT",JSON.stringify(res))
             this.setState({districtReportList:res.data})
              const largestIndex = 0;
              const newStatereport = {...this.state.stateReport,
@@ -275,7 +275,7 @@ class DashBoard extends Component {
 
    
     render() {
-        console.log("State", this.state)
+        // console.log("State", this.state)
         return (
             <div className="dashboardCt">
                 <div className="container-fluid">

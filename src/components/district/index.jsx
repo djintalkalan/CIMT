@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { userDataAction, userTokenAction, isLoginAction } from "../../redux/actions"
 import { connect } from "react-redux";
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 // import DataGrid from 'react-data-grid';
-import BarChart from 'react-bar-chart';
-import { history } from '../../routes';
-import Header from '../custom/Header';
+// import BarChart from 'react-bar-chart';
+// import { history } from '../../routes';
+// import Header from '../custom/Header';
 
 import { AgGridReact } from 'ag-grid-react';
 import Modal from 'react-bootstrap/Modal';
@@ -15,8 +14,7 @@ import { getDistrictList } from '../../api/ApiService';
 import { addDistrictApi} from '../../api/ApiService';
 import { updateDistrictApi} from '../../api/ApiService';
 import { deleteDistrictApi} from '../../api/ApiService';
-import { toast } from 'react-toastify';
-import { showSuccessToast, showErrorToast, showInfoToast, showWarningToast, showSomethingWentWrong } from '../../utils/Utils'
+import { showSuccessToast, showErrorToast, showWarningToast, showSomethingWentWrong } from '../../utils/Utils'
 
 class District extends Component {
     constructor(props) {
@@ -36,7 +34,7 @@ class District extends Component {
     }
     deleteOffice = (id) => {
         deleteDistrictApi(id).then((res) => {
-            console.log("Response of Delete", res)
+            // console.log("Response of Delete", res)
             if (res.success) {
                 showSuccessToast("Deleted Successfully")
                 this.callDistrictListApi()
@@ -46,7 +44,7 @@ class District extends Component {
             }
 
         }).catch((err) => {
-            console.log("Error is", err)
+            // console.log("Error is", err)
             showErrorToast("Something went wrong")
         })
     }
@@ -128,10 +126,10 @@ class District extends Component {
     }
 
     callUdateDistrictApi = (id, params) => {
-        console.log("UPDATE_DISTRICT_API_PARAMS:" + JSON.stringify(params))
+        // console.log("UPDATE_DISTRICT_API_PARAMS:" + JSON.stringify(params))
 
         updateDistrictApi(id, params).then(res => {
-        console.log("UPDATE DISTRICT STATUS", JSON.stringify(res))
+        // console.log("UPDATE DISTRICT STATUS", JSON.stringify(res))
             if (res.success) {
                 showSuccessToast("Updated Successfully")
                 this.setState({
@@ -145,16 +143,16 @@ class District extends Component {
                 showSomethingWentWrong()
             }
         }).catch(e => {
-            console.log(e);
+            // console.log(e);
             showSomethingWentWrong()
         });
     }
 
     calladdDistrictApi = (params) => {
-        console.log("ADD_DISTRICT_API_PARAMS:" + JSON.stringify(params))
+        // console.log("ADD_DISTRICT_API_PARAMS:" + JSON.stringify(params))
 
         addDistrictApi(params).then(res => {
-            console.log("ADD DISTRICT STATUS",JSON.stringify(res))
+            // console.log("ADD DISTRICT STATUS",JSON.stringify(res))
             if (res.success) {
                 showSuccessToast("Added Successfully")
                 this.setState({
@@ -168,7 +166,7 @@ class District extends Component {
                 showSomethingWentWrong()
             }
         }).catch(e => {
-            console.log(e);
+            // console.log(e);
             showSomethingWentWrong()
         });
     }
@@ -180,7 +178,7 @@ class District extends Component {
     }
     callDistrictListApi(){
         getDistrictList().then(res=>{
-            console.log("District",JSON.stringify(res))
+            // console.log("District",JSON.stringify(res))
             this.setState({districtList:res.data})
         })
     }

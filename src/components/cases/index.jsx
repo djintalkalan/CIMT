@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { userDataAction, userTokenAction, isLoginAction } from "../../redux/actions"
 import { connect } from "react-redux";
 import { history } from '../../routes';
 
-import { getUserList } from '../../api/ApiService';
-import { getCaseList } from '../../api/ApiService';
-import { addCaseApi } from '../../api/ApiService';
+import { getUserList, getCaseList, addCaseApi } from '../../api/ApiService';
 
 import { AgGridReact } from 'ag-grid-react';
 import Modal from 'react-bootstrap/Modal';
@@ -39,7 +36,8 @@ class Cases extends Component {
             },
             columnDefs: [
                 { headerName: "Case ID", field: "case_id", sortable: true, filter: true, width: 100 },
-                { headerName: "Charged Officer", field: "charged_officer", sortable: true, filter: true },
+                { headerName: "Charged Officer", field: "charged_officer", sortable: true, filter: true, width: 200 },
+                { headerName: "Police Station", field: "office_name", sortable: true, filter: true, width: 200 },
                 { headerName: "File No", field: "file_number", sortable: true, filter: true , width: 100},
                 { headerName: "File Date", field: "file_year", sortable: true, filter: true, width: 150 },
                 { headerName: "Misconduct Type", field: "nature_of_misconduct", sortable: true, filter: true, width: 150 },
@@ -174,7 +172,7 @@ class Cases extends Component {
             // console.log('**************')
             console.log("CASES", JSON.stringify(res))
             const newData = res.data.map(x => ({
-                file_number: x.case_identity.file_number, status: x.status, file_year: x.case_identity.file_year, case_id: x.case_id , nature_of_misconduct: x.case_identity.nature_of_misconduct.type, source_of_complaint: x.case_identity.source_of_complaint.type ,charged_officer: x.charged_officer.map(y=> `${y.user.first_name} ${y.user.last_name}`).join(", "),
+                file_number: x.case_identity.file_number, office_name: x.case_identity.office.office_name, status: x.status, file_year: x.case_identity.file_year, case_id: x.case_id , nature_of_misconduct: x.case_identity.nature_of_misconduct.type, source_of_complaint: x.case_identity.source_of_complaint.type ,charged_officer: x.charged_officer.map(y=> `${y.user.first_name} ${y.user.last_name}`).join(", "),
             }))
             this.setState({ caseList: newData })
         })

@@ -4,15 +4,15 @@ import axios from 'axios'
 
 
 async function callApi(urlString, header, body, methodType, isMultipart) {
-    console.log("----------- Api request is----------- ");
-    console.log("url string " + urlString);
-    console.log("header " + JSON.stringify(header));
-    console.log("body " + JSON.stringify(body));
-    console.log("methodType " + methodType)
+    // console.log("----------- Api request is----------- ");
+    // console.log("url string " + urlString);
+    // console.log("header " + JSON.stringify(header));
+    // console.log("body " + JSON.stringify(body));
+    // console.log("methodType " + methodType)
 
     if (isMultipart) {
         for (var key of body.entries()) {
-            console.log("Key is : ", key[0], ', Value is: ', key[1]);
+            // console.log("Key is : ", key[0], ', Value is: ', key[1]);
         }
     }
 
@@ -23,28 +23,28 @@ async function callApi(urlString, header, body, methodType, isMultipart) {
         headers: header
     })
         .then((res) => {
-            console.log("-----------AXIOS  Api Response is----------- ");
-            console.log("url string " + urlString);
-            console.log("header " + JSON.stringify(header));
-            console.log("methodType " + methodType)
-            console.log(JSON.stringify("res.data", res.data));
+            // console.log("-----------AXIOS  Api Response is----------- ");
+            // console.log("url string " + urlString);
+            // console.log("header " + JSON.stringify(header));
+            // console.log("methodType " + methodType)
+            // console.log(JSON.stringify("res.data", res.data));
             if (JSON.stringify(res.data).startsWith("<") || JSON.stringify(res.data).startsWith("\"<")) {
                 setTimeout(() => {
-                    console.log("Error", "A webpage is returned instead of a response")
+                    // console.log("Error", "A webpage is returned instead of a response")
                 }, 500);
             }
             else
                 return res.data
         })
         .catch((e) => {
-            console.log("-----------AXIOS  Api catch is-----------")
-            console.log(e)
-            console.log("catch Error" + JSON.stringify(e))
+            // console.log("-----------AXIOS  Api catch is-----------")
+            // console.log(e)
+            // console.log("catch Error" + JSON.stringify(e))
             if (e.response && e.response.data) {
-                console.log("catch response", JSON.stringify(e.response.data))
+                // console.log("catch response", JSON.stringify(e.response.data))
                 if (JSON.stringify(e.response.data).startsWith("<") || JSON.stringify(e.response.data).startsWith("\"<")) {
                     setTimeout(() => {
-                        console.log("Error", "A webpage is returned instead of a response")
+                        // console.log("Error", "A webpage is returned instead of a response")
                     }, 500);
                 }
             }
@@ -263,4 +263,8 @@ export async function getChargedOfficerByIdApi(param) {
 
 export async function logoutApi() {
     return fetchApiData(ApiConstants.logout, "", Constants.API_METHOD.post)
+}
+
+export async function statusChangeApi(id, param) {
+    return fetchApiData(ApiConstants.statusChange + id + "/", param, Constants.API_METHOD.post)
 }

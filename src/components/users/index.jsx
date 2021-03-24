@@ -4,9 +4,9 @@ import { connect } from "react-redux";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 // import DataGrid from 'react-data-grid';
-import BarChart from 'react-bar-chart';
-import { history } from '../../routes';
-import Header from '../custom/Header';
+// import BarChart from 'react-bar-chart';
+// import { history } from '../../routes';
+// import Header from '../custom/Header';
 
 import { AgGridReact } from 'ag-grid-react';
 import Modal from 'react-bootstrap/Modal';
@@ -16,8 +16,7 @@ import { addUserApi} from '../../api/ApiService';
 import { getRoleList } from '../../api/ApiService';
 import { addRoleApi} from '../../api/ApiService';
 import { getOfficesList, getDesignationList } from '../../api/ApiService';
-import { toast } from 'react-toastify';
-import { showSuccessToast, showErrorToast, showInfoToast, showWarningToast, showSomethingWentWrong } from '../../utils/Utils';
+import { showSuccessToast, showErrorToast, showWarningToast, showSomethingWentWrong } from '../../utils/Utils';
 
 class Users extends Component {
     constructor(props) {
@@ -111,10 +110,10 @@ class Users extends Component {
     }
 
     callAddUserApi = (params) => {
-        console.log("ADD_USER_API_PARAMS:" + JSON.stringify(params))
+        // console.log("ADD_USER_API_PARAMS:" + JSON.stringify(params))
 
         addUserApi(params).then(res => {
-            console.log("ADD USER STATUS",JSON.stringify(res))
+            // console.log("ADD USER STATUS",JSON.stringify(res))
             // this.setState({addUserStatus:res.comment})
             if (res.success) {
                 showSuccessToast("Added Successfully")
@@ -162,10 +161,10 @@ class Users extends Component {
     }
 
     callAddRoleApi = (params) => {
-        console.log("ADD_ROLE_API_PARAMS:" + JSON.stringify(params))
+        // console.log("ADD_ROLE_API_PARAMS:" + JSON.stringify(params))
 
         addRoleApi(params).then(res => {
-            console.log("ADD ROLE STATUS",JSON.stringify(res))
+            // console.log("ADD ROLE STATUS",JSON.stringify(res))
             // this.setState({addUserStatus:res.comment})
             if (res.success) {
                 showSuccessToast("Added Successfully")
@@ -210,14 +209,14 @@ class Users extends Component {
     }
     callUserListApi(){
         getUserList().then(res=>{
-            console.log("USERS",JSON.stringify(res))
+            // console.log("USERS",JSON.stringify(res))
             this.setState({userList:res.data})
         })
     }
 
     callRoleListApi(){
         getRoleList().then(res=>{
-            console.log("ROLES",JSON.stringify(res))
+            // console.log("ROLES",JSON.stringify(res))
             this.setState({roleList:res.data})
         })
     }
@@ -241,7 +240,7 @@ class Users extends Component {
 
     callOfficesListApi(){
         getOfficesList().then(res=>{
-            console.log("Offices",JSON.stringify(res))
+            // console.log("Offices",JSON.stringify(res))
             this.setState({officesList:res.data})
         })
     }
@@ -265,7 +264,7 @@ class Users extends Component {
 
     callDesignationListApi(){
         getDesignationList().then(res=>{
-            console.log("DESIGNATIONS",JSON.stringify(res))
+            // console.log("DESIGNATIONS",JSON.stringify(res))
             this.setState({designationList:res.data})
         })
     }

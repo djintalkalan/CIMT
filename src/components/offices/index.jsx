@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { userDataAction, userTokenAction, isLoginAction } from "../../redux/actions"
 import { connect } from "react-redux";
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 // import DataGrid from 'react-data-grid';
-import BarChart from 'react-bar-chart';
-import { history } from '../../routes';
-import Header from '../custom/Header';
+// import BarChart from 'react-bar-chart';
+// import { history } from '../../routes';
+// import Header from '../custom/Header';
 
 import { AgGridReact } from 'ag-grid-react';
 import Modal from 'react-bootstrap/Modal';
@@ -15,8 +14,7 @@ import { getOfficesList, deleteOfficesApi } from '../../api/ApiService';
 import { addOfficesApi } from '../../api/ApiService';
 import { updateOfficesApi } from '../../api/ApiService';
 import { getDistrictList } from '../../api/ApiService';
-import { toast } from 'react-toastify';
-import { showSuccessToast, showErrorToast, showInfoToast, showWarningToast, showSomethingWentWrong } from '../../utils/Utils'
+import { showSuccessToast, showErrorToast, showWarningToast, showSomethingWentWrong } from '../../utils/Utils'
 
 class Offices extends Component {
     constructor(props) {
@@ -143,10 +141,10 @@ class Offices extends Component {
     }
 
     callUdateOfficesApi = (id, params) => {
-        console.log("UPDATE_OFFICES_API_PARAMS:" + JSON.stringify(params))
+        // console.log("UPDATE_OFFICES_API_PARAMS:" + JSON.stringify(params))
 
         updateOfficesApi(id, params).then(res => {
-        console.log("UPDATE OFFICES STATUS", JSON.stringify(res))
+        // console.log("UPDATE OFFICES STATUS", JSON.stringify(res))
             if (res.success) {
                 showSuccessToast("Updated Successfully")
                 this.setState({
@@ -168,10 +166,10 @@ class Offices extends Component {
     }
 
     calladdOfficesApi = (params) => {
-        console.log("ADD_OFFICES_API_PARAMS:" + JSON.stringify(params))
+        // console.log("ADD_OFFICES_API_PARAMS:" + JSON.stringify(params))
 
         addOfficesApi(params).then(res => {
-        console.log("ADD OFFICES STATUS", JSON.stringify(res))
+        // console.log("ADD OFFICES STATUS", JSON.stringify(res))
             if (res.success) {
                 showSuccessToast("Added Successfully")
                 this.setState({
@@ -200,14 +198,14 @@ class Offices extends Component {
     }
     callOfficesListApi() {
         getOfficesList().then(res => {
-            console.log("Offices", JSON.stringify(res))
+            // console.log("Offices", JSON.stringify(res))
             this.setState({ officesList: res.data })
         })
     }
 
     callDistrictListApi() {
         getDistrictList().then(res => {
-            console.log("District", JSON.stringify(res))
+            // console.log("District", JSON.stringify(res))
             this.setState({ districtList: res.data })
         })
     }

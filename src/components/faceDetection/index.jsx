@@ -1,20 +1,18 @@
 import React, { Component } from 'react';
 import { userDataAction, userTokenAction, isLoginAction } from "../../redux/actions"
 import { connect } from "react-redux";
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 // import DataGrid from 'react-data-grid';
-import BarChart from 'react-bar-chart';
-import { history } from '../../routes';
-import Header from '../custom/Header';
+// import BarChart from 'react-bar-chart';
+// import { history } from '../../routes';
+// import Header from '../custom/Header';
 
-import { AgGridReact } from 'ag-grid-react';
-import Modal from 'react-bootstrap/Modal';
-import { Button } from 'react-bootstrap';
+// import { AgGridReact } from 'ag-grid-react';
+// import Modal from 'react-bootstrap/Modal';
+// import { Button } from 'react-bootstrap';
 import { faceDetectionApi } from '../../api/ApiService';
 
-import { toast } from 'react-toastify';
-import { showSuccessToast, showErrorToast, showInfoToast, showWarningToast, showSomethingWentWrong } from '../../utils/Utils'
+import { showSuccessToast, showSomethingWentWrong } from '../../utils/Utils'
 import faceDetection from '../../../public/images/faceDetection.jpg';
 
 class FaceDetection extends Component {
@@ -41,7 +39,7 @@ class FaceDetection extends Component {
                 showSomethingWentWrong()
             }
         }).catch(e => {
-            console.log(e);
+            // console.log(e);
             showSomethingWentWrong()
         });
     }

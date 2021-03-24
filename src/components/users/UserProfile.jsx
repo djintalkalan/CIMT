@@ -4,7 +4,7 @@ import { userDataAction, userTokenAction, isLoginAction } from "../../redux/acti
 import { connect } from "react-redux";
 import { Button } from 'react-bootstrap';
 import { updateUserApi, getOfficesList, getDesignationList } from '../../api/ApiService';
-import { showSuccessToast, showErrorToast, showInfoToast, showWarningToast, showSomethingWentWrong } from '../../utils/Utils';
+import { showSuccessToast, showErrorToast } from '../../utils/Utils';
 
 
 class UserProfile extends Component {
@@ -50,16 +50,16 @@ class UserProfile extends Component {
         form_data.append('designation', this.state.designation);
         form_data.append('phone_no', this.state.phone_no);
         form_data.append('office', this.state.office);
-        for (var pair of form_data.entries()) {
-            console.log(pair[0] + ': ' + pair[1]);
-        }
-        console.log("Request", form_data);
+        // for (var pair of form_data.entries()) {
+        //     console.log(pair[0] + ': ' + pair[1]);
+        // }
+        // console.log("Request", form_data);
         // console.log(JSON.parse(localStorage.getItem("userData")));
 
         // let url = 'http://127.0.0.1:8000/updateUser/1';
         // axios.patch(url, form_data, {})
         updateUserApi(user_data.id, form_data).then(res => {
-            console.log("SIGN_IN_API_RES:" + JSON.stringify(res))
+            // console.log("SIGN_IN_API_RES:" + JSON.stringify(res))
             if (res.success) {
                 showSuccessToast("User Added Successfully")
 
@@ -101,14 +101,14 @@ class UserProfile extends Component {
             phone_no: phone_no,
             office: office,
         }, () => {
-            console.log("CHANGED STATE:", this.state)
-            console.log("USRDATA STATE:", this.props.userDataReducer)
+            // console.log("CHANGED STATE:", this.state)
+            // console.log("USRDATA STATE:", this.props.userDataReducer)
         })
     }
 
     callOfficeListApi() {
         getOfficesList().then(res => {
-            console.log("Offices", JSON.stringify(res))
+            // console.log("Offices", JSON.stringify(res))
             this.setState({ officeList: res.data })
         })
     }
@@ -131,7 +131,7 @@ class UserProfile extends Component {
 
     callDesignationListApi() {
         getDesignationList().then(res => {
-            console.log("Designation", JSON.stringify(res))
+            // console.log("Designation", JSON.stringify(res))
             this.setState({ designationList: res.data })
         })
     }
@@ -154,8 +154,8 @@ class UserProfile extends Component {
 
 
     render() {
-        console.log("STATE", JSON.stringify(this.state))
-        console.log("USERDATA:", JSON.stringify(this.props.userDataReducer))
+        // console.log("STATE", JSON.stringify(this.state))
+        // console.log("USERDATA:", JSON.stringify(this.props.userDataReducer))
         return (
             <div className="dashboardCt pt20">
                 <div className="inner">

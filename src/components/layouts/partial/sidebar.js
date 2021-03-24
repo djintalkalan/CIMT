@@ -18,7 +18,7 @@ class Sidebar extends Component {
 
     render() {
         let user_data = JSON.parse(localStorage.getItem("userData"))
-        console.log("pathnameeee----->", window.location.pathname);
+        // console.log("pathnameeee----->", window.location.pathname);
         this.state.path = window.location.pathname
         return (
             <div className="page-sidebar">
@@ -37,7 +37,7 @@ class Sidebar extends Component {
                     </div>
 
                     <div className="box-circle menu-item-has-children">
-                        <Link onClick={() => { this.setState({ openedMenu: this.state.openedMenu == 1 ? 0 : 1 }) }} >
+                        <Link to={''} onClick={() => { this.setState({ openedMenu: this.state.openedMenu == 1 ? 0 : 1 }) }} >
                             <span>Add Details</span>
                         </Link>
                     </div>
@@ -81,7 +81,7 @@ class Sidebar extends Component {
 
 
                     <div className="box-circle menu-item-has-children">
-                        <Link onClick={() => { this.setState({ openedMenu: this.state.openedMenu == 2 ? 0 : 2 }) }} >
+                        <Link to={''} onClick={() => { this.setState({ openedMenu: this.state.openedMenu == 2 ? 0 : 2 }) }} >
                             <span>Admin</span>
                         </Link>
                     </div>

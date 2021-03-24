@@ -3,7 +3,7 @@ import Sidebar from './partial/sidebar'
 import Header from '../custom/Header';
 import Footer from '../custom/Footer';
 function DashboardLayout(props) {
-    console.log(props)
+    // console.log(props)
     return (
         <React.Fragment>
             <Header />

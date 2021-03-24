@@ -3,7 +3,7 @@ import { userDataAction, userTokenAction, isLoginAction } from "../../../redux/a
 import { connect } from "react-redux";
 import { history } from '../../../routes'
 import { passwordResetApi } from '../../../api/ApiService';
-import { showSuccessToast, showErrorToast, showInfoToast, showWarningToast, showSomethingWentWrong } from '../../../utils/Utils';
+import { showSuccessToast, showErrorToast } from '../../../utils/Utils';
 // import logo from './logo.svg';
 // import './App.css';
 
@@ -14,7 +14,7 @@ import { showSuccessToast, showErrorToast, showInfoToast, showWarningToast, show
 class ForgotPassword extends Component {
     constructor(props) {
         super(props);
-        console.log("TEST:", this.props.isLoginReducer)
+        // console.log("TEST:", this.props.isLoginReducer)
         if (this.props.isLoginReducer) {
             history.push('/')
         }
@@ -40,10 +40,10 @@ class ForgotPassword extends Component {
     }
 
     callPassResetApi = (params) => {
-        console.log("SIGN_IN_API_PARAMS:" + JSON.stringify(params))
+        // console.log("SIGN_IN_API_PARAMS:" + JSON.stringify(params))
 
         passwordResetApi(params).then(res => {
-            console.log("SIGN_IN_API_RES:" + JSON.stringify(res))
+            // console.log("SIGN_IN_API_RES:" + JSON.stringify(res))
             if (res.success) {
                 showSuccessToast("E-mail sent to Registered Mail.")
             }
@@ -57,7 +57,7 @@ class ForgotPassword extends Component {
 
 
     render() {
-        console.log("email", this.state.email)
+        // console.log("email", this.state.email)
         return (
             <div className="login_block">
                 <div className="inner">
@@ -89,7 +89,7 @@ class ForgotPassword extends Component {
 }
 
 const mapStateToProps = state => {
-    console.log("Redux State:", JSON.stringify(state))
+    // console.log("Redux State:", JSON.stringify(state))
     return {
         userDataReducer: state.userDataReducer,
         isLoginReducer: state.isLoginReducer,

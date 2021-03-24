@@ -3,13 +3,9 @@ import React, { Component } from 'react';
 import { userDataAction, userTokenAction, isLoginAction } from "../../redux/actions"
 import { connect } from "react-redux";
 import { Button } from 'react-bootstrap';
-import { withRouter } from 'react-router-dom';
-import { AgGridReact } from 'ag-grid-react';
-import Accordion from 'react-bootstrap/Accordion';
-import Card from 'react-bootstrap/Card';
-import Modal from 'react-bootstrap/Modal';
+// import { withRouter } from 'react-router-dom';
 import { getChargedOfficerByIdApi } from '../../api/ApiService';
-import { showSuccessToast, showErrorToast, showInfoToast, showWarningToast, showSomethingWentWrong } from '../../utils/Utils';
+import { showWarningToast, showSomethingWentWrong } from '../../utils/Utils';
 
 
 //Open console and perform an action on page
@@ -33,8 +29,6 @@ class DrawingChargeSheet extends Component {
 
     handleSearchChargeSheet = (e) => {
         e.preventDefault();
-        console.log("fdsfdsfsdfdsfsdf")
-// debugger
         const { case_id } = this.state
 
         if (!case_id) {
@@ -48,23 +42,20 @@ class DrawingChargeSheet extends Component {
 
         getChargedOfficerByIdApi(params).then(res => {
             if (res.success) {
-                debugger
-                // console.log("Charged Officer Details", JSON.stringify(res))
                 this.setState({ chargedOfficerList: res.data })
             }
             else {
                 showSomethingWentWrong()
             }
         }).catch(e => {
-            console.log(e);
+            // console.log(e);
             showSomethingWentWrong()
         });
     }
 
     renderGetchargedOfficerList() {
         let { chargedOfficerList } = this.state
-        console.log("chargedOfficerList", this.state.chargedOfficerList);
-// debugger
+        // console.log("chargedOfficerList", this.state.chargedOfficerList);
         if (chargedOfficerList && chargedOfficerList.length > 0)
             return (
                 <div>
@@ -125,7 +116,7 @@ class DrawingChargeSheet extends Component {
 
     render() {
         // if(!this.state.chargedOfficerList) return null
-        console.log("Charged Officer List", JSON.stringify(this.state.chargedOfficerList))
+        // console.log("Charged Officer List", JSON.stringify(this.state.chargedOfficerList))
         return (
             <div className="evidenceCt">
                 <div className="container-fluid customForm pb20">

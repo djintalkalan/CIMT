@@ -1,7 +1,7 @@
 
 const baseUrl ="https://jsonplaceholder.typicode.com"
-const baseUrl_heroku ="https://cimt.herokuapp.com"
-const baseUrl2 ="https://kartforu.com/deepak/shally_maid_api/api"
+// const baseUrl_heroku ="https://cimt.herokuapp.com"
+// const baseUrl2 ="https://kartforu.com/deepak/shally_maid_api/api"
 export const localUrl ="http://127.0.0.1:8000"
 
 export const ApiConstants = {
@@ -36,15 +36,15 @@ export const ApiConstants = {
     getAllChargedOfficer:localUrl+"/getAllChargedOfficer/",
 
     // getNatureMisconduct:localUrl+"/natureMisconduct/",
-    addUpdateDelSourceComplaint:localUrl+"/sourceComplaint/",
+    addUpdateDelSourceComplaint:localUrl+"/sourceOfComplaint/",
 
-    addUpdateDelDesignation:localUrl+"/Designations/",
+    addUpdateDelDesignation:localUrl+"/designations/",
     // addDesignation:localUrl+"/Designations/",
 
     addUpdateDelOffices:localUrl+"/offices/",
     // getOffices:localUrl+"/offices/",
 
-    addUpdateDelDistrict:localUrl+"/Districts/",
+    addUpdateDelDistrict:localUrl+"/districts/",
     // addDistrict:localUrl+"/Districts/",
 
     addUpdateDelMisconduct:localUrl+"/misconductType/",
@@ -55,6 +55,8 @@ export const ApiConstants = {
 
     faceDetection:localUrl+"/faceDetection/",
     getChargedOfficerById:localUrl+"/getAllChargedOfficer/",
+
+    statusChange:localUrl+"/caseStatusChange/",
 
 
 }

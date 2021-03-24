@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { userDataAction, userTokenAction, isLoginAction } from "../../../redux/actions"
 import { connect } from "react-redux";
-import { history } from '../../../routes'
+// import { history } from '../../../routes'
 import { changePassApi } from '../../../api/ApiService';
-import { showSuccessToast, showErrorToast, showInfoToast, showWarningToast, showSomethingWentWrong } from '../../../utils/Utils';
+import { showSuccessToast, showErrorToast } from '../../../utils/Utils';
 // import logo from './logo.svg';
 // import './App.css';
 
@@ -41,11 +41,11 @@ class ChangePassword extends Component {
     }
 
     callChangePassApi = (params) => {
-        console.log("SIGN_IN_API_PARAMS:" + JSON.stringify(params))
+        // console.log("SIGN_IN_API_PARAMS:" + JSON.stringify(params))
 
         changePassApi(params).then(res => {
             // const notify = () => toast("Wow so easy !");
-            console.log("SIGN_IN_API_RES:" + JSON.stringify(res))
+            // console.log("SIGN_IN_API_RES:" + JSON.stringify(res))
             if (res.success) {
                 showSuccessToast("Change Password Successfully")
             }
@@ -70,7 +70,7 @@ class ChangePassword extends Component {
 
 
     render() {
-        console.log("State", this.state)
+        // console.log("State", this.state)
         return (
             <div className="dashboardCt pt20">
                 <div className="inner">
@@ -118,7 +118,7 @@ class ChangePassword extends Component {
 }
 
 const mapStateToProps = state => {
-    console.log("Redux State:", JSON.stringify(state))
+    // console.log("Redux State:", JSON.stringify(state))
     return {
         userDataReducer: state.userDataReducer,
         isLoginReducer: state.isLoginReducer,

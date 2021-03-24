@@ -1,22 +1,17 @@
 import React, { Component } from 'react';
 import { userDataAction, userTokenAction, isLoginAction } from "../../redux/actions"
 import { connect } from "react-redux";
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 // import DataGrid from 'react-data-grid';
-import BarChart from 'react-bar-chart';
-import { history } from '../../routes';
-import Header from '../custom/Header';
+// import BarChart from 'react-bar-chart';
+// import { history } from '../../routes';
+// import Header from '../custom/Header';
 
 import { AgGridReact } from 'ag-grid-react';
 import Modal from 'react-bootstrap/Modal';
 import { Button } from 'react-bootstrap';
-import { getSourceComplaintList } from '../../api/ApiService';
-import { addSourceComplaintApi} from '../../api/ApiService';
-import { updateSourceComplaintApi} from '../../api/ApiService';
-import { deleteSourceComplaintApi} from '../../api/ApiService';
-import { toast } from 'react-toastify';
-import { showSuccessToast, showErrorToast, showInfoToast, showWarningToast, showSomethingWentWrong } from '../../utils/Utils'
+import { getSourceComplaintList, addSourceComplaintApi, updateSourceComplaintApi, deleteSourceComplaintApi } from '../../api/ApiService';
+import { showSuccessToast, showErrorToast, showWarningToast, showSomethingWentWrong } from '../../utils/Utils'
 
 class SourceComplaint extends Component {
     constructor(props) {
@@ -131,10 +126,10 @@ class SourceComplaint extends Component {
     }
 
     callUdateSourceComplaintApi = (id, params) => {
-        console.log("UPDATE_Source Complaint_API_PARAMS:" + JSON.stringify(params))
+        // console.log("UPDATE_Source Complaint_API_PARAMS:" + JSON.stringify(params))
 
         updateSourceComplaintApi(id, params).then(res => {
-        console.log("UPDATE Source Complaint STATUS", JSON.stringify(res))
+        // console.log("UPDATE Source Complaint STATUS", JSON.stringify(res))
             if (res.success) {
                 showSuccessToast("Updated Successfully")
                 this.setState({
@@ -155,10 +150,10 @@ class SourceComplaint extends Component {
     }
 
     calladdSourceComplaintApi = (params) => {
-        console.log("ADD_Source_Complaint_API_PARAMS:" + JSON.stringify(params))
+        // console.log("ADD_Source_Complaint_API_PARAMS:" + JSON.stringify(params))
 
         addSourceComplaintApi(params).then(res => {
-            console.log("ADD Source Complaint STATUS",JSON.stringify(res))
+            // console.log("ADD Source Complaint STATUS",JSON.stringify(res))
             if (res.success) {
                 showSuccessToast("Added Successfully")
                 this.setState({
@@ -187,7 +182,7 @@ class SourceComplaint extends Component {
 
     callSourceComplaintListApi(){
         getSourceComplaintList().then(res=>{
-            console.log("Source Complaint",JSON.stringify(res))
+            // console.log("Source Complaint",JSON.stringify(res))
             this.setState({SourceComplaintList:res.data})
         })
     }

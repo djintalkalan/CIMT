@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { userDataAction, userTokenAction, isLoginAction } from "../../redux/actions"
 import { connect } from "react-redux";
 import { Button } from 'react-bootstrap';
-import { withRouter } from 'react-router-dom';
+// import { withRouter } from 'react-router-dom';
 import { AgGridReact } from 'ag-grid-react';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
@@ -117,7 +117,7 @@ class ChargeSheet extends Component {
 
     callRoleListApi(){
         getRoleList().then(res=>{
-            console.log("Testing Mode",JSON.stringify(res))
+            // console.log("Testing Mode",JSON.stringify(res))
             this.setState({roleList:res.data})
         })
     }
@@ -220,7 +220,7 @@ class ChargeSheet extends Component {
     }
 
     render() {
-        console.log("UserName", JSON.stringify(this.props.userdata))
+        // console.log("UserName", JSON.stringify(this.props.userdata))
         return (
             <div className="evidenceCt">
                 <div className="container-fluid">

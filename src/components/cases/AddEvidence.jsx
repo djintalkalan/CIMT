@@ -2,14 +2,12 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { userDataAction, userTokenAction, isLoginAction } from "../../redux/actions"
 import { connect } from "react-redux";
-import { history } from '../../routes';
-import { getUserList } from '../../api/ApiService';
-import Modal from 'react-bootstrap/Modal';
-import { Button } from 'react-bootstrap';
+// import { history } from '../../routes';
+// import Modal from 'react-bootstrap/Modal';
+// import { Button } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
-import { AgGridReact } from 'ag-grid-react';
-import { getEvidenceListApi, addEvidenceApi, getCaseByIdApi } from '../../api/ApiService';
-import { showSuccessToast, showErrorToast, showInfoToast, showWarningToast, showSomethingWentWrong } from '../../utils/Utils';
+import { getEvidenceListApi, addEvidenceApi, getCaseByIdApi, statusChangeApi } from '../../api/ApiService';
+import { showSuccessToast, showErrorToast } from '../../utils/Utils';
 import { localUrl } from '../../api/ApiConstants';
 
 
@@ -19,50 +17,15 @@ import { localUrl } from '../../api/ApiConstants';
 class AddEvidence extends Component {
     constructor(props) {
         super(props);
-        console.log("HISTORY:-", props.location.state.data)
+        // console.log("HISTORY:-", props.location.state.data)
         this.state = {
             rows: [],
             data: props.location.state.data
         }
 
-        // this.gridCaseEvidence = {
-        //     defaultColDef: {
-        //         sortable: true,
-        //         filter: true
-        //     },
-        //     columnDefs: [
-        //         { headerName: "ID", field: "id", sortable: true, filter: false },
-        //         {
-        //             headerName: "Evidence", field: "url", sortable: false, filter: false, cellRendererFramework: function (params) {
-        //                 // console.log("PARAMETER", params)
-        //                 return <img src={params.value} />
-        //             },
-        //         },
-        //         { headerName: "Case No", field: "case_no_id", sortable: true, filter: true },
-        //         { headerName: "Evidence Name", field: "evidence_name", sortable: true, filter: true },
-        //         { headerName: "Evidence Desc", field: "evidence_desc", sortable: true, filter: true },
-        //         { headerName: "Status", field: "case_no_id", sortable: true, filter: true }],
-
-        //         defaultColDef: {
-        //             // set the default column width
-        //             width: 160,
-        //             // make every column editable
-        //             editable: true,
-        //             // make every column use 'text' filter by default
-        //             filter: 'agTextColumnFilter',
-        //             // make columns resizable
-        //             resizable: true,
-        //           },
-
-        //     rowData: null,
-        //     floatingFilter: true,
-        //     pagination: true,
-        //     paginationPageSize: 10
-        // }
-
     }
 
-    handleChange1 = (e) => {
+    handleChange = (e) => {
         this.setState({
             [e.target.id]: e.target.value
         })
@@ -76,23 +39,42 @@ class AddEvidence extends Component {
 
     handleSubmitEvidence = (e) => {
         e.preventDefault();
-        console.log("stateInfo", this.state);
+        // console.log("stateInfo", this.state);
 
         let form_data = new FormData();
         form_data.append('evidence_image', this.state.image);
         form_data.append('evidence_name', this.state.name);
         form_data.append('case_no', this.state.data);
         form_data.append('evidence_desc', this.state.imagedesc);
-        for (var pair of form_data.entries()) {
-            console.log(pair[0] + ': ' + pair[1]);
-        }
-        console.log("Request Data", form_data);
+        // for (var pair of form_data.entries()) {
+        //     console.log(pair[0] + ': ' + pair[1]);
+        // }
+        // console.log("Request Data", form_data);
 
         addEvidenceApi(form_data).then(res=>{
-            console.log("SIGN_IN_API_RES:" + JSON.stringify(res))
+            // console.log("SIGN_IN_API_RES:" + JSON.stringify(res))
             if (res.success) {
                 showSuccessToast("Evidence Added Successfully")
                 this.callGetEvidenceApi()
+            }
+            else {
+                showErrorToast(res.error)
+            }
+        })
+        .catch(err => console.log(err))
+    };
+
+    handleSubmitChangeStatus = (e) => {
+        e.preventDefault();
+
+        const params = {
+            status: this.state.changeStatus,
+        }
+
+        statusChangeApi(this.state.data, params).then(res=>{
+            // console.log("SIGN_IN_API_RES:" + JSON.stringify(res))
+            if (res.success) {
+                showSuccessToast("Status Changed Successfully")
             }
             else {
                 showErrorToast(res.error)
@@ -117,7 +99,7 @@ class AddEvidence extends Component {
         // console.log("Case id", this.state.data)
         // return
         getCaseByIdApi(case_id).then(res => {
-            console.log("Charge Sheet Data", JSON.stringify(res.data))
+            // console.log("Charge Sheet Data", JSON.stringify(res.data))
             this.setState({ chargeSheetData: res.data })
             this.setState({ caseIdentity: res.data.case_identity })
         })
@@ -126,14 +108,14 @@ class AddEvidence extends Component {
     callGetEvidenceApi() {
         let case_id = this.state.data
         getEvidenceListApi(case_id).then(res => {
-            console.log("Evidences", JSON.stringify(res))
+            // console.log("Evidences", JSON.stringify(res))
             this.setState({ evidenceList: res.data })
         })
     }
 
     renderGetEvidenceList() {
         let { evidenceList } = this.state
-        console.log("evidenceList", this.state.evidenceList);
+        // console.log("evidenceList", this.state.evidenceList);
 
         if (evidenceList && evidenceList.length > 0)
             return (
@@ -174,7 +156,7 @@ class AddEvidence extends Component {
 
         if(!this.state.chargeSheetData) return null
         const { case_identity, charged_officer, draft_article, draft_charge_sheets  } = this.state.chargeSheetData
-        console.log("zzzzzzzzzz", { case_identity, charged_officer, draft_article, draft_charge_sheets })
+        // console.log("zzzzzzzzzz", { case_identity, charged_officer, draft_article, draft_charge_sheets })
         
         return (
             <div className="evidenceCt">
@@ -231,7 +213,7 @@ class AddEvidence extends Component {
                                 <table className="tableCt">
                                         <tbody>
                                             <tr>
-                                                <td>
+                                                <td className="px10">
                                                     <span>Choose Evidence</span>
                                                     <input type="file"
                                                         id="image" name="image"
@@ -241,17 +223,17 @@ class AddEvidence extends Component {
                                             <tr className="half">
                                                 <td className="px10">
                                                 <span>Name</span>
-                                                    <input type="text" className="form-control" name="name" id="name" placeholder="Name" onChange={this.handleChange1} />
+                                                    <input type="text" className="form-control" name="name" id="name" placeholder="Name" onChange={this.handleChange} />
                                                 </td>
                                             </tr>
                                             <tr className="half">
                                                 <td className="px10">
                                                 <span>Description</span>
-                                                    <input type="text" className="form-control" name="imagedesc" id="imagedesc" placeholder="Description" onChange={this.handleChange1} />
+                                                    <input type="text" className="form-control" name="imagedesc" id="imagedesc" placeholder="Description" onChange={this.handleChange} />
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>
+                                                <td className="px10">
                                                     <button type="submit" className="btn btn-sm btn-success float-right mt10">Add Evidence</button>
                                                 </td>
                                             </tr>
@@ -260,6 +242,35 @@ class AddEvidence extends Component {
                                 </div>
                             </div>
                         </form>
+
+                        <form
+                            onSubmit={this.handleSubmitChangeStatus} >
+                            <div className="row">
+                                <div className="col-md-12 mt40">
+                                    <table className="tableCt">
+                                        <tbody>
+                                            <tr className="half">
+                                                <td className="px10">
+                                                <span>Change Status</span>
+                                                <select className="form-control" name="changeStatus" id="changeStatus"
+                                                    onChange={this.handleChange}>
+                                                    <option value="">Change Status</option>
+                                                    <option value="ONGOING">Ongoing</option>
+                                                    <option value="COMPLETE">Complete</option>
+                                                </select>
+                                                </td>
+                                            </tr>
+                                            <tr className="half">
+                                                <td className="px10">
+                                                <button type="submit" className="btn btn-sm btn-success float-right mt10">Change Status</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </form>
+
                         <div className="row">
                             <div className="col-md-12 mb30">
                                 <h5 className="mt40 mb20">Evidence List</h5>
