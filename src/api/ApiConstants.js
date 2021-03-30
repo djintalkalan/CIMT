@@ -11,6 +11,7 @@ export const ApiConstants = {
 
     loginUser:localUrl+"/validateUser/",
     passwordReset: localUrl+"/reset-password/",
+    passwordResetSave: localUrl+"/reset-password/confirm/",
     changePass: localUrl+"/changePassword/",
     logout: localUrl+"/logout/",
 

@@ -38,7 +38,7 @@ class Sidebar extends Component {
 
                     <div className="box-circle menu-item-has-children">
                         <Link to={''} onClick={() => { this.setState({ openedMenu: this.state.openedMenu == 1 ? 0 : 1 }) }} >
-                            <span>Add Details</span>
+                            <span>Charge Sheet Details</span>
                         </Link>
                     </div>
 
@@ -49,7 +49,7 @@ class Sidebar extends Component {
                             {/** WE DEFINE CUSTOM submenu of users here */}
                             <div className="box-circle ">
                                 <Link to={'/cases'} className={"" + (this.state.path == '/cases' ? "active" : " ")}>
-                                    <span>&#8692; Cases</span>
+                                    <span>&#8692; Charge Sheet</span>
                                 </Link>
                             </div>
 
@@ -59,11 +59,11 @@ class Sidebar extends Component {
                                 </Link>
                             </div>
 
-                            <div className={"box-circle"}>
+                            {/* <div className={"box-circle"}>
                                 <Link to={'/chargesheet'} className={"" + (this.state.path == '/chargesheet' ? "active" : " ")} >
                                     <span>&#8692; Charge Sheet</span>
                                 </Link>
-                            </div>
+                            </div> */}
                             <div className={"box-circle"}>
                                 <Link to={'/drawingchargesheet'} className={"" + (this.state.path == '/drawingchargesheet' ? "active" : " ")} >
                                     <span>&#8692; Drawing up the Charge Sheet</span>

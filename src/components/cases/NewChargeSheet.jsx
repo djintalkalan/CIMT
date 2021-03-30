@@ -3,12 +3,13 @@ import { Button } from 'react-bootstrap';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import Modal from 'react-bootstrap/Modal';
+import { history } from '../../routes';
 import { connect } from "react-redux";
 import { getDesignationList, getMisconductList, getOfficesList, getRoleList, getSourceComplaintList, uploadImageApi, getUserList, addChargeSheetApi, getArticlesList } from '../../api/ApiService';
 // import axios from 'axios';
 import { isLoginAction, userDataAction, userTokenAction } from "../../redux/actions";
 import { localUrl } from '../../api/ApiConstants';
-import { showSuccessToast, showWarningToast, showSomethingWentWrong } from '../../utils/Utils';
+import { showSuccessToast, showWarningToast, showErrorToast } from '../../utils/Utils';
 
 
 //Open console and perform an action on page
@@ -174,21 +175,29 @@ class NewChargeSheet extends Component {
     };
 
     callChargeSheetApi = (params) => {
-        // console.log("ADD_CHARGE_SHEET_API_PARAMS:" + JSON.stringify(params))
+        console.log("ADD_CHARGE_SHEET_API_PARAMS:" + JSON.stringify(params))
 
         addChargeSheetApi(params).then(res => {
-            // console.log("ADD CHARGE SHEET STATUS",JSON.stringify(res))
+            console.log("ADD CHARGE SHEET STATUS",JSON.stringify(res))
             // this.setState({addUserStatus:res.comment})
             if (res.success) {
                 showSuccessToast("Charge Sheet Added Successfully")
+            // this.state = {
+            //     case_identity: null,
+            //     charged_officer: null,
+            //     draft_charge_sheets: null,
+            //     draft_article: null,
+            //     preliminary_enquiries: null,
+            // }
                 history.push('/cases')
             }
             else {
-                showSomethingWentWrong()
+                // if (res.error) {
+                    showErrorToast(res.error)
+                // }
             }
         }).catch(e => {
-            // console.log(e);
-            showSomethingWentWrong()
+            showErrorToast(e)
         });
     }
 
@@ -232,7 +241,7 @@ class NewChargeSheet extends Component {
                     <option value="">User</option>
                     {userList.map((item, index) => {
                         return (
-                            <option selected={this.state + key ? "selected" : "false"} value={item.id}>{item.username}</option>
+                            <option selected={this.state + key ? "selected" : "false"} value={item.id}>{item.first_name + " " + item.last_name}</option>
                         )
                     })}
                 </select>
@@ -251,12 +260,12 @@ class NewChargeSheet extends Component {
         if (officeList && officeList.length > 0)
             return (
                 <select className="form-control" name={key} id={key}
-                    value={this.state + key}
+                    // value={this.state + key}
                     onChange={this.handleChange}>
                     <option value="">Select Office</option>
                     {officeList.map((item, index) => {
                         return (
-                            <option value={item.id}>{item.office_name}</option>
+                            <option selected={this.state + key ? "selected" : "false"} value={item.id}>{item.office_name}</option>
                         )
                     })}
                 </select>
@@ -275,12 +284,12 @@ class NewChargeSheet extends Component {
         if (designationList && designationList.length > 0)
             return (
                 <select className="form-control" name={key} id={key}
-                    value={this.state + key}
+                    // value={this.state + key}
                     onChange={this.handleChange}>
                     <option value="">Select Designation</option>
                     {designationList.map((item, index) => {
                         return (
-                            <option value={item.id}>{item.designation}</option>
+                            <option selected={this.state + key ? "selected" : "false"} value={item.id}>{item.designation}</option>
                         )
                     })}
                 </select>
@@ -299,12 +308,12 @@ class NewChargeSheet extends Component {
         if (natureMisconductList && natureMisconductList.length > 0)
             return (
                 <select className="form-control" name={key} id={key}
-                    value={this.state + key}
+                    // value={this.state + key}
                     onChange={this.handleChange}>
                     <option value="">Select Misconduct</option>
                     {natureMisconductList.map((item, index) => {
                         return (
-                            <option value={item.id}>{item.type}</option>
+                            <option selected={this.state + key ? "selected" : "false"} value={item.id}>{item.type}</option>
                         )
                     })}
                 </select>
@@ -323,12 +332,12 @@ class NewChargeSheet extends Component {
         if (sourceComplaintList && sourceComplaintList.length > 0)
             return (
                 <select className="form-control" name={key} id={key}
-                    value={this.state + key}
+                    // value={this.state + key}
                     onChange={this.handleChange}>
                     <option value="">Select Source</option>
                     {sourceComplaintList.map((item, index) => {
                         return (
-                            <option value={item.id}>{item.type}</option>
+                            <option selected={this.state + key ? "selected" : "false"} value={item.id}>{item.type}</option>
                         )
                     })}
                 </select>
@@ -347,12 +356,12 @@ class NewChargeSheet extends Component {
         if (articlesList && articlesList.length > 0)
             return (
                 <select className="form-control" name={key} id={key}
-                    value={this.state + key}
+                    // value={this.state + key}
                     onChange={this.handleChange}>
                     <option value="">Select Article</option>
                     {articlesList.map((item, index) => {
                         return (
-                            <option value={item.id}>{item.article_no}</option>
+                            <option selected={this.state + key ? "selected" : "false"} value={item.id}>{item.article_no}</option>
                         )
                     })}
                 </select>
@@ -704,7 +713,7 @@ class NewChargeSheet extends Component {
 
 
     render() {
-        // console.log("State",this.state)
+        console.log("State",this.state)
         return (
             <div className="evidenceCt">
                 <div className="container-fluid">
@@ -769,14 +778,14 @@ class NewChargeSheet extends Component {
                                                 <div className="row">
                                                     <div className="col-md-6">
                                                         <span className="title required">Source of Complaint </span>
-                                                        <select className="form-control" name="source_complaint" id="source_complaint"
+                                                        {/* <select className="form-control" name="source_complaint" id="source_complaint"
                                                             onChange={this.handleChange}>
                                                             <option value="">Select</option>
                                                             <option value="1">Phone</option>
                                                             <option value="2">Newspaper</option>
                                                             <option value="3">TV</option>
-                                                        </select>
-                                                        {/* {this.renderSourceComplaintList('source_complaint')} */}
+                                                        </select> */}
+                                                        {this.renderSourceComplaintList('source_complaint')}
                                                     </div>
                                                     <div className="col-md-6">
                                                         <span className="title required">Nature of complaint </span>

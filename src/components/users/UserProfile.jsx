@@ -36,20 +36,25 @@ class UserProfile extends Component {
         })
     };
 
+    handleChangeSelect = (e) => {
+        this.setState({
+            [e.target.id]: {id: e.target.value}
+        })
+    };
+
     handleSubmit = (e) => {
         e.preventDefault();
         let user_data = JSON.parse(localStorage.getItem("userData"))
-        // console.log("stateInfo", user_data.id);
-
+        // console.log("User data", user_data.profile_pic);
         let form_data = new FormData();
         form_data.append('profile_pic', this.state.profile_pic);
         form_data.append('first_name', this.state.first_name);
         form_data.append('last_name', this.state.last_name);
         form_data.append('email', this.state.email);
         form_data.append('treasury_code', this.state.treasury_code);
-        form_data.append('designation', this.state.designation);
+        form_data.append('designation', this.state.designation.id);
         form_data.append('phone_no', this.state.phone_no);
-        form_data.append('office', this.state.office);
+        form_data.append('office', this.state.office.id);
         // for (var pair of form_data.entries()) {
         //     console.log(pair[0] + ': ' + pair[1]);
         // }
@@ -59,7 +64,7 @@ class UserProfile extends Component {
         // let url = 'http://127.0.0.1:8000/updateUser/1';
         // axios.patch(url, form_data, {})
         updateUserApi(user_data.id, form_data).then(res => {
-            // console.log("SIGN_IN_API_RES:" + JSON.stringify(res))
+            console.log("SIGN_IN_API_RES:" + JSON.stringify(res))
             if (res.success) {
                 showSuccessToast("User Added Successfully")
 
@@ -83,14 +88,15 @@ class UserProfile extends Component {
                 showErrorToast(res.error)
             }
         })
-            .catch(err => console.log(err))
+            .catch(err => showErrorToast(err))
     };
 
     componentDidMount() {
         this.callOfficeListApi()
         this.callDesignationListApi()
 
-        const { username, first_name, last_name, email, designation, phone_no, office, treasury_code } = this.props.userDataReducer
+        // console.log("zzzzzzzz", this.props.userDataReducer)
+        const { username, first_name, last_name, email, designation, phone_no, office, treasury_code, profile_pic } = this.props.userDataReducer
         this.setState({
             username,
             email,
@@ -100,6 +106,7 @@ class UserProfile extends Component {
             designation: designation,
             phone_no: phone_no,
             office: office,
+            profile_pic: "",
         }, () => {
             // console.log("CHANGED STATE:", this.state)
             // console.log("USRDATA STATE:", this.props.userDataReducer)
@@ -118,11 +125,11 @@ class UserProfile extends Component {
         if (officeList && officeList.length > 0)
             return (
                 <select className="form-control customSelect" name={key} id={key}
-                    onChange={this.handleChange}>
+                    onChange={this.handleChangeSelect}>
                     <option value="">Select Office</option>
                     {officeList.map((item, index) => {
                         return (
-                            <option selected={item.id == this.state.office ? "selected" : ""} value={item.id}>{item.office_name}</option>
+                            <option selected={item.id == this.state.office["id"] ? "selected" : ""} value={item.id}>{item.office_name}</option>
                         )
                     })}
                 </select>
@@ -141,7 +148,7 @@ class UserProfile extends Component {
         if (designationList && designationList.length > 0)
             return (
                 <select className="form-control customSelect" name={key} id={key}
-                    onChange={this.handleChange}>
+                    onChange={this.handleChangeSelect}>
                     <option value="">Select Designation</option>
                     {designationList.map((item, index) => {
                         return (
@@ -154,7 +161,7 @@ class UserProfile extends Component {
 
 
     render() {
-        // console.log("STATE", JSON.stringify(this.state))
+        console.log("STATE", JSON.stringify(this.state))
         // console.log("USERDATA:", JSON.stringify(this.props.userDataReducer))
         return (
             <div className="dashboardCt pt20">
@@ -167,14 +174,14 @@ class UserProfile extends Component {
                             </div>
                             <div className="row">
                                 <div className="col-md-6">
-                                    <span class="title required">First Name </span>
+                                    <span className="title required">First Name </span>
                                     <input
                                         value={this.state.first_name}
                                         onChange={(e) => this.setState({ first_name: e.target.value })}
                                         type="text" className="form-control" name="first_name" id="first_name" placeholder="First Name" />
                                 </div>
                                 <div className="col-md-6">
-                                    <span class="title required">Last Name </span>
+                                    <span className="title required">Last Name </span>
                                     <input
                                         value={this.state.last_name}
                                         onChange={(e) => this.setState({ last_name: e.target.value })}
@@ -183,13 +190,13 @@ class UserProfile extends Component {
                             </div>
                             <div className="row">
                                 <div className="col-md-6">
-                                    <span class="title">Username </span>
+                                    <span className="title">Username </span>
                                     <input
                                         value={this.state.username}
                                         type="text" className="form-control" name="username" id="username" placeholder="Username" readonly />
                                 </div>
                                 <div className="col-md-6">
-                                    <span class="title required">Email </span>
+                                    <span className="title required">Email </span>
                                     <input
                                         value={this.state.email}
                                         onChange={(e) => this.setState({ email: e.target.value })}
@@ -198,14 +205,14 @@ class UserProfile extends Component {
                             </div>
                             <div className="row">
                                 <div className="col-md-6">
-                                    <span class="title required">Treasury Code </span>
+                                    <span className="title required">Treasury Code </span>
                                     <input
                                         value={this.state.treasury_code}
-                                        onChange={(e) => this.setState({ treasury_code: e.target.value })}
+                                        // onChange={(e) => this.setState({ treasury_code: e.target.value })}
                                         type="text" className="form-control" name="treasury_code" id="treasury_code" placeholder="Treasury Code" readonly />
                                 </div>
                                 <div className="col-md-6">
-                                    <span class="title required">Designation </span>
+                                    <span className="title required">Designation </span>
                                     {this.renderDesignationList("designation")}
                                     {/* <input
                                             value={this.state.designation}
@@ -215,14 +222,14 @@ class UserProfile extends Component {
                             </div>
                             <div className="row">
                                 <div className="col-md-6">
-                                    <span class="title required">Phone </span>
+                                    <span className="title required">Phone </span>
                                     <input
                                         value={this.state.phone_no}
                                         onChange={(e) => this.setState({ phone_no: e.target.value })}
                                         type="text" className="form-control" name="phone_no" id="phone_no" placeholder="Phone" />
                                 </div>
                                 <div className="col-md-6">
-                                    <span class="title required">Work Place </span>
+                                    <span className="title required">Work Place </span>
                                     {this.renderOfficeList("office")}
                                     {/* <input
                                         value={this.state.office}
@@ -232,12 +239,13 @@ class UserProfile extends Component {
                             </div>
                             <div className="row">
                                 <div className="col-md-12">
-                                    <span class="title required">Profile Picture </span>
+                                    <span className="title required">Profile Picture </span>
                                     <label className="custom-file-upload px20 mb30">
                                         <input type="file"
                                             id="profile_pic" name="profile_pic" className="form-control" accept="image/png, image/jpeg, image/jpg" onChange={this.handleImageChange} />
                                     </label>
                                     {this.state.profile_pic && <img height='80px' width='80px' src={URL.createObjectURL(this.state.profile_pic)} />}
+                                    {/* {this.state.profile_pic && <img height='80px' width='80px' src={ localUrl + this.state.profile_pic} />} */}
                                 </div>
                             </div>
 

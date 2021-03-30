@@ -34,7 +34,7 @@ class App extends Component {
         <Switch>
           <Route path="/login" component={Login} />
           <Route path="/forget-password" component={ForgotPassword} />
-          <Route path="/resetpass" component={ResetPassword} />
+          <Route path="/password-reset/:token" component={ResetPassword} />
 
           <PrivateRoute exact path="/" component={Home} />
           <PrivateRoute exact path="/users" component={Home} />

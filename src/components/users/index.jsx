@@ -22,7 +22,7 @@ class Users extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userList: null,
+            userList: [],
             isAddVisible: false,
             isAddVisible1: false
         }
@@ -37,9 +37,8 @@ class Users extends Component {
                 { headerName: "First Name", field: "first_name", sortable: true, filter: true, width: 140 },
                 { headerName: "Last Name", field: "last_name", sortable: true, filter: true, width: 140 },
                 { headerName: "Username", field: "username", sortable: true, filter: true, width: 140 },
-                { headerName: "Role", valueGetter: params => {
-                    return params.groups;
-                }, sortable: true, filter: true, width: 140 },
+                { headerName: "Treasury Code", field: "treasury_code", sortable: true, filter: true, width: 140 },
+                // { headerName: "Role", field: "role", sortable: true, filter: true, width: 140 },
                 { headerName: "Phone", field: "phone_no", sortable: true, filter: true, width: 140 },
                 { headerName: "Email", field: "email", sortable: true, filter: true, width: 300 }],
                 
@@ -209,8 +208,11 @@ class Users extends Component {
     }
     callUserListApi(){
         getUserList().then(res=>{
-            // console.log("USERS",JSON.stringify(res))
+            console.log("USERS",JSON.stringify(res))
             this.setState({userList:res.data})
+            // this.setState({ userList: res.data.map(x => ({...x , role: x.role.name}))
+                 //{ ...res.data, role: res.data.role.name }
+                // })
         })
     }
 

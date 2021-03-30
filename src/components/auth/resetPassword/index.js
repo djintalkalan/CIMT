@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { userDataAction, userTokenAction, isLoginAction } from "../../../redux/actions"
 import { connect } from "react-redux";
 // import { history } from '../../../routes'
-import { passwordResetApi } from '../../../api/ApiService';
+import { passwordResetSaveApi } from '../../../api/ApiService';
 import { showSuccessToast, showErrorToast } from '../../../utils/Utils';
 // import logo from './logo.svg';
 // import './App.css';
@@ -33,23 +33,37 @@ class ResetPassword extends Component {
             password: this.state.password,
             token: this.props.match.params.token
         }
+
+        const { password, confirmPassword } = this.state;
+
+        if (password !== confirmPassword) {
+            showErrorToast("Please Insert Confirm Password Same As Password!")
+        } else {
+            this.callPassResetApi(params)
+        }
    
-        this.callPassResetApi(params)
+        // this.callPassResetApi(params)
     }
 
     callPassResetApi = (params) => {
         // console.log("SIGN_IN_API_PARAMS:" + JSON.stringify(params))
 
-        passwordResetApi(params).then(res => {
-            // console.log("SIGN_IN_API_RES:" + JSON.stringify(res))
+        passwordResetSaveApi(params).then(res => {
+            console.log("SIGN_IN_API_RES:" + JSON.stringify(res))
             if (res.success) {
-                showSuccessToast("Password Reset Successfully.")
+                showSuccessToast(res.data)
+                history.push('/login')
             }
             else {
-                showErrorToast(res.error)
+                {res.error.map((item, index) => {
+                    return (
+                        showErrorToast(item)
+                    )
+                })}
+                // showErrorToast(res.error)
             }
         })
-        .catch(err => console.log(err))
+        .catch(err => showErrorToast(err))
 
     }
 
@@ -80,7 +94,7 @@ class ResetPassword extends Component {
                             </div>
                             <button type="submit" className="btn btn-sm btn-primary">Reset</button>
                             <div className="signup mt20">
-                                <a href="login" className="">Login</a>
+                                <a href="/login" className="">Login</a>
                             </div>
                         </form>
                     </div>

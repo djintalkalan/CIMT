@@ -101,7 +101,6 @@ class AddEvidence extends Component {
         getCaseByIdApi(case_id).then(res => {
             // console.log("Charge Sheet Data", JSON.stringify(res.data))
             this.setState({ chargeSheetData: res.data })
-            this.setState({ caseIdentity: res.data.case_identity })
         })
     }
 
@@ -156,7 +155,7 @@ class AddEvidence extends Component {
 
         if(!this.state.chargeSheetData) return null
         const { case_identity, charged_officer, draft_article, draft_charge_sheets  } = this.state.chargeSheetData
-        // console.log("zzzzzzzzzz", { case_identity, charged_officer, draft_article, draft_charge_sheets })
+        console.log("zzzzzzzzzz", { case_identity, charged_officer, draft_article, draft_charge_sheets })
         
         return (
             <div className="evidenceCt">
@@ -446,7 +445,7 @@ class AddEvidence extends Component {
                                             </thead>
                                             <tbody>
                                                 {draft_article && draft_article.map((item, index) => (
-                                                    draft_article.preliminary_enquiries && draft_article.preliminary_enquiries.map((item1, index1) => (
+                                                    item.preliminary_enquiries && item.preliminary_enquiries.map((item1, index1) => (
                                                         <tr >
                                                             <td>{index1 + 1}</td>
                                                             <td>{item.draft_article_no.article_no}</td>
