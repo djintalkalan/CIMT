@@ -4,6 +4,7 @@ import ForgotPassword from './components/auth/forgotPassword'
 import ResetPassword from './components/auth/resetPassword'
 import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { PrivateRoute, history } from './routes'
+import Loader from './components/loader'
 // import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 
 // import AddEvidence from './components/cases/AddEvidence';
@@ -23,7 +24,16 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      expanded: true
+      expanded: true,
+      showLoader: false
+    }
+  }
+  componentDidMount(){
+    window.showLoader = () => {
+      this.setState({showLoader: true});
+    }
+    window.closeLoader = () => {
+      this.setState({showLoader: false});
     }
   }
   render() {
@@ -64,6 +74,8 @@ class App extends Component {
         />
         {/* Same as */}
         <ToastContainer />
+
+      {this.state.showLoader && <Loader/> }
 
 
       </Router>

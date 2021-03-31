@@ -29,6 +29,7 @@ class FaceDetection extends Component {
     };
 
     callOnClickFaceDetection = () => {
+        window.showLoader()
         faceDetectionApi().then(res => {
             // console.log("ADD CHARGE SHEET STATUS",JSON.stringify(res))
             // this.setState({addUserStatus:res.comment})
@@ -41,7 +42,7 @@ class FaceDetection extends Component {
         }).catch(e => {
             // console.log(e);
             showSomethingWentWrong()
-        });
+        }).finally(e => window.closeLoader())
     }
 
 

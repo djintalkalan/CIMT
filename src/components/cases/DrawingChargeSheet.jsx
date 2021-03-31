@@ -39,7 +39,7 @@ class DrawingChargeSheet extends Component {
         const params = {
             case_id: case_id
         }
-
+        window.showLoader()
         getChargedOfficerByIdApi(params).then(res => {
             if (res.success) {
                 this.setState({ chargedOfficerList: res.data })
@@ -50,7 +50,7 @@ class DrawingChargeSheet extends Component {
         }).catch(e => {
             // console.log(e);
             showSomethingWentWrong()
-        });
+        }).finally(e => window.closeLoader())
     }
 
     renderGetchargedOfficerList() {

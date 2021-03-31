@@ -40,6 +40,7 @@ class Header extends Component {
     }
 
     logout() {
+        window.showLoader()
         logoutApi().then((res) => {
             // console.log("Response of Logout", res)
             if (res.success) {
@@ -54,7 +55,7 @@ class Header extends Component {
         }).catch((err) => {
             // console.log("Error is", err)
             // showErrorToast("Something went wrong")
-        })
+        }).finally(e => window.closeLoader())
     }
 
     render() {

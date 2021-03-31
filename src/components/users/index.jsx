@@ -38,7 +38,7 @@ class Users extends Component {
                 { headerName: "Last Name", field: "last_name", sortable: true, filter: true, width: 140 },
                 { headerName: "Username", field: "username", sortable: true, filter: true, width: 140 },
                 { headerName: "Treasury Code", field: "treasury_code", sortable: true, filter: true, width: 140 },
-                // { headerName: "Role", field: "role", sortable: true, filter: true, width: 140 },
+                { headerName: "Role", field: "role", sortable: true, filter: true, width: 140 },
                 { headerName: "Phone", field: "phone_no", sortable: true, filter: true, width: 140 },
                 { headerName: "Email", field: "email", sortable: true, filter: true, width: 300 }],
                 
@@ -209,10 +209,10 @@ class Users extends Component {
     callUserListApi(){
         getUserList().then(res=>{
             console.log("USERS",JSON.stringify(res))
-            this.setState({userList:res.data})
-            // this.setState({ userList: res.data.map(x => ({...x , role: x.role.name}))
-                 //{ ...res.data, role: res.data.role.name }
-                // })
+            // this.setState({userList:res.data})
+            this.setState({ userList: res.data.map(x => ({...x , role: x.role? x.role.name: ''}))
+                //  { ...res.data, role: res.data.role.name }
+                })
         })
     }
 
@@ -418,7 +418,8 @@ class Users extends Component {
 
 
     render() {
-        //console.log("UserName", JSON.stringify(this.props.userdata))
+        let user_data = JSON.parse(localStorage.getItem("userData"))
+        // console.log("UserName", user_data)
         return (
             <div className="dashboardCt">
                 <div className="inner">
@@ -434,7 +435,9 @@ class Users extends Component {
                             <div className="container-fluid">
                                 <div className="row">
                                     <div className="col-md-12">
+                                    {user_data && user_data.role && user_data.role.name && user_data.role.name === "superadmin" &&  (
                                         <button onClick={() => this.setState({ isAddVisible: true })} className="btn btn-sm btn-success">Add</button>
+                                    )}
                                     </div>
                                 </div>
                                 <div className="row">
@@ -458,7 +461,9 @@ class Users extends Component {
                             <div className="container-fluid">
                                 <div className="row">
                                     <div className="col-md-12">
+                                    {user_data && user_data.role && user_data.role.name && user_data.role.name === "superadmin" &&  (
                                         <button onClick={() => this.setState({ isAddVisible1: true })} className="btn btn-sm btn-success">Add</button>
+                                    )}
                                     </div>
                                 </div>
                                 <div className="row">

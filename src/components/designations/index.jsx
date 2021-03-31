@@ -32,6 +32,7 @@ class Designations extends Component {
     }
 
     deleteDesignation = (id) => {
+        window.showLoader()
         deleteDesignationApi(id).then((res) => {
             // console.log("Response of Delete", res)
             if (res.success) {
@@ -45,7 +46,7 @@ class Designations extends Component {
         }).catch((err) => {
             // console.log("Error is", err)
             showErrorToast("Something went wrong")
-        })
+        }).finally(e => window.closeLoader())
     }
 
     componentWillMount() {

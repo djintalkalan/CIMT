@@ -3,6 +3,7 @@ import axios from 'axios';
 import { userDataAction, userTokenAction, isLoginAction } from "../../redux/actions"
 import { connect } from "react-redux";
 import { Button } from 'react-bootstrap';
+import { localUrl } from '../../api/ApiConstants';
 import { updateUserApi, getOfficesList, getDesignationList } from '../../api/ApiService';
 import { showSuccessToast, showErrorToast } from '../../utils/Utils';
 
@@ -26,7 +27,8 @@ class UserProfile extends Component {
 
     handleImageChange = (e) => {
         this.setState({
-            profile_pic: e.target.files[0]
+            profile_pic_copy: e.target.files[0],
+            profile_pic: URL.createObjectURL(e.target.files[0])
         })
     };
 
@@ -47,7 +49,8 @@ class UserProfile extends Component {
         let user_data = JSON.parse(localStorage.getItem("userData"))
         // console.log("User data", user_data.profile_pic);
         let form_data = new FormData();
-        form_data.append('profile_pic', this.state.profile_pic);
+        // let blob = await fetch(this.state.profile_pic).then(r => r.blob());
+        form_data.append('profile_pic', this.state.profile_pic_copy);
         form_data.append('first_name', this.state.first_name);
         form_data.append('last_name', this.state.last_name);
         form_data.append('email', this.state.email);
@@ -106,7 +109,7 @@ class UserProfile extends Component {
             designation: designation,
             phone_no: phone_no,
             office: office,
-            profile_pic: "",
+            profile_pic: localUrl + profile_pic,
         }, () => {
             // console.log("CHANGED STATE:", this.state)
             // console.log("USRDATA STATE:", this.props.userDataReducer)
@@ -244,7 +247,8 @@ class UserProfile extends Component {
                                         <input type="file"
                                             id="profile_pic" name="profile_pic" className="form-control" accept="image/png, image/jpeg, image/jpg" onChange={this.handleImageChange} />
                                     </label>
-                                    {this.state.profile_pic && <img height='80px' width='80px' src={URL.createObjectURL(this.state.profile_pic)} />}
+                                    {/* {this.state.profile_pic && <img height='80px' width='80px' src={URL.createObjectURL(this.state.profile_pic)} />} */}
+                                    {this.state.profile_pic && <img height='80px' width='80px' src={this.state.profile_pic} />}
                                     {/* {this.state.profile_pic && <img height='80px' width='80px' src={ localUrl + this.state.profile_pic} />} */}
                                 </div>
                             </div>

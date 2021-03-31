@@ -67,7 +67,7 @@ class Login extends Component {
 
     callLoginApi = (params) => {
         // console.log("SIGN_IN_API_PARAMS:" + JSON.stringify(params))
-
+        window.showLoader()
         loginApi(params).then(res => {
             // console.log("SIGN_IN_API_RES:" + JSON.stringify(res))
             // history.push('/users')
@@ -119,7 +119,7 @@ class Login extends Component {
                 }
             }, 100);
             // this.setStaticData()
-        });
+        }).finally(e => window.closeLoader())
 
     }
 

@@ -42,7 +42,7 @@ class ChangePassword extends Component {
 
     callChangePassApi = (params) => {
         // console.log("SIGN_IN_API_PARAMS:" + JSON.stringify(params))
-
+        window.showLoader()
         changePassApi(params).then(res => {
             // const notify = () => toast("Wow so easy !");
             // console.log("SIGN_IN_API_RES:" + JSON.stringify(res))
@@ -64,7 +64,7 @@ class ChangePassword extends Component {
                 }
             }, 100);
             // this.setStaticData()
-        });
+        }).finally(e => window.closeLoader())
 
     }
 

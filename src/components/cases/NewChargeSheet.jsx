@@ -176,7 +176,7 @@ class NewChargeSheet extends Component {
 
     callChargeSheetApi = (params) => {
         console.log("ADD_CHARGE_SHEET_API_PARAMS:" + JSON.stringify(params))
-
+        window.showLoader()
         addChargeSheetApi(params).then(res => {
             console.log("ADD CHARGE SHEET STATUS",JSON.stringify(res))
             // this.setState({addUserStatus:res.comment})
@@ -198,7 +198,7 @@ class NewChargeSheet extends Component {
             }
         }).catch(e => {
             showErrorToast(e)
-        });
+        }).finally(e => window.closeLoader())
     }
 
     componentDidMount() {
@@ -241,7 +241,7 @@ class NewChargeSheet extends Component {
                     <option value="">User</option>
                     {userList.map((item, index) => {
                         return (
-                            <option selected={this.state + key ? "selected" : "false"} value={item.id}>{item.first_name + " " + item.last_name}</option>
+                            <option value={item.id}>{item.first_name + " " + item.last_name}</option>
                         )
                     })}
                 </select>
@@ -265,7 +265,7 @@ class NewChargeSheet extends Component {
                     <option value="">Select Office</option>
                     {officeList.map((item, index) => {
                         return (
-                            <option selected={this.state + key ? "selected" : "false"} value={item.id}>{item.office_name}</option>
+                            <option value={item.id}>{item.office_name}</option>
                         )
                     })}
                 </select>
@@ -289,7 +289,7 @@ class NewChargeSheet extends Component {
                     <option value="">Select Designation</option>
                     {designationList.map((item, index) => {
                         return (
-                            <option selected={this.state + key ? "selected" : "false"} value={item.id}>{item.designation}</option>
+                            <option value={item.id}>{item.designation}</option>
                         )
                     })}
                 </select>
@@ -313,7 +313,7 @@ class NewChargeSheet extends Component {
                     <option value="">Select Misconduct</option>
                     {natureMisconductList.map((item, index) => {
                         return (
-                            <option selected={this.state + key ? "selected" : "false"} value={item.id}>{item.type}</option>
+                            <option value={item.id}>{item.type}</option>
                         )
                     })}
                 </select>
@@ -337,7 +337,7 @@ class NewChargeSheet extends Component {
                     <option value="">Select Source</option>
                     {sourceComplaintList.map((item, index) => {
                         return (
-                            <option selected={this.state + key ? "selected" : "false"} value={item.id}>{item.type}</option>
+                            <option value={item.id}>{item.type}</option>
                         )
                     })}
                 </select>
@@ -361,7 +361,7 @@ class NewChargeSheet extends Component {
                     <option value="">Select Article</option>
                     {articlesList.map((item, index) => {
                         return (
-                            <option selected={this.state + key ? "selected" : "false"} value={item.id}>{item.article_no}</option>
+                            <option value={item.id}>{item.article_no}</option>
                         )
                     })}
                 </select>

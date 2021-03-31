@@ -3,11 +3,11 @@ import axios from 'axios';
 import { userDataAction, userTokenAction, isLoginAction } from "../../redux/actions"
 import { connect } from "react-redux";
 // import { history } from '../../routes';
-// import Modal from 'react-bootstrap/Modal';
-// import { Button } from 'react-bootstrap';
+import Modal from 'react-bootstrap/Modal';
+import { Button } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import { getEvidenceListApi, addEvidenceApi, getCaseByIdApi, statusChangeApi } from '../../api/ApiService';
-import { showSuccessToast, showErrorToast } from '../../utils/Utils';
+import { showSuccessToast, showErrorToast, showInfoToast } from '../../utils/Utils';
 import { localUrl } from '../../api/ApiConstants';
 
 
@@ -20,7 +20,8 @@ class AddEvidence extends Component {
         // console.log("HISTORY:-", props.location.state.data)
         this.state = {
             rows: [],
-            data: props.location.state.data
+            data: props.location.state.data,
+            isAddVisible: false,
         }
 
     }
@@ -51,17 +52,30 @@ class AddEvidence extends Component {
         // }
         // console.log("Request Data", form_data);
 
+        window.showLoader()
         addEvidenceApi(form_data).then(res=>{
-            // console.log("SIGN_IN_API_RES:" + JSON.stringify(res))
+            console.log("SIGN_IN_API_RES:" + JSON.stringify(res))
             if (res.success) {
-                showSuccessToast("Evidence Added Successfully")
-                this.callGetEvidenceApi()
+                if (res.data.match_status) {
+                    showSuccessToast("Evidence Matched with " + res.data.matched_image)
+                    this.setState({
+                        isAddVisible: true,
+                        keypoints_fig: res.data.keypoints_fig,
+                        matching_fig: res.data.matching_fig
+                    })
+                    this.callGetEvidenceApi()
+                }
+                else {
+                    showInfoToast("Image not matched.")
+                    this.callGetEvidenceApi()
+                }
             }
             else {
                 showErrorToast(res.error)
             }
         })
-        .catch(err => console.log(err))
+        .catch(err => showErrorToast(err))
+        .finally(e => window.closeLoader())
     };
 
     handleSubmitChangeStatus = (e) => {
@@ -70,8 +84,9 @@ class AddEvidence extends Component {
         const params = {
             status: this.state.changeStatus,
         }
-
+        window.showLoader()
         statusChangeApi(this.state.data, params).then(res=>{
+            // window.closeLoader()
             // console.log("SIGN_IN_API_RES:" + JSON.stringify(res))
             if (res.success) {
                 showSuccessToast("Status Changed Successfully")
@@ -81,7 +96,37 @@ class AddEvidence extends Component {
             }
         })
         .catch(err => console.log(err))
+        .finally(e => window.closeLoader())
     };
+
+    renderEvidenceModal() {
+        return (
+            <Modal show={this.state.isAddVisible} onHide={() => { this.setState({ isAddVisible: false }) }}>
+                <Modal.Header closeButton >
+                    <Modal.Title>Evidence Details</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-md-12">
+                                <h6>Keypoint Figures</h6> 
+                                <div className="evidence_matching_image" style={{backgroundImage:`url(${this.state.keypoints_fig ? localUrl + this.state.keypoints_fig : "Not Found"})`}}></div>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-md-12">
+                                <h6>Matching Figures</h6>
+                                <div className="evidence_matching_image" style={{backgroundImage:`url(${this.state.matching_fig ? localUrl + this.state.matching_fig : "Not Found"})`}}></div>
+                            </div>
+                        </div>
+                    </div>
+                    <Button variant="secondary" onClick={() => { this.setState({ isAddVisible: false }) }} className="mr10">
+                        Close
+                    </Button>
+                </Modal.Body>
+            </Modal>
+        )
+    }
 
     componentDidMount() {
         this.callGetEvidenceApi()
@@ -107,7 +152,7 @@ class AddEvidence extends Component {
     callGetEvidenceApi() {
         let case_id = this.state.data
         getEvidenceListApi(case_id).then(res => {
-            // console.log("Evidences", JSON.stringify(res))
+            console.log("Evidences", JSON.stringify(res))
             this.setState({ evidenceList: res.data })
         })
     }
@@ -138,9 +183,11 @@ class AddEvidence extends Component {
                                     <td>{item.evidence_name}</td>
                                     <td>{item.evidence_desc}</td>
                                     <td><a href={localUrl + item.evidence_image} target="_blank" >Image </a></td>
-                                    <td><button className="btn btn-sm btn-success btn-small btn-custom-grid '{item.match_status ? 'btn-success' : 'btn-danger'}'">{item.match_status ? "Matched" : "Not Matched"}</button></td>
+                                    <td><button className={item.match_status ? 'btn btn-sm btn-small btn-custom-grid btn-success' : 'btn btn-sm btn-small btn-custom-grid btn-danger'}>{item.match_status ? "Matched" : "Not Matched"}</button></td>
                                     <td>{item.case_no}</td>
-                                    <td><a href={localUrl + item.matched_image} target="_blank" >Matched Image </a></td>
+                                    <td className="text-center">
+                                        {item.match_status ? <a href={localUrl + item.matched_image} target="_blank" >Matched Image </a> : "-"}
+                                    </td>
                                 </tr>
                             ))
                             }
@@ -159,6 +206,7 @@ class AddEvidence extends Component {
         
         return (
             <div className="evidenceCt">
+                {this.renderEvidenceModal()}
                 <div className="container-fluid">
                     <div className="inner">
                         {/* <div className="row">

@@ -47,7 +47,7 @@ class ResetPassword extends Component {
 
     callPassResetApi = (params) => {
         // console.log("SIGN_IN_API_PARAMS:" + JSON.stringify(params))
-
+        window.showLoader()
         passwordResetSaveApi(params).then(res => {
             console.log("SIGN_IN_API_RES:" + JSON.stringify(res))
             if (res.success) {
@@ -64,6 +64,7 @@ class ResetPassword extends Component {
             }
         })
         .catch(err => showErrorToast(err))
+        .finally(e => window.closeLoader())
 
     }
 
